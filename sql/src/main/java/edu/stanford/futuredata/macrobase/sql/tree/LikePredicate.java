@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,76 +22,57 @@ import java.util.Optional;
 public class LikePredicate extends Expression {
 
     private final Expression value;
+
     private final Expression pattern;
+
     private final Expression escape;
 
     public LikePredicate(Expression value, Expression pattern, Expression escape) {
         this(Optional.empty(), value, pattern, escape);
     }
 
-    public LikePredicate(NodeLocation location, Expression value, Expression pattern,
-        Expression escape) {
+    public LikePredicate(NodeLocation location, Expression value, Expression pattern, Expression escape) {
         this(Optional.of(location), value, pattern, escape);
     }
 
-    private LikePredicate(Optional<NodeLocation> location, Expression value, Expression pattern,
-        Expression escape) {
+    private LikePredicate(Optional<NodeLocation> location, Expression value, Expression pattern, Expression escape) {
         super(location);
         requireNonNull(value, "value is null");
         requireNonNull(pattern, "pattern is null");
-
         this.value = value;
         this.pattern = pattern;
         this.escape = escape;
     }
 
     public Expression getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getPattern() {
-        return pattern;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getEscape() {
-        return escape;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitLikePredicate(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        ImmutableList.Builder<Node> result = ImmutableList.<Node>builder()
-            .add(value)
-            .add(pattern);
-
-        if (escape != null) {
-            result.add(escape);
-        }
-
-        return result.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        LikePredicate that = (LikePredicate) o;
-        return Objects.equals(value, that.value) &&
-            Objects.equals(pattern, that.pattern) &&
-            Objects.equals(escape, that.escape);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, pattern, escape);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

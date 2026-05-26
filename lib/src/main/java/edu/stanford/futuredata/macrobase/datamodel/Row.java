@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.datamodel;
 
 import static java.util.stream.Collectors.toList;
-
 import com.google.common.base.Joiner;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
@@ -17,10 +16,11 @@ import org.apache.commons.lang3.StringUtils;
 public class Row {
 
     // Formatter for printing out doubles; print at least 1 and no more than 6 decimal places
-    static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("#.0#####",
-        DecimalFormatSymbols.getInstance(Locale.US));
+    static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("#.0#####", DecimalFormatSymbols.getInstance(Locale.US));
 
-    private final Schema schema; // not set by user
+    // not set by user
+    private final Schema schema;
+
     private final List<Object> vals;
 
     public Row(final Schema schema, final List<Object> vals) {
@@ -34,45 +34,32 @@ public class Row {
     }
 
     public List<Object> getVals() {
-        return this.vals;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public <T> T getAs(int i) {
-        return (T) vals.get(i);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public <T> T getAs(String colName) {
-        if (schema == null) {
-            throw new RuntimeException("No Schema");
-        } else {
-            return (T) vals.get(schema.getColumnIndex(colName));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Row row = (Row) o;
-        return vals != null ? vals.equals(row.vals) : row.vals == null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return (vals != null ? vals.hashCode() : 0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return Joiner.on(",")
-            .join(vals.stream().map(this::formatVal).collect(toList()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,7 +67,7 @@ public class Row {
      * characters per value. Example output: |    val_1   |   val_2   | .... |   val_n   |
      */
     public void prettyPrint() {
-        prettyPrint(System.out, 15);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +75,7 @@ public class Row {
      * Example output: |    val_1   |   val_2   | .... |   val_n   |
      */
     public void prettyPrint(final PrintStream out) {
-        prettyPrint(out, 15);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,7 +87,7 @@ public class Row {
      * 2</tt> of whitespace on either side
      */
     public void prettyPrint(final int width) {
-        prettyPrint(System.out, width);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,9 +100,7 @@ public class Row {
      * <tt>width</tt> will increase the whitespace padding around each value.
      */
     public void prettyPrint(final PrintStream out, final int width) {
-        out.println("|" + Joiner.on("|")
-            .join(vals.stream().map((x) -> StringUtils.center(formatVal(x, width), width))
-                .collect(toList())) + "|");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,24 +115,7 @@ public class Row {
      * @param out PrintStream to print Row to STDOUT or file (default: STDOUT)
      */
     void prettyPrintColumnWise(final PrintStream out) {
-        final int maxColNameLength = schema.getColumnNames().stream()
-            .reduce("", (x, y) -> x.length() > y.length() ? x : y).length();
-
-        int maxLength = 0;
-        for (int i = 0; i < schema.getNumColumns(); ++i) {
-            final String colName = schema.getColumnName(i);
-            final Object val = vals.get(i);
-            final String strToPrint =
-                // truncate Strings longer than 40 chars
-                StringUtils.rightPad(colName, maxColNameLength) + "  |  " + formatVal(val, 40);
-            if (strToPrint.length() > maxLength) {
-                maxLength = strToPrint.length();
-            }
-            out.println(strToPrint);
-        }
-        // add 5 dashes to account for "  |  "
-        final String dashes = Joiner.on("").join(Collections.nCopies(maxLength + 5, "-"));
-        out.println(dashes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -179,5 +147,4 @@ public class Row {
     private String formatVal(Object x) {
         return formatVal(x, 15);
     }
-
 }

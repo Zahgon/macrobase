@@ -5,10 +5,8 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 /* Autocorrelation via FFT
  *    F_R(f) = FFT(X)
@@ -16,28 +14,42 @@ import java.util.List;
  *    R(t) = IFFT(S(f))
  * */
 public class Autocorrelation {
-    public double[] correlations;           // Autocorrelation
-    public double maxACF = 0;               // Max autocorrelation peak
+
+    // Autocorrelation
+    public double[] correlations;
+
+    // Max autocorrelation peak
+    public double maxACF = 0;
 
     private FastFourierTransformer fftTran = new FastFourierTransformer(DftNormalization.STANDARD);
-    private double ACF_THRESH = 0.2;  // Minimum correlation threshold
-    private int metricIdx = 1;
-    private int maxLag;                      // Maximum length of autocorrelation to calculate
 
+    // Minimum correlation threshold
+    private double ACF_THRESH = 0.2;
+
+    private int metricIdx = 1;
+
+    // Maximum length of autocorrelation to calculate
+    private int maxLag;
 
     public Autocorrelation(int maxLag, int metricIdx) {
         this.maxLag = maxLag;
         this.metricIdx = metricIdx;
     }
 
-    public void setMaxLag(int lag) { maxLag = lag; }
+    public void setMaxLag(int lag) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-    public void setCorrelationThreshold(double thresh) { ACF_THRESH = thresh; }
+    public void setCorrelationThreshold(double thresh) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     private double mean(double[] metrics) {
         int n = metrics.length;
         double m = 0;
-        for (int i = 0; i < n; i ++) { m += metrics[i]; }
+        for (int i = 0; i < n; i++) {
+            m += metrics[i];
+        }
         return m / n;
     }
 
@@ -57,50 +69,19 @@ public class Autocorrelation {
         Double padding = Math.pow(2, 32 - Integer.numberOfLeadingZeros(2 * n - 1));
         double[] values = new double[padding.intValue()];
         // zero mean data
-        for (int i = 0; i < n; i++) { values[i] = metrics[i] - m; }
+        for (int i = 0; i < n; i++) {
+            values[i] = metrics[i] - m;
+        }
         return values;
     }
 
     /* Calculate autocorrelation for the given list of Datum */
     public void evaluate(List<Datum> data) {
-        double[] values = formatData(data);
-        // FFT
-        Complex[] fft = fftTran.transform(values, TransformType.FORWARD);
-        // Multiply by complex conjugate
-        for (int i = 0; i < fft.length; i ++) {
-            fft[i] = fft[i].multiply(fft[i].conjugate());
-        }
-        // Inverse transform
-        fft = fftTran.transform(fft, TransformType.INVERSE);
-
-        correlations = new double[maxLag];
-        for (int i = 1; i < maxLag; i++) {
-            correlations[i] = fft[i].getReal() / fft[0].getReal();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /* Find autocorrelation peaks */
     public List<Integer> findPeaks() {
-        List<Integer> peaks = new ArrayList<>();
-        int max = 1;
-        maxACF = 0;
-        if (correlations.length > 1) {
-            boolean positive = (correlations[1] > correlations[0]);
-            for (int i = 2; i < correlations.length; i++) {
-                if (!positive && correlations[i] > correlations[i - 1]) {
-                    max = i;
-                    positive = !positive;
-                } else if (positive && correlations[i] > correlations[max]) {
-                    max = i;
-                } else if (positive && correlations[i] < correlations[i - 1]) {
-                    if (max > 1 && correlations[max] > ACF_THRESH) {
-                        peaks.add(max);
-                        if (correlations[max] > maxACF) { maxACF = correlations[max]; }
-                    }
-                    positive = !positive;
-                }
-            }
-        }
-        return peaks;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

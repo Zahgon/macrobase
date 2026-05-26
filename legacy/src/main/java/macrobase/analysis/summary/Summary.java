@@ -1,7 +1,6 @@
 package macrobase.analysis.summary;
 
 import macrobase.analysis.summary.itemset.result.ItemsetResult;
-
 import java.util.List;
 
 /**
@@ -10,15 +9,16 @@ import java.util.List;
  * so far.
  */
 public class Summary {
+
     private final double numOutliers;
+
     private final double numInliers;
+
     private List<ItemsetResult> itemsets;
+
     private final long creationTimeMs;
 
-    public Summary(List<ItemsetResult> resultList,
-                   double numInliers,
-                   double numOutliers,
-                   long creationTimeMs) {
+    public Summary(List<ItemsetResult> resultList, double numInliers, double numOutliers, long creationTimeMs) {
         itemsets = resultList;
         this.numInliers = numInliers;
         this.numOutliers = numOutliers;
@@ -26,18 +26,18 @@ public class Summary {
     }
 
     public List<ItemsetResult> getItemsets() {
-        return itemsets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumOutliers() {
-        return numOutliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumInliers() {
-        return numInliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getCreationTimeMs() {
-        return creationTimeMs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

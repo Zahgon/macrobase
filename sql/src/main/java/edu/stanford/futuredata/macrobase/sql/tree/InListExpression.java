@@ -35,34 +35,26 @@ public class InListExpression extends Expression {
     }
 
     public List<Expression> getValues() {
-        return values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitInListExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<? extends Node> getChildren() {
-        return values;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        InListExpression that = (InListExpression) o;
-        return Objects.equals(values, that.values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return values.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

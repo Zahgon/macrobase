@@ -3,7 +3,6 @@ package edu.stanford.futuredata.macrobase.sql;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static edu.stanford.futuredata.macrobase.sql.tree.ComparisonExpressionType.EQUAL;
 import static java.util.stream.DoubleStream.concat;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -79,12 +78,15 @@ class QueryEngine {
     private static final Logger log = LoggerFactory.getLogger(QueryEngine.class.getSimpleName());
 
     private final Map<String, DataFrame> tablesInMemory;
+
     private final int numThreads;
+
     private final boolean useHashJoin;
 
     QueryEngine() {
         tablesInMemory = new HashMap<>();
-        numThreads = 1; // TODO: add configuration parameter for numThreads
+        // TODO: add configuration parameter for numThreads
+        numThreads = 1;
         useHashJoin = true;
     }
 
@@ -95,16 +97,7 @@ class QueryEngine {
      * @throws MacroBaseSQLException if there's an error parsing the CSV file
      */
     DataFrame importTableFromCsv(ImportCsv importStatement) throws MacroBaseSQLException {
-        final String filename = importStatement.getFilename();
-        final String tableName = importStatement.getTableName().toString();
-        final Map<String, ColType> schema = importStatement.getSchema();
-        try {
-            DataFrame df = new CSVDataFrameParser(filename, schema).load();
-            tablesInMemory.put(tableName, df);
-            return df;
-        } catch (Exception e) {
-            throw new MacroBaseSQLException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -115,18 +108,7 @@ class QueryEngine {
      * query, an exception is thrown
      */
     DataFrame executeQuery(QueryBody query) throws MacroBaseException {
-        if (query instanceof QuerySpecification) {
-            QuerySpecification querySpec = (QuerySpecification) query;
-            log.debug(querySpec.toString());
-            return executeQuerySpec(querySpec);
-
-        } else if (query instanceof DiffQuerySpecification) {
-            DiffQuerySpecification diffQuery = (DiffQuerySpecification) query;
-            log.debug(diffQuery.toString());
-            return executeDiffQuerySpec(diffQuery);
-        }
-        throw new MacroBaseSQLException(
-            "query of type " + query.getClass().getSimpleName() + " not yet supported");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,57 +119,38 @@ class QueryEngine {
      * @throws MacroBaseException If there's an error -- syntactic or logical -- processing the
      * query, an exception is thrown
      */
-    private DataFrame executeDiffQuerySpec(final DiffQuerySpecification diffQuery)
-        throws MacroBaseException {
+    private DataFrame executeDiffQuerySpec(final DiffQuerySpecification diffQuery) throws MacroBaseException {
         final String outlierColName = "outlier_col";
         final double minRatioMetric = diffQuery.getMinRatioExpression().getMinRatio();
         final double minSupport = diffQuery.getMinSupportExpression().getMinSupport();
         final String ratioMetric = diffQuery.getRatioMetricExpr().getFuncName().toString();
         final int order = diffQuery.getMaxCombo().getValue();
-        List<String> explainCols = diffQuery.getAttributeCols().stream()
-            .map(Identifier::getValue)
-            .collect(toImmutableList());
-
+        List<String> explainCols = diffQuery.getAttributeCols().stream().map(Identifier::getValue).collect(toImmutableList());
         DataFrame dfToExplain;
         double[][] aggregateColumns = null;
-
         if (diffQuery.hasTwoArgs()) {
             // case 1: two separate subqueries
             final TableSubquery first = diffQuery.getFirst().get();
             final TableSubquery second = diffQuery.getSecond().get();
-
             // DIFF-JOIN optimization
-            if (matchesDiffJoinCriteria(first.getQuery().getQueryBody(),
-                second.getQuery().getQueryBody())) {
-                final Join firstJoin = (Join) ((QuerySpecification) first.getQuery().getQueryBody())
-                    .getFrom().get();
-                final Join secondJoin = (Join) ((QuerySpecification) second.getQuery()
-                    .getQueryBody()).getFrom().get();
-
-                final DataFrame outlierDf = getDataFrameForRelation(firstJoin.getLeft()); // table R
-                final DataFrame inlierDf = getDataFrameForRelation(secondJoin.getLeft()); // table S
-                final DataFrame common = getDataFrameForRelation(firstJoin.getRight()); // table T
-
+            if (matchesDiffJoinCriteria(first.getQuery().getQueryBody(), second.getQuery().getQueryBody())) {
+                final Join firstJoin = (Join) ((QuerySpecification) first.getQuery().getQueryBody()).getFrom().get();
+                final Join secondJoin = (Join) ((QuerySpecification) second.getQuery().getQueryBody()).getFrom().get();
+                // table R
+                final DataFrame outlierDf = getDataFrameForRelation(firstJoin.getLeft());
+                // table S
+                final DataFrame inlierDf = getDataFrameForRelation(secondJoin.getLeft());
+                // table T
+                final DataFrame common = getDataFrameForRelation(firstJoin.getRight());
                 final Optional<JoinCriteria> joinCriteriaOpt = firstJoin.getCriteria();
                 if (!joinCriteriaOpt.isPresent()) {
-                    throw new MacroBaseSQLException(
-                        "No clause (e.g., ON, USING) specified in JOIN");
+                    throw new MacroBaseSQLException("No clause (e.g., ON, USING) specified in JOIN");
                 }
-
-                final String joinColumn = getJoinColumn(joinCriteriaOpt.get(),
-                    outlierDf.getSchema(),
-                    common.getSchema()); // column A1
-
-                dfToExplain = evaluateDiffJoin(outlierDf, inlierDf, common, joinColumn, explainCols,
-                    minRatioMetric);
-                final double[] countCol = concat(
-                    DoubleStream.generate(() -> 1.0).limit(outlierDf.getNumRows()),
-                    DoubleStream.generate(() -> 1.0).limit(inlierDf.getNumRows())
-                ).toArray();
-                final double[] outlierCol = concat(
-                    DoubleStream.generate(() -> 1.0).limit(outlierDf.getNumRows()),
-                    DoubleStream.generate(() -> 0.0).limit(inlierDf.getNumRows())
-                ).toArray();
+                final String joinColumn = getJoinColumn(joinCriteriaOpt.get(), outlierDf.getSchema(), // column A1
+                common.getSchema());
+                dfToExplain = evaluateDiffJoin(outlierDf, inlierDf, common, joinColumn, explainCols, minRatioMetric);
+                final double[] countCol = concat(DoubleStream.generate(() -> 1.0).limit(outlierDf.getNumRows()), DoubleStream.generate(() -> 1.0).limit(inlierDf.getNumRows())).toArray();
+                final double[] outlierCol = concat(DoubleStream.generate(() -> 1.0).limit(outlierDf.getNumRows()), DoubleStream.generate(() -> 0.0).limit(inlierDf.getNumRows())).toArray();
                 aggregateColumns = new double[2][];
                 aggregateColumns[0] = outlierCol;
                 aggregateColumns[1] = countCol;
@@ -195,7 +158,6 @@ class QueryEngine {
                 // execute subqueries
                 final DataFrame outliersDf = executeQuery(first.getQuery().getQueryBody());
                 final DataFrame inliersDf = executeQuery(second.getQuery().getQueryBody());
-
                 dfToExplain = concatOutliersAndInliers(outlierColName, outliersDf, inliersDf);
             }
         } else {
@@ -203,42 +165,28 @@ class QueryEngine {
             final SplitQuery splitQuery = diffQuery.getSplitQuery().get();
             final Relation relationToExplain = splitQuery.getInputRelation();
             dfToExplain = getDataFrameForRelation(relationToExplain);
-
             // add outlier (binary) column by evaluating the WHERE clause
             final ModBitSet mask = getMask(dfToExplain, splitQuery.getWhereClause());
             final double[] outlierVals = new double[dfToExplain.getNumRows()];
             mask.stream().forEach((i) -> outlierVals[i] = 1.0);
             dfToExplain.addColumn(outlierColName, outlierVals);
         }
-
         if ((explainCols.size() == 1) && explainCols.get(0).equals("*")) {
             // ON *, explore columns in DataFrame
             explainCols = findExplanationColumns(dfToExplain);
-            log.info("Using " + Joiner.on(", ").join(explainCols)
-                + " as candidate attributes for explanation");
+            log.info("Using " + Joiner.on(", ").join(explainCols) + " as candidate attributes for explanation");
         }
-
         // TODO: should be able to check this without having to execute the two subqueries
         if (!dfToExplain.getSchema().hasColumns(explainCols)) {
-            throw new MacroBaseSQLException(
-                "ON " + Joiner.on(", ").join(explainCols) + " not present in table");
+            throw new MacroBaseSQLException("ON " + Joiner.on(", ").join(explainCols) + " not present in table");
         }
-
         // TODO: if an explainCol isn't in the SELECT clause, don't include it
         // execute diff
         final APLOutlierSummarizer summarizer = new APLOutlierSummarizer(true);
-        summarizer.setRatioMetric(ratioMetric)
-            .setMaxOrder(order)
-            .setMinSupport(minSupport)
-            .setMinRatioMetric(minRatioMetric)
-            .setOutlierColumn(outlierColName)
-            .setAttributes(explainCols)
-            .setNumThreads(numThreads);
-
+        summarizer.setRatioMetric(ratioMetric).setMaxOrder(order).setMinSupport(minSupport).setMinRatioMetric(minRatioMetric).setOutlierColumn(outlierColName).setAttributes(explainCols).setNumThreads(numThreads);
         if (aggregateColumns != null) {
             summarizer.setGlobalAggregateCols(aggregateColumns);
         }
-
         try {
             summarizer.process(dfToExplain);
         } catch (Exception e) {
@@ -248,7 +196,6 @@ class QueryEngine {
         final DataFrame resultDf = summarizer.getResults().toDataFrame(explainCols);
         resultDf.renameColumn("outliers", "outlier_count");
         resultDf.renameColumn("count", "total_count");
-
         return evaluateSQLClauses(diffQuery, resultDf);
     }
 
@@ -268,13 +215,9 @@ class QueryEngine {
      *
      * @return result of the DIFF JOIN
      */
-    private DataFrame evaluateDiffJoin(final DataFrame outlierDf, final DataFrame inlierDf,
-        final DataFrame common, final String joinColumn, final List<String> explainColumnNames,
-        final double minRatioMetric) {
-
+    private DataFrame evaluateDiffJoin(final DataFrame outlierDf, final DataFrame inlierDf, final DataFrame common, final String joinColumn, final List<String> explainColumnNames, final double minRatioMetric) {
         final List<String> explainColsInCommon = Lists.newArrayList(common.getSchema().getColumnNames());
         explainColsInCommon.retainAll(explainColumnNames);
-
         final int numOutliers = outlierDf.getNumRows();
         final int numInliers = inlierDf.getNumRows();
         log.info("Num Outliers:  {}, num inliers: {}", numOutliers, numInliers);
@@ -282,58 +225,41 @@ class QueryEngine {
         // will appear in the primary key (but not vice versa). This means that evaluating the join
         // will never remove tuples from or add tuples to the inlier and outlier DataFrames. This allows
         // us to calculate the minRatioThreshold based on the total number of outliers and inliers.
-        final double globalRatioDenom =
-            numOutliers / (numOutliers + numInliers + 0.0);
+        final double globalRatioDenom = numOutliers / (numOutliers + numInliers + 0.0);
         final double minRatioThreshold = minRatioMetric * globalRatioDenom;
-
         final String[] outlierProjected = outlierDf.project(joinColumn).getStringColumn(0);
         final String[] inlierProjected = inlierDf.project(joinColumn).getStringColumn(0);
-
         // 1) Execute \delta(\proj_{A1} R, \proj_{A1} S);
         final long foreignKeyDiff = System.currentTimeMillis();
-        final Set<String> candidateForeignKeys = foreignKeyDiff(outlierProjected, inlierProjected,
-            minRatioThreshold); // returns K, the candidate keys that exceeded the minRatioThreshold.
+        final Set<String> candidateForeignKeys = foreignKeyDiff(outlierProjected, inlierProjected, // returns K, the candidate keys that exceeded the minRatioThreshold.
+        minRatioThreshold);
         // K may contain false positives, though (support threshold hasn't been applied yet)
         log.info("Foreign key diff time: {} ms", System.currentTimeMillis() - foreignKeyDiff);
         log.info("Num candidate foreign keys: {}", candidateForeignKeys.size());
-
         if (candidateForeignKeys.isEmpty()) {
             return new DataFrame();
         }
-
         // Keep track of candidates in each column, needed for order-2 and order-3 combinations
         final long semiJoinAndMergeTime = System.currentTimeMillis();
         // 2) Execute K \semijoin T, to get V, the values in T associated with the candidate keys,
         //    and merge common values that distinct keys may map to
-        final Map<String, Integer> colValuesToIndices = semiJoinAndMerge(
-            candidateForeignKeys, // K
-            common.getStringColumnByName(joinColumn),
-            common.getStringColsByName(explainColsInCommon)); // T
-        log.info("Semi-join and merge time: {} ms",
-            System.currentTimeMillis() - semiJoinAndMergeTime);
-
-        final DataFrame toReturn = diffJoinAndConcat(outlierDf, inlierDf, common, joinColumn,
-            colValuesToIndices);
+        final Map<String, Integer> colValuesToIndices = semiJoinAndMerge(// K
+        candidateForeignKeys, common.getStringColumnByName(joinColumn), // T
+        common.getStringColsByName(explainColsInCommon));
+        log.info("Semi-join and merge time: {} ms", System.currentTimeMillis() - semiJoinAndMergeTime);
+        final DataFrame toReturn = diffJoinAndConcat(outlierDf, inlierDf, common, joinColumn, colValuesToIndices);
         return toReturn;
     }
 
     @SuppressWarnings("Duplicates")
-    private DataFrame diffJoinAndConcat(DataFrame outlierDf, DataFrame inlierDf, DataFrame common,
-        final String joinColumn, Map<String, Integer> colValuesToIndices) {
+    private DataFrame diffJoinAndConcat(DataFrame outlierDf, DataFrame inlierDf, DataFrame common, final String joinColumn, Map<String, Integer> colValuesToIndices) {
         log.info("Num candidate values: {}", colValuesToIndices.size());
-
-        final DataFrame outliersDf = diffJoinSingle(outlierDf, common, joinColumn,
-            colValuesToIndices);
-        final DataFrame inliersDf = diffJoinSingle(inlierDf, common, joinColumn,
-            colValuesToIndices);
-        return concatOutliersAndInliers("outlier_col",
-            outliersDf,
-            inliersDf
-        );
+        final DataFrame outliersDf = diffJoinSingle(outlierDf, common, joinColumn, colValuesToIndices);
+        final DataFrame inliersDf = diffJoinSingle(inlierDf, common, joinColumn, colValuesToIndices);
+        return concatOutliersAndInliers("outlier_col", outliersDf, inliersDf);
     }
 
-    private DataFrame diffJoinSingle(DataFrame bigger, DataFrame smaller, String joinColumn,
-        Map<String, Integer> colValuesToIndices) {
+    private DataFrame diffJoinSingle(DataFrame bigger, DataFrame smaller, String joinColumn, Map<String, Integer> colValuesToIndices) {
         final long startTime = System.currentTimeMillis();
         final Map<String, List<String>> biggerStringResults = new HashMap<>();
         final Map<String, List<String>> smallerStringResults = new HashMap<>();
@@ -346,7 +272,6 @@ class QueryEngine {
             }
             smallerStringResults.put(colName, new LinkedList<>());
         }
-
         // double column values that will be added to the DataFrame
         final Map<String, List<Double>> biggerDoubleResults = new HashMap<>();
         final Map<String, List<Double>> smallerDoubleResults = new HashMap<>();
@@ -359,16 +284,12 @@ class QueryEngine {
             }
             smallerDoubleResults.put(colName, new LinkedList<>());
         }
-        hashJoinWithIndex(bigger, smaller, joinColumn, colValuesToIndices, biggerStringResults,
-            smallerStringResults, biggerDoubleResults, smallerDoubleResults);
+        hashJoinWithIndex(bigger, smaller, joinColumn, colValuesToIndices, biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults);
         log.info("Diff Join Single: {} ms", System.currentTimeMillis() - startTime);
-        return joinResultToDataFrame("small", "big", bigger.getSchema(),
-            smaller.getSchema(), joinColumn, biggerStringResults, smallerStringResults,
-            biggerDoubleResults, smallerDoubleResults);
+        return joinResultToDataFrame("small", "big", bigger.getSchema(), smaller.getSchema(), joinColumn, biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults);
     }
 
-    private Set<String> foreignKeyDiff(final String[] outliers, final String[] inliers,
-        double minRatioThreshold) {
+    private Set<String> foreignKeyDiff(final String[] outliers, final String[] inliers, double minRatioThreshold) {
         final Map<String, Integer> outlierCounts = new HashMap<>();
         log.info("Starting outliers");
         //noinspection Duplicates
@@ -383,42 +304,34 @@ class QueryEngine {
         }
         // Generate candidates based on min ratio
         final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-        for (Entry<String, Integer> entry : outlierCounts
-            .entrySet()) {
+        for (Entry<String, Integer> entry : outlierCounts.entrySet()) {
             final int numOutliers = entry.getValue();
             final int numInliers = inlierCounts.getOrDefault(entry.getKey(), 0);
-            if ((numOutliers / (numOutliers + numInliers + 0.0))
-                >= minRatioThreshold) {
+            if ((numOutliers / (numOutliers + numInliers + 0.0)) >= minRatioThreshold) {
                 builder.add(entry.getKey());
             }
         }
         return builder.build();
     }
 
-    private Map<String, Integer> semiJoinAndMerge(final Set<String> candidateForeignKeys,
-        final String[] primaryKeyColumn, List<String[]> attrValues) {
-
+    private Map<String, Integer> semiJoinAndMerge(final Set<String> candidateForeignKeys, final String[] primaryKeyColumn, List<String[]> attrValues) {
         int numAdditionalValues = 0;
         final int numRows = attrValues.get(0).length;
-
         if (candidateForeignKeys.isEmpty()) {
             log.info("candidateForeignKeys is empty");
         }
-
         final int numCols = attrValues.size();
         final Set<String>[] attrCandidatesByColumn = new Set[numCols];
         for (int i = 0; i < numCols; ++i) {
             attrCandidatesByColumn[i] = new HashSet<>();
         }
         final Map<String, Integer> colValuesToIndices = new HashMap<>();
-
         // 1) K \semijoin T: Go through the primary key column and see what candidateForeignKeys are contained.
         //    For every match, save the corresponding values
         for (int i = 0; i < numRows; ++i) {
             final String primaryKey = primaryKeyColumn[i];
             if (candidateForeignKeys.contains(primaryKey)) {
                 colValuesToIndices.put(primaryKey, i);
-
                 // extract the corresponding values for the candidate key
                 for (int j = 0; j < numCols; ++j) {
                     final String[] attrValuesCol = attrValues.get(j);
@@ -427,7 +340,6 @@ class QueryEngine {
                 }
             }
         }
-
         // 2) Go through again and check which saved values from the first pass map to new
         //    primary keys. If we find any new ones, add them to colValuesToIndices, so we
         //    can do the join
@@ -464,21 +376,16 @@ class QueryEngine {
         final QuerySpecification secondQuerySpec = (QuerySpecification) second;
         final Relation firstRelation = firstQuerySpec.getFrom().get();
         final Relation secondRelation = secondQuerySpec.getFrom().get();
-
         if (!(firstRelation instanceof Join) || !(secondRelation instanceof Join)) {
             return false;
         }
-
         final Join firstJoin = (Join) firstRelation;
         final Join secondJoin = (Join) secondRelation;
-
-        if (!(firstJoin.getCriteria().get() instanceof NaturalJoin) || !(secondJoin.getCriteria()
-            .get() instanceof NaturalJoin)) {
+        if (!(firstJoin.getCriteria().get() instanceof NaturalJoin) || !(secondJoin.getCriteria().get() instanceof NaturalJoin)) {
             return false;
         }
         // TODO: my not necessarily be R \join T and S \join T; could be T \join R and T \join S. Need to support both
-        return (firstJoin.getRight().equals(secondJoin.getRight()) &&
-            !firstJoin.getLeft().equals(secondJoin.getLeft()));
+        return (firstJoin.getRight().equals(secondJoin.getRight()) && !firstJoin.getLeft().equals(secondJoin.getLeft()));
     }
 
     /**
@@ -543,14 +450,10 @@ class QueryEngine {
      * @return new DataFrame that contains rows from both DataFrames, along with the extra binary
      * column
      */
-    private DataFrame concatOutliersAndInliers(final String outlierColName,
-        final DataFrame outliersDf, final DataFrame inliersDf) {
-
+    private DataFrame concatOutliersAndInliers(final String outlierColName, final DataFrame outliersDf, final DataFrame inliersDf) {
         // Add column "outlier_col" to both outliers (all 1.0) and inliers (all 0.0)
-        outliersDf.addColumn(outlierColName,
-            DoubleStream.generate(() -> 1.0).limit(outliersDf.getNumRows()).toArray());
-        inliersDf.addColumn(outlierColName,
-            DoubleStream.generate(() -> 0.0).limit(inliersDf.getNumRows()).toArray());
+        outliersDf.addColumn(outlierColName, DoubleStream.generate(() -> 1.0).limit(outliersDf.getNumRows()).toArray());
+        inliersDf.addColumn(outlierColName, DoubleStream.generate(() -> 0.0).limit(inliersDf.getNumRows()).toArray());
         return DataFrame.unionAll(Lists.newArrayList(outliersDf, inliersDf));
     }
 
@@ -562,8 +465,7 @@ class QueryEngine {
      * @param df the DataFrame to apply these clauses to
      * @return a new DataFrame, the result of applying all of these clauses
      */
-    private DataFrame evaluateSQLClauses(final QueryBody query, final DataFrame df)
-        throws MacroBaseException {
+    private DataFrame evaluateSQLClauses(final QueryBody query, final DataFrame df) throws MacroBaseException {
         DataFrame resultDf = evaluateUDFs(df, getUDFsInSelect(query.getSelect()));
         resultDf = evaluateWhereClause(resultDf, query.getWhere());
         resultDf = evaluateSelectClause(resultDf, query.getSelect());
@@ -575,8 +477,7 @@ class QueryEngine {
     /**
      * Evaluate ORDER BY clause. For now, we only support sorting by a single column.
      */
-    private DataFrame evaluateOrderByClause(DataFrame df, Optional<OrderBy> orderByOpt)
-        throws MacroBaseSQLException {
+    private DataFrame evaluateOrderByClause(DataFrame df, Optional<OrderBy> orderByOpt) throws MacroBaseSQLException {
         if (!orderByOpt.isPresent()) {
             return df;
         }
@@ -602,8 +503,7 @@ class QueryEngine {
      *
      * @return A DataFrame containing the results of the SQL query
      */
-    private DataFrame executeQuerySpec(final QuerySpecification query)
-        throws MacroBaseException {
+    private DataFrame executeQuerySpec(final QuerySpecification query) throws MacroBaseException {
         final Relation from = query.getFrom().get();
         final DataFrame df;
         if (from instanceof Join) {
@@ -628,25 +528,21 @@ class QueryEngine {
         final long startTime = System.currentTimeMillis();
         final DataFrame left = getDataFrameForRelation(join.getLeft());
         final DataFrame right = getDataFrameForRelation(join.getRight());
-
         final boolean leftSmaller = left.getNumRows() < right.getNumRows();
         final DataFrame smaller = leftSmaller ? left : right;
         final DataFrame bigger = leftSmaller ? right : left;
-
         final String smallerName = leftSmaller ? getName(join.getLeft()) : getName(join.getRight());
         final String biggerName = leftSmaller ? getName(join.getRight()) : getName(join.getLeft());
-
         final Optional<JoinCriteria> joinCriteriaOpt = join.getCriteria();
         if (!joinCriteriaOpt.isPresent()) {
             throw new MacroBaseSQLException("No clause (e.g., ON, USING) specified in JOIN");
         }
-
         // Right now, we only support equality joins on a single column; this is enforced in
         // getJoinColumn
         final Schema biggerSchema = bigger.getSchema();
         final Schema smallerSchema = smaller.getSchema();
         final String joinColumn = getJoinColumn(joinCriteriaOpt.get(), biggerSchema, smallerSchema);
-        switch (join.getType()) {
+        switch(join.getType()) {
             case INNER:
                 final int biggerColIndex, smallerColIndex;
                 try {
@@ -658,11 +554,8 @@ class QueryEngine {
                 final ColType biggerColType = bigger.getSchema().getColumnType(biggerColIndex);
                 final ColType smallerColType = smaller.getSchema().getColumnType(smallerColIndex);
                 if (biggerColType != smallerColType) {
-                    throw new MacroBaseSQLException(
-                        "Column " + joinColumn + " has type " + joinColumn + " in one table but "
-                            + " type " + joinColumn + " in the other");
+                    throw new MacroBaseSQLException("Column " + joinColumn + " has type " + joinColumn + " in one table but " + " type " + joinColumn + " in the other");
                 }
-
                 // String column values that will be added to DataFrame
                 final Map<String, List<String>> biggerStringResults = new HashMap<>();
                 final Map<String, List<String>> smallerStringResults = new HashMap<>();
@@ -675,7 +568,6 @@ class QueryEngine {
                     }
                     smallerStringResults.put(colName, new LinkedList<>());
                 }
-
                 // double column values that will be added to the DataFrame
                 final Map<String, List<Double>> biggerDoubleResults = new HashMap<>();
                 final Map<String, List<Double>> smallerDoubleResults = new HashMap<>();
@@ -688,63 +580,39 @@ class QueryEngine {
                     }
                     smallerDoubleResults.put(colName, new LinkedList<>());
                 }
-
                 if (useHashJoin) {
                     log.info("Using hash join");
-                    hashJoin(bigger, smaller, joinColumn, biggerStringResults, smallerStringResults,
-                        biggerDoubleResults, smallerDoubleResults);
+                    hashJoin(bigger, smaller, joinColumn, biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults);
                 } else {
                     log.info("Using nested loops join");
-                    nestedLoopsJoin(bigger, smaller, getJoinLambda(biggerColIndex, smallerColIndex,
-                        biggerColType), biggerStringResults, smallerStringResults,
-                        biggerDoubleResults, smallerDoubleResults);
+                    nestedLoopsJoin(bigger, smaller, getJoinLambda(biggerColIndex, smallerColIndex, biggerColType), biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults);
                 }
                 log.info("Time spent in Join: {} ms", System.currentTimeMillis() - startTime);
-
-                return joinResultToDataFrame(smallerName, biggerName, biggerSchema, smallerSchema,
-                    joinColumn, biggerStringResults, smallerStringResults, biggerDoubleResults,
-                    smallerDoubleResults);
+                return joinResultToDataFrame(smallerName, biggerName, biggerSchema, smallerSchema, joinColumn, biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults);
             default:
                 throw new MacroBaseSQLException("Join type " + join.getType() + "not supported");
         }
     }
 
-    private DataFrame joinResultToDataFrame(String smallerName, String biggerName,
-        Schema biggerSchema, Schema smallerSchema, String joinColumn,
-        Map<String, List<String>> biggerStringResults,
-        Map<String, List<String>> smallerStringResults,
-        Map<String, List<Double>> biggerDoubleResults,
-        Map<String, List<Double>> smallerDoubleResults) {
+    private DataFrame joinResultToDataFrame(String smallerName, String biggerName, Schema biggerSchema, Schema smallerSchema, String joinColumn, Map<String, List<String>> biggerStringResults, Map<String, List<String>> smallerStringResults, Map<String, List<Double>> biggerDoubleResults, Map<String, List<Double>> smallerDoubleResults) {
         final DataFrame df = new DataFrame();
         // Add String results
         for (String colName : biggerStringResults.keySet()) {
-            final String colNameForOutput =
-                smallerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? biggerName
-                    + "." + colName : colName;
-            df.addColumn(colNameForOutput,
-                biggerStringResults.get(colName).toArray(new String[0]));
+            final String colNameForOutput = smallerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? biggerName + "." + colName : colName;
+            df.addColumn(colNameForOutput, biggerStringResults.get(colName).toArray(new String[0]));
         }
         for (String colName : smallerStringResults.keySet()) {
-            final String colNameForOutput =
-                biggerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? smallerName
-                    + "." + colName : colName;
-            df.addColumn(colNameForOutput,
-                smallerStringResults.get(colName).toArray(new String[0]));
+            final String colNameForOutput = biggerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? smallerName + "." + colName : colName;
+            df.addColumn(colNameForOutput, smallerStringResults.get(colName).toArray(new String[0]));
         }
         // Add double results
         for (String colName : biggerDoubleResults.keySet()) {
-            final String colNameForOutput =
-                smallerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? biggerName
-                    + "." + colName : colName;
-            df.addColumn(colNameForOutput,
-                biggerDoubleResults.get(colName).stream().mapToDouble((x) -> x).toArray());
+            final String colNameForOutput = smallerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? biggerName + "." + colName : colName;
+            df.addColumn(colNameForOutput, biggerDoubleResults.get(colName).stream().mapToDouble((x) -> x).toArray());
         }
         for (String colName : smallerDoubleResults.keySet()) {
-            final String colNameForOutput =
-                biggerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? smallerName
-                    + "." + colName : colName;
-            df.addColumn(colNameForOutput,
-                smallerDoubleResults.get(colName).stream().mapToDouble((x) -> x).toArray());
+            final String colNameForOutput = biggerSchema.hasColumn(colName) && !colName.equals(joinColumn) ? smallerName + "." + colName : colName;
+            df.addColumn(colNameForOutput, smallerDoubleResults.get(colName).stream().mapToDouble((x) -> x).toArray());
         }
         return df;
     }
@@ -752,23 +620,14 @@ class QueryEngine {
     /**
      * Evaluate join using hash-join algorithm
      */
-    private void hashJoinWithIndex(final DataFrame bigger, final DataFrame smaller,
-        final String joinColumn,
-        final Map<String, Integer> colValuesToIndices,
-        final Map<String, List<String>> biggerStringResults,
-        final Map<String, List<String>> smallerStringResults,
-        final Map<String, List<Double>> biggerDoubleResults,
-        final Map<String, List<Double>> smallerDoubleResults) {
-
+    private void hashJoinWithIndex(final DataFrame bigger, final DataFrame smaller, final String joinColumn, final Map<String, Integer> colValuesToIndices, final Map<String, List<String>> biggerStringResults, final Map<String, List<String>> smallerStringResults, final Map<String, List<Double>> biggerDoubleResults, final Map<String, List<Double>> smallerDoubleResults) {
         final String[] biggerColumn = bigger.project(joinColumn).getStringColumn(0);
-
         for (int i = 0; i < biggerColumn.length; ++i) {
             final String value = biggerColumn[i];
             final Integer index = colValuesToIndices.get(value);
             if (index != null) {
                 final Row biggerRow = bigger.getRow(i);
-                addResultToJoinOutput(biggerStringResults, smallerStringResults,
-                    biggerDoubleResults, smallerDoubleResults, biggerRow, smaller.getRow(index));
+                addResultToJoinOutput(biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults, biggerRow, smaller.getRow(index));
             }
         }
     }
@@ -776,13 +635,7 @@ class QueryEngine {
     /**
      * Evaluate join using hash-join algorithm
      */
-    private void hashJoin(final DataFrame bigger, final DataFrame smaller,
-        final String joinColumn,
-        final Map<String, List<String>> biggerStringResults,
-        final Map<String, List<String>> smallerStringResults,
-        final Map<String, List<Double>> biggerDoubleResults,
-        final Map<String, List<Double>> smallerDoubleResults) {
-
+    private void hashJoin(final DataFrame bigger, final DataFrame smaller, final String joinColumn, final Map<String, List<String>> biggerStringResults, final Map<String, List<String>> smallerStringResults, final Map<String, List<Double>> biggerDoubleResults, final Map<String, List<Double>> smallerDoubleResults) {
         final String[] smallerColumn = smaller.project(joinColumn).getStringColumn(0);
         Map<String, List<Integer>> colValuesToIndices = new HashMap<>();
         for (int i = 0; i < smallerColumn.length; ++i) {
@@ -790,17 +643,14 @@ class QueryEngine {
             List<Integer> list = colValuesToIndices.computeIfAbsent(value, k -> new ArrayList<>());
             list.add(i);
         }
-
         final String[] biggerColumn = bigger.project(joinColumn).getStringColumn(0);
-
         for (int i = 0; i < biggerColumn.length; ++i) {
             final String value = biggerColumn[i];
             List<Integer> indices = colValuesToIndices.get(value);
             if (indices != null) {
                 final Row biggerRow = bigger.getRow(i);
                 for (int j : indices) {
-                    addResultToJoinOutput(biggerStringResults, smallerStringResults,
-                        biggerDoubleResults, smallerDoubleResults, biggerRow, smaller.getRow(j));
+                    addResultToJoinOutput(biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults, biggerRow, smaller.getRow(j));
                 }
             }
         }
@@ -809,18 +659,11 @@ class QueryEngine {
     /**
      * Evaluate join using nested loops algorithm
      */
-    private void nestedLoopsJoin(final DataFrame bigger, final DataFrame smaller,
-        final BiPredicate<Row, Row> lambda,
-        final Map<String, List<String>> biggerStringResults,
-        final Map<String, List<String>> smallerStringResults,
-        final Map<String, List<Double>> biggerDoubleResults,
-        final Map<String, List<Double>> smallerDoubleResults) throws MacroBaseSQLException {
+    private void nestedLoopsJoin(final DataFrame bigger, final DataFrame smaller, final BiPredicate<Row, Row> lambda, final Map<String, List<String>> biggerStringResults, final Map<String, List<String>> smallerStringResults, final Map<String, List<Double>> biggerDoubleResults, final Map<String, List<Double>> smallerDoubleResults) throws MacroBaseSQLException {
         for (Row bigRow : bigger.getRowIterator()) {
             for (Row smallRow : smaller.getRowIterator()) {
                 if (lambda.test(bigRow, smallRow)) {
-                    addResultToJoinOutput(biggerStringResults, smallerStringResults,
-                        biggerDoubleResults, smallerDoubleResults, bigRow, smallRow);
-
+                    addResultToJoinOutput(biggerStringResults, smallerStringResults, biggerDoubleResults, smallerDoubleResults, bigRow, smallRow);
                 }
             }
         }
@@ -840,14 +683,10 @@ class QueryEngine {
     }
 
     // ********************* Helper methods for evaluating Join expressions **********************
-
     /**
      * TODO
      */
-    private void addResultToJoinOutput(final Map<String, List<String>> biggerStringResults,
-        final Map<String, List<String>> smallerStringResults,
-        final Map<String, List<Double>> biggerDoubleResults,
-        final Map<String, List<Double>> smallerDoubleResults, final Row big, final Row small) {
+    private void addResultToJoinOutput(final Map<String, List<String>> biggerStringResults, final Map<String, List<String>> smallerStringResults, final Map<String, List<Double>> biggerDoubleResults, final Map<String, List<Double>> smallerDoubleResults, final Row big, final Row small) {
         // Add from big
         for (String colName : biggerStringResults.keySet()) {
             biggerStringResults.get(colName).add(big.getAs(colName));
@@ -872,8 +711,7 @@ class QueryEngine {
      *
      * @throws MacroBaseSQLException if the assumptions are violated
      */
-    private String getJoinColumn(final JoinCriteria joinCriteria,
-        Schema biggerSchema, Schema smallerSchema) throws MacroBaseSQLException {
+    private String getJoinColumn(final JoinCriteria joinCriteria, Schema biggerSchema, Schema smallerSchema) throws MacroBaseSQLException {
         if (joinCriteria instanceof JoinOn) {
             final JoinOn joinOn = (JoinOn) joinCriteria;
             final Expression joinExpression = joinOn.getExpression();
@@ -888,41 +726,35 @@ class QueryEngine {
             }
             return joinUsing.getColumns().get(0).getValue();
         } else if (joinCriteria instanceof NaturalJoin) {
-            final List<String> intersection = biggerSchema.getColumnNames().stream()
-                .filter(smallerSchema.getColumnNames()::contains).collect(toImmutableList());
+            final List<String> intersection = biggerSchema.getColumnNames().stream().filter(smallerSchema.getColumnNames()::contains).collect(toImmutableList());
             if (intersection.size() != 1) {
                 throw new MacroBaseSQLException("Exactly one column allowed with NATURAL JOIN");
             }
             return intersection.get(0);
         } else {
-            throw new MacroBaseSQLException(
-                "Unsupported join criteria: " + joinCriteria.toString());
+            throw new MacroBaseSQLException("Unsupported join criteria: " + joinCriteria.toString());
         }
     }
 
     /**
      * TODO
      */
-    private BiPredicate<Row, Row> getJoinLambda(final int biggerColIndex, final int smallerColIndex,
-        ColType colType) throws MacroBaseSQLException {
+    private BiPredicate<Row, Row> getJoinLambda(final int biggerColIndex, final int smallerColIndex, ColType colType) throws MacroBaseSQLException {
         if (colType == ColType.DOUBLE) {
             final BiDoublePredicate lambda = generateBiDoubleLambda(EQUAL);
-            return (big, small) -> lambda.test((double) big.getVals().get(biggerColIndex),
-                (double) small.getVals().get(smallerColIndex));
+            return (big, small) -> lambda.test((double) big.getVals().get(biggerColIndex), (double) small.getVals().get(smallerColIndex));
         } else {
             // ColType.STRING
             final BiPredicate<String, String> lambda = generateBiStringLambda(EQUAL);
-            return (big, small) -> lambda.test((String) big.getVals().get(biggerColIndex),
-                (String) small.getVals().get(smallerColIndex));
+            return (big, small) -> lambda.test((String) big.getVals().get(biggerColIndex), (String) small.getVals().get(smallerColIndex));
         }
     }
 
     /**
      * TODO
      */
-    private BiDoublePredicate generateBiDoubleLambda(ComparisonExpressionType compareExprType)
-        throws MacroBaseSQLException {
-        switch (compareExprType) {
+    private BiDoublePredicate generateBiDoubleLambda(ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
+        switch(compareExprType) {
             case EQUAL:
                 return (x, y) -> x == y;
             case NOT_EQUAL:
@@ -947,9 +779,8 @@ class QueryEngine {
     /**
      * TODO
      */
-    private BiPredicate<String, String> generateBiStringLambda(
-        ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
-        switch (compareExprType) {
+    private BiPredicate<String, String> generateBiStringLambda(ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
+        switch(compareExprType) {
             case EQUAL:
                 return Objects::equals;
             case NOT_EQUAL:
@@ -978,8 +809,7 @@ class QueryEngine {
             final QueryBody subquery = ((TableSubquery) relation).getQuery().getQueryBody();
             return executeQuery(subquery);
         } else if (relation instanceof AliasedRelation) {
-            return getTable(
-                ((Table) ((AliasedRelation) relation).getRelation()).getName().toString());
+            return getTable(((Table) ((AliasedRelation) relation).getRelation()).getName().toString());
         } else if (relation instanceof Table) {
             return getTable(((Table) relation).getName().toString());
         } else {
@@ -1011,9 +841,7 @@ class QueryEngine {
      * @param inputDf The DataFrame to evaluate the UDFs on
      * @param udfCols The List of UDFs to evaluate
      */
-    private DataFrame evaluateUDFs(final DataFrame inputDf, final List<SingleColumn> udfCols)
-        throws MacroBaseException {
-
+    private DataFrame evaluateUDFs(final DataFrame inputDf, final List<SingleColumn> udfCols) throws MacroBaseException {
         // create shallow copy, so modifications don't persist on the original DataFrame
         final DataFrame resultDf = inputDf.copy();
         for (SingleColumn udfCol : udfCols) {
@@ -1021,9 +849,7 @@ class QueryEngine {
             // for now, if UDF is a.b.c.d(), ignore "a.b.c."
             final String funcName = func.getName().getSuffix();
             // for now, assume func.getArguments returns at least 1 argument, always grab the first
-            final MBFunction mbFunction = MBFunction.getFunction(funcName,
-                func.getArguments().stream().map(Expression::toString).findFirst().get());
-
+            final MBFunction mbFunction = MBFunction.getFunction(funcName, func.getArguments().stream().map(Expression::toString).findFirst().get());
             // modify resultDf in place, add column; mbFunction is evaluated on input DataFrame
             resultDf.addColumn(udfCol.toString(), mbFunction.apply(inputDf));
         }
@@ -1047,8 +873,7 @@ class QueryEngine {
                 return df;
             }
         }
-        final List<String> projections = items.stream().map(SelectItem::toString)
-            .collect(toImmutableList());
+        final List<String> projections = items.stream().map(SelectItem::toString).collect(toImmutableList());
         return df.project(projections);
     }
 
@@ -1061,7 +886,6 @@ class QueryEngine {
      * clause
      * @return A new DataFrame with the result of the LIMIT clause applied
      */
-
     private DataFrame evaluateLimitClause(final DataFrame df, final Optional<String> limitStr) {
         if (limitStr.isPresent()) {
             try {
@@ -1083,8 +907,7 @@ class QueryEngine {
      * @return A new DataFrame that contains the rows for which @whereClause evaluates to true. If
      * <tt>whereClauseOpt</tt> is not Present, we return <tt>df</tt>
      */
-    private DataFrame evaluateWhereClause(final DataFrame df,
-        final Optional<Expression> whereClauseOpt) throws MacroBaseException {
+    private DataFrame evaluateWhereClause(final DataFrame df, final Optional<Expression> whereClauseOpt) throws MacroBaseException {
         if (!whereClauseOpt.isPresent()) {
             return df;
         }
@@ -1094,7 +917,6 @@ class QueryEngine {
     }
 
     // ********************* Helper methods for evaluating Where clauses **********************
-
     /**
      * Recursive method that, given a Where clause, generates a boolean mask (a ModBitSet) applying the
      * clause to a DataFrame
@@ -1108,7 +930,6 @@ class QueryEngine {
             final ModBitSet mask = getMask(df, notExpr.getValue());
             mask.flip(0, df.getNumRows());
             return mask;
-
         } else if (whereClause instanceof LogicalBinaryExpression) {
             final LogicalBinaryExpression binaryExpr = (LogicalBinaryExpression) whereClause;
             final ModBitSet leftMask = getMask(df, binaryExpr.getLeft());
@@ -1121,14 +942,12 @@ class QueryEngine {
                 leftMask.or(rightMask);
                 return leftMask;
             }
-
         } else if (whereClause instanceof ComparisonExpression) {
             // base case
             final ComparisonExpression compareExpr = (ComparisonExpression) whereClause;
             final Expression left = compareExpr.getLeft();
             final Expression right = compareExpr.getRight();
             final ComparisonExpressionType type = compareExpr.getType();
-
             if (left instanceof Literal && right instanceof Literal) {
                 final boolean val = left.equals(right);
                 final ModBitSet mask = new ModBitSet(df.getNumRows());
@@ -1147,12 +966,9 @@ class QueryEngine {
         throw new MacroBaseSQLException("Boolean expression not supported");
     }
 
-    private ModBitSet maskForPredicate(DataFrame df, FunctionCall func, Literal val,
-        final ComparisonExpressionType type)
-        throws MacroBaseException {
+    private ModBitSet maskForPredicate(DataFrame df, FunctionCall func, Literal val, final ComparisonExpressionType type) throws MacroBaseException {
         final String funcName = func.getName().getSuffix();
-        final MBFunction mbFunction = MBFunction.getFunction(funcName,
-            func.getArguments().stream().map(Expression::toString).findFirst().get());
+        final MBFunction mbFunction = MBFunction.getFunction(funcName, func.getArguments().stream().map(Expression::toString).findFirst().get());
         final double[] col = mbFunction.apply(df);
         final DoublePredicate predicate = getPredicate(((DoubleLiteral) val).getValue(), type);
         final ModBitSet mask = new ModBitSet(col.length);
@@ -1163,7 +979,6 @@ class QueryEngine {
         }
         return mask;
     }
-
 
     /**
      * The base case for {@link QueryEngine#getMask(DataFrame, Expression)}; returns a boolean mask
@@ -1176,9 +991,7 @@ class QueryEngine {
      * @throws MacroBaseSQLException if the literal's type doesn't match the type of the column
      * variable, an exception is thrown
      */
-    private ModBitSet maskForPredicate(final DataFrame df, final Literal literal,
-        final Identifier identifier, final ComparisonExpressionType compExprType)
-        throws MacroBaseSQLException {
+    private ModBitSet maskForPredicate(final DataFrame df, final Literal literal, final Identifier identifier, final ComparisonExpressionType compExprType) throws MacroBaseSQLException {
         final String colName = identifier.getValue();
         final int colIndex;
         try {
@@ -1187,27 +1000,19 @@ class QueryEngine {
             throw new MacroBaseSQLException(e.getMessage());
         }
         final ColType colType = df.getSchema().getColumnType(colIndex);
-
         if (colType == ColType.DOUBLE) {
             if (!(literal instanceof DoubleLiteral)) {
-                throw new MacroBaseSQLException(
-                    "Column " + colName + " has type " + colType + ", but " + literal
-                        + " is not a DoubleLiteral");
+                throw new MacroBaseSQLException("Column " + colName + " has type " + colType + ", but " + literal + " is not a DoubleLiteral");
             }
-
-            return df.getMaskForFilter(colIndex,
-                getPredicate(((DoubleLiteral) literal).getValue(), compExprType));
+            return df.getMaskForFilter(colIndex, getPredicate(((DoubleLiteral) literal).getValue(), compExprType));
         } else {
             // colType == ColType.STRING
             if (literal instanceof StringLiteral) {
-                return df.getMaskForFilter(colIndex,
-                    getPredicate(((StringLiteral) literal).getValue(), compExprType));
+                return df.getMaskForFilter(colIndex, getPredicate(((StringLiteral) literal).getValue(), compExprType));
             } else if (literal instanceof NullLiteral) {
                 return df.getMaskForFilter(colIndex, getPredicate(null, compExprType));
             } else {
-                throw new MacroBaseSQLException(
-                    "Column " + colName + " has type " + colType + ", but " + literal
-                        + " is not StringLiteral");
+                throw new MacroBaseSQLException("Column " + colName + " has type " + colType + ", but " + literal + " is not StringLiteral");
             }
         }
     }
@@ -1223,9 +1028,8 @@ class QueryEngine {
      * @throws MacroBaseSQLException If a comparsion type is passed in that is not supported, an
      * exception is thrown
      */
-    private DoublePredicate getPredicate(double y, ComparisonExpressionType compareExprType)
-        throws MacroBaseSQLException {
-        switch (compareExprType) {
+    private DoublePredicate getPredicate(double y, ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
+        switch(compareExprType) {
             case EQUAL:
                 return (x) -> x == y;
             case NOT_EQUAL:
@@ -1260,9 +1064,8 @@ class QueryEngine {
      * @throws MacroBaseSQLException If a comparsion type is passed in that is not supported, an
      * exception is thrown
      */
-    private Predicate<String> getPredicate(final String y,
-        final ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
-        switch (compareExprType) {
+    private Predicate<String> getPredicate(final String y, final ComparisonExpressionType compareExprType) throws MacroBaseSQLException {
+        switch(compareExprType) {
             case EQUAL:
                 return (x) -> Objects.equals(x, y);
             case NOT_EQUAL:
@@ -1283,4 +1086,3 @@ class QueryEngine {
         }
     }
 }
-

@@ -8,6 +8,7 @@ import org.apache.commons.math3.linear.RealVector;
  * Wrapper around MultivariateNormalDistribution that operates with RealVector and RealMatrix
  */
 public class MultivariateNormal implements MultivariateDistribution {
+
     private MultivariateNormalDistribution distribution;
 
     public MultivariateNormal(RealVector mean, RealMatrix sigma) {
@@ -19,10 +20,10 @@ public class MultivariateNormal implements MultivariateDistribution {
     }
 
     public double density(RealVector vector) {
-        return distribution.density(vector.toArray());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public MultivariateNormalDistribution getDistribution() {
-        return distribution;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

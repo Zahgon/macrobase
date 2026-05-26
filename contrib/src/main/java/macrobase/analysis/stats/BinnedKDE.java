@@ -2,11 +2,9 @@ package macrobase.analysis.stats;
 
 import java.util.Arrays;
 import java.util.List;
-
 import macrobase.conf.ConfigurationException;
 import macrobase.conf.MacroBaseConf;
 import macrobase.datamodel.Datum;
-
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 import org.slf4j.Logger;
@@ -19,20 +17,28 @@ import org.slf4j.LoggerFactory;
 public class BinnedKDE extends KDE {
 
     private static final Logger log = LoggerFactory.getLogger(BinnedKDE.class);
+
     private double[][] bins;
+
     private double[][] kernelWeights;
+
     private double[][] densityEstimates;
+
     private double[] minimums;
+
     private double[] maximums;
+
     private int numBins;
+
     private int numIntervals;
 
     private int L;
+
     private double delta;
 
     public static final String BINNED_KDE_BINS = "macrobase.analysis.binnedKde.numBins";
-    public static final Integer BINNED_KDE_BINS_DEFAULT = 10000;
 
+    public static final Integer BINNED_KDE_BINS_DEFAULT = 10000;
 
     public BinnedKDE(MacroBaseConf conf) throws ConfigurationException {
         super(conf);
@@ -43,24 +49,16 @@ public class BinnedKDE extends KDE {
 
     @Override
     public void train(List<Datum> data) {
-        this.setBandwidth(data);
-        log.debug("training BinnedKDE");
-        assert this.metricsDimensions == 1;
-        this.linearAssignToBins(data);
-        this.calculateKernelWeights(data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     private void calculateKernelWeights(List<Datum> data) {
         // TODO: now only supports 1D!!!!
         kernelWeights = new double[metricsDimensions][numBins];
-
-        double binsThatMatter = kernel.effectiveSupportWidth1D() * Math.sqrt(
-                this.bandwidth.getEntry(0, 0)) * this.numIntervals / (this.maximums[0] - this.minimums[0]);
+        double binsThatMatter = kernel.effectiveSupportWidth1D() * Math.sqrt(this.bandwidth.getEntry(0, 0)) * this.numIntervals / (this.maximums[0] - this.minimums[0]);
         log.debug("binsThatMatter: {}", binsThatMatter);
         this.L = Math.min((int) binsThatMatter, this.numIntervals);
         log.debug("GOT L= {}", L);
-
         final double h = Math.sqrt(this.bandwidth.getEntry(0, 0));
         double scalingFactor = 1.0 / (data.size() * h);
         final double constant = (this.maximums[0] - this.minimums[0]) / (this.numIntervals * h);
@@ -70,8 +68,6 @@ public class BinnedKDE extends KDE {
             RealVector vector = new ArrayRealVector(array);
             kernelWeights[0][l] = scalingFactor * this.kernel.density(vector);
         }
-
-
         densityEstimates = new double[metricsDimensions][numBins];
         for (int d = 0; d < 1; d++) {
             for (int j = 0; j < numBins; ++j) {
@@ -88,13 +84,7 @@ public class BinnedKDE extends KDE {
 
     @Override
     public double score(Datum datum) {
-        // TODO: now only supports 1D datum
-        for (int d = 0; d < 1; d++) {
-            double pointValue = datum.metrics().getEntry(d);
-            double binDouble = (pointValue - this.minimums[d]) / delta;
-            return -densityEstimates[d][(int) binDouble];
-        }
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,12 +102,10 @@ public class BinnedKDE extends KDE {
             for (int i = 0; i < size; i++) {
                 dataIn1D[i] = data.get(i).metrics().getEntry(d);
             }
-
             Arrays.sort(dataIn1D);
             this.minimums[d] = dataIn1D[0];
             this.maximums[d] = dataIn1D[size - 1];
             this.delta = (this.maximums[d] - this.minimums[d]) / numIntervals;
-
             for (int i = 0; i < size; i++) {
                 double pointValue = data.get(i).metrics().getEntry(d);
                 double binDouble = (pointValue - this.minimums[d]) / delta;

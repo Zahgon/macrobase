@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,30 +22,27 @@ import java.util.Optional;
 public class QuantifiedComparisonExpression extends Expression {
 
     public enum Quantifier {
-        ALL,
-        ANY,
-        SOME,
+
+        ALL, ANY, SOME
     }
 
     private final ComparisonExpressionType comparisonType;
+
     private final Quantifier quantifier;
+
     private final Expression value;
+
     private final Expression subquery;
 
-    public QuantifiedComparisonExpression(ComparisonExpressionType comparisonType,
-        Quantifier quantifier, Expression value, Expression subquery) {
+    public QuantifiedComparisonExpression(ComparisonExpressionType comparisonType, Quantifier quantifier, Expression value, Expression subquery) {
         this(Optional.empty(), comparisonType, quantifier, value, subquery);
     }
 
-    public QuantifiedComparisonExpression(NodeLocation location,
-        ComparisonExpressionType comparisonType, Quantifier quantifier, Expression value,
-        Expression subquery) {
+    public QuantifiedComparisonExpression(NodeLocation location, ComparisonExpressionType comparisonType, Quantifier quantifier, Expression value, Expression subquery) {
         this(Optional.of(location), comparisonType, quantifier, value, subquery);
     }
 
-    private QuantifiedComparisonExpression(Optional<NodeLocation> location,
-        ComparisonExpressionType comparisonType, Quantifier quantifier, Expression value,
-        Expression subquery) {
+    private QuantifiedComparisonExpression(Optional<NodeLocation> location, ComparisonExpressionType comparisonType, Quantifier quantifier, Expression value, Expression subquery) {
         super(location);
         this.comparisonType = requireNonNull(comparisonType, "comparisonType is null");
         this.quantifier = requireNonNull(quantifier, "quantifier is null");
@@ -55,49 +51,38 @@ public class QuantifiedComparisonExpression extends Expression {
     }
 
     public ComparisonExpressionType getComparisonType() {
-        return comparisonType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Quantifier getQuantifier() {
-        return quantifier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getSubquery() {
-        return subquery;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitQuantifiedComparisonExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(value, subquery);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        QuantifiedComparisonExpression that = (QuantifiedComparisonExpression) o;
-        return comparisonType == that.comparisonType &&
-            quantifier == that.quantifier &&
-            Objects.equals(value, that.value) &&
-            Objects.equals(subquery, that.subquery);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(comparisonType, quantifier, value, subquery);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

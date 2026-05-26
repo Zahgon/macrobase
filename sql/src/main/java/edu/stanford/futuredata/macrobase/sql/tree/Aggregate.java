@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +8,8 @@ import java.util.Optional;
 public class Aggregate extends Node {
 
     public enum AggEnum {
-        COUNT,
-        MIN,
-        MAX,
-        SUM,
+
+        COUNT, MIN, MAX, SUM
     }
 
     private final AggEnum value;
@@ -32,36 +29,26 @@ public class Aggregate extends Node {
     }
 
     public AggEnum getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<? extends Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(new StringLiteral(value.toString()));
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Aggregate o = (Aggregate) obj;
-        return o.value == value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return value.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

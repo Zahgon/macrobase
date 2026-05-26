@@ -23,207 +23,206 @@ import javax.annotation.Nullable;
  *         return visitNode(node, context);
  *     }
  * </code>
- **/
+ */
 public abstract class AstVisitor<R, C> {
 
     public R process(Node node) {
-        return process(node, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public R process(Node node, @Nullable C context) {
-        return node.accept(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitNode(Node node, C context) {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitExpression(Expression node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitArithmeticBinary(ArithmeticBinaryExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitComparisonExpression(ComparisonExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitLiteral(Literal node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitDoubleLiteral(DoubleLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitDecimalLiteral(DecimalLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitStatement(Statement node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitQuery(Query node, C context) {
-        return visitStatement(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitGenericLiteral(GenericLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitSelect(Select node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitRelation(Relation node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitQueryBody(QueryBody node, C context) {
-        return visitRelation(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitOrderBy(OrderBy node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitQuerySpecification(QuerySpecification node, C context) {
-        return visitQueryBody(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public R visitDiffQuerySpecification(DiffQuerySpecification node, C context) {
-        return visitQueryBody(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitWhenClause(WhenClause node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitFunctionCall(FunctionCall node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitStringLiteral(StringLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitCharLiteral(CharLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitBinaryLiteral(BinaryLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitBooleanLiteral(BooleanLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitInListExpression(InListExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitIdentifier(Identifier node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitDereferenceExpression(DereferenceExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitNullLiteral(NullLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitArithmeticUnary(ArithmeticUnaryExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitNotExpression(NotExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitSelectItem(SelectItem node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitSingleColumn(SingleColumn node, C context) {
-        return visitSelectItem(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitAllColumns(AllColumns node, C context) {
-        return visitSelectItem(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitLikePredicate(LikePredicate node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitIsNotNullPredicate(IsNotNullPredicate node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitIsNullPredicate(IsNullPredicate node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitLongLiteral(IntLiteral node, C context) {
-        return visitLiteral(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitLogicalBinaryExpression(LogicalBinaryExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitSubqueryExpression(SubqueryExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitSortItem(SortItem node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitTable(Table node, C context) {
-        return visitQueryBody(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitTableSubquery(TableSubquery node, C context) {
-        return visitQueryBody(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitAliasedRelation(AliasedRelation node, C context) {
-        return visitRelation(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitJoin(Join node, C context) {
-        return visitRelation(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitExists(ExistsPredicate node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitFieldReference(FieldReference node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected R visitColumnDefinition(ColumnDefinition node, C context) {
-        return visitNode(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    protected R visitQuantifiedComparisonExpression(QuantifiedComparisonExpression node,
-        C context) {
-        return visitExpression(node, context);
+    protected R visitQuantifiedComparisonExpression(QuantifiedComparisonExpression node, C context) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public R visitRatioMetricExpression(RatioMetricExpression node, C context) {
-        return visitExpression(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public R visitImportCsv(ImportCsv node, C context) {
-        return visitStatement(node, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

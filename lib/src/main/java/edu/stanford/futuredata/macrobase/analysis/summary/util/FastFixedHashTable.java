@@ -8,19 +8,28 @@ import java.util.List;
  * be nonzero.
  */
 public class FastFixedHashTable {
-    private double hashTable[][];
-    private IntSet existsTable[];
-    private long existsLongTable[];
+
+    private double[][] hashTable;
+
+    private IntSet[] existsTable;
+
+    private long[] existsLongTable;
+
     private int numAggregates;
+
     private int mask;
+
     private int capacity;
+
     private boolean useIntArraySets;
+
     private int size = 0;
+
     private final int ratio = 10;
 
     public FastFixedHashTable(int size, int numAggregates, boolean useIntArraySets) {
         int realSize = 1;
-        while(realSize < size) {
+        while (realSize < size) {
             realSize *= 2;
         }
         this.capacity = realSize;
@@ -39,12 +48,12 @@ public class FastFixedHashTable {
         int oldCapacity = capacity;
         this.capacity = capacity * 2;
         this.mask = capacity - 1;
-        double [][] oldHashTable = this.hashTable;
+        double[][] oldHashTable = this.hashTable;
         this.hashTable = new double[capacity][numAggregates];
         if (useIntArraySets) {
             IntSet[] oldExistsTable = this.existsTable;
             this.existsTable = new IntSet[capacity];
-            for(int i = 0; i < oldCapacity; i++) {
+            for (int i = 0; i < oldCapacity; i++) {
                 if (oldExistsTable[i] != null) {
                     put(oldExistsTable[i], oldHashTable[i]);
                 }
@@ -61,97 +70,26 @@ public class FastFixedHashTable {
     }
 
     public void put(IntSet entry, double[] aggregates) {
-        size++;
-        if (size * ratio > capacity)
-            growAndRehash();
-        if (useIntArraySets) {
-            int hashed = entry.hashCode();
-            int index = (hashed) & mask;
-            while (existsTable[index] != null) {
-                index = (index + 1) & mask;
-            }
-            existsTable[index] = entry;
-            for (int i = 0; i < numAggregates; i++) {
-                hashTable[index][i] = aggregates[i];
-            }
-        } else {
-            long realEntry = ((IntSetAsLong) entry).value;
-            int hashed = entry.hashCode();
-            int index = (hashed) & mask;
-            while(existsLongTable[index] != 0) {
-                index = (index + 1) & mask;
-            }
-            existsLongTable[index] = realEntry;
-            for(int i = 0; i < numAggregates; i++) {
-                hashTable[index][i] = aggregates[i];
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void put(long entry, double[] aggregates) {
-        size++;
-        if (size * ratio > capacity)
-            growAndRehash();
-        int hashed = (int) ((entry + 31 * (entry >>> 11)  + 31 * (entry >>> 22) + 7 * (entry >>> 31)
-                + (entry >>> 45) + 31 * (entry >>> 7) + 7 * (entry >>> 37)));
-        int index = (hashed) & mask;
-        while(existsLongTable[index] != 0) {
-            index = (index + 1) & mask;
-        }
-        existsLongTable[index] = entry;
-        for(int i = 0; i < numAggregates; i++) {
-            hashTable[index][i] = aggregates[i];
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double[] get(IntSet entry) {
-        if (useIntArraySets) {
-            int hashed = entry.hashCode();
-            int index = (hashed) & mask;
-            while (existsTable[index] != null && !(existsTable[index].equals(entry))) {
-                index = (index + 1) & mask;
-            }
-            if (existsTable[index] == null) {
-                return null;
-            } else {
-                return hashTable[index];
-            }
-        } else {
-            long realEntry = ((IntSetAsLong) entry).value;
-            int hashed = entry.hashCode();
-            int index = (hashed) & mask;
-            while(existsLongTable[index] != 0 && !(existsLongTable[index] == realEntry)) {
-                index = (index + 1) & mask;
-            }
-            if(existsLongTable[index] == 0) {
-                return null;
-            }
-            else {
-                return hashTable[index];
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<IntSet> keySet() {
-        ArrayList<IntSet> retList = new ArrayList<>();
-        for(int i = 0; i < capacity; i++) {
-            if (existsTable[i] != null)
-                retList.add(existsTable[i]);
-        }
-        return retList;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Long> keySetLong() {
-        ArrayList<Long> retList = new ArrayList<>();
-        for(int i = 0; i < capacity; i++) {
-            if (existsLongTable[i] != 0)
-                retList.add(existsLongTable[i]);
-        }
-        return retList;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getCapacity() {
-        return capacity;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

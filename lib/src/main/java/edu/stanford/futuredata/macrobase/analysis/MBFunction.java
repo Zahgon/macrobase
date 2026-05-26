@@ -53,12 +53,7 @@ public abstract class MBFunction {
      * MBFunction) isn't present in the DataFrame, an exception is thrown.
      */
     public final double[] apply(final DataFrame df) throws MacroBaseException {
-        if (!df.hasColumn(columnName)) {
-            throw new MacroBaseException(columnName + " not present in DataFrame");
-        }
-        final double[] outputCol = new double[df.getNumRows()];
-        this.applyFunction(df.getDoubleColumnByName(columnName), outputCol);
-        return outputCol;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,28 +66,8 @@ public abstract class MBFunction {
      * @throws MacroBaseException If there's an error instantiating the MBFunction (usually due to
      * incorrect arguments or improperly defined subclasses), an exception is thrown.
      */
-    public static MBFunction getFunction(String funcName, String arg)
-        throws MacroBaseException {
-        Class<? extends MBFunction> clazz;
-        switch (funcName.toLowerCase()) {
-            case "normalize": {
-                clazz = NormalizeFunction.class;
-                break;
-            }
-            case "percentile": {
-                clazz = PercentileFucntion.class;
-                break;
-            }
-            default: {
-                throw new MacroBaseException("Bad MBFunction Type: " + funcName);
-            }
-        }
-        try {
-            return clazz.getConstructor(String.class).newInstance(arg);
-        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-            throw new MacroBaseException(
-                "MBFunction Type " + funcName + " incompatible with args (" + arg + ")");
-        }
+    public static MBFunction getFunction(String funcName, String arg) throws MacroBaseException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
 
@@ -114,14 +89,7 @@ class NormalizeFunction extends MBFunction {
      */
     @Override
     protected void applyFunction(final double[] inputCol, final double[] outputCol) {
-        final double max = Arrays.stream(inputCol).max().getAsDouble();
-        // if negative values are in the array, shift everything so that it's positive
-        final double arrayMin = Arrays.stream(inputCol).min().getAsDouble();
-        final double offset = arrayMin > 0.0 ? 0.0 : -arrayMin;
-        final double norm = max + offset;
-        for (int i = 0; i < inputCol.length; ++i) {
-            outputCol[i] = (inputCol[i] + offset) / norm;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
 
@@ -145,17 +113,6 @@ class PercentileFucntion extends MBFunction {
      */
     @Override
     protected void applyFunction(final double[] inputCol, final double[] outputCol) {
-        // sort the column, and, for each value in the column, store the *min* position in the sorted array
-        final double[] sortedInputCol = Arrays.stream(inputCol).sorted().toArray();
-        final Map<Double, Integer> map = new HashMap<>();
-        for (int i = sortedInputCol.length - 1; i >= 0; --i) {
-            // increment by one so that the max value has 100th percentile
-            map.put(sortedInputCol[i], i + 1);
-        }
-        // normalize the position for each value by the size of the column
-        final double norm = inputCol.length;
-        for (int i = 0; i < inputCol.length; ++i) {
-            outputCol[i] = map.get(inputCol[i]) / norm;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

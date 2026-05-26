@@ -14,8 +14,8 @@
 package edu.stanford.futuredata.macrobase.sql.parser;
 
 public enum IdentifierSymbol {
-    COLON(':'),
-    AT_SIGN('@');
+
+    COLON(':'), AT_SIGN('@');
 
     private final char symbol;
 
@@ -24,6 +24,6 @@ public enum IdentifierSymbol {
     }
 
     public char getSymbol() {
-        return symbol;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

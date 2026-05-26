@@ -16,7 +16,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -42,40 +41,31 @@ public class OrderBy extends Node {
     }
 
     public List<SortItem> getSortItems() {
-        return sortItems;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitOrderBy(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<? extends Node> getChildren() {
-        return sortItems;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("sortItems", sortItems)
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        OrderBy o = (OrderBy) obj;
-        return Objects.equals(sortItems, o.sortItems);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sortItems);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

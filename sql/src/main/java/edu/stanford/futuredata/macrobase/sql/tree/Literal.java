@@ -25,11 +25,11 @@ public abstract class Literal extends Expression {
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

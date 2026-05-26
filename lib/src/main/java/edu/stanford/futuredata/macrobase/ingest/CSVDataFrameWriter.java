@@ -24,16 +24,6 @@ public class CSVDataFrameWriter {
     }
 
     public void writeToStream(DataFrame df, Writer out) throws IOException {
-        String[] columnNames = df.getSchema().getColumnNames().toArray(new String[0]);
-        final CsvWriterSettings settings = new CsvWriterSettings();
-        settings.setFormat(format);
-        CsvWriter writer = new CsvWriter(out, settings);
-        writer.writeHeaders(columnNames);
-
-        for (Row curRow : df.getRowIterator()) {
-            List<Object> rowValues = curRow.getVals();
-            writer.writeRow(rowValues);
-        }
-        writer.close();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

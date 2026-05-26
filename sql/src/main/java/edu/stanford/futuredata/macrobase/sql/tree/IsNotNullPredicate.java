@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -36,34 +35,26 @@ public class IsNotNullPredicate extends ComparisonExpression {
     }
 
     public Expression getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitIsNotNullPredicate(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        IsNotNullPredicate that = (IsNotNullPredicate) o;
-        return Objects.equals(value, that.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

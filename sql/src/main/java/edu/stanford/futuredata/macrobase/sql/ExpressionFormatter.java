@@ -16,7 +16,6 @@ package edu.stanford.futuredata.macrobase.sql;
 import static com.google.common.base.Preconditions.checkArgument;
 import static edu.stanford.futuredata.macrobase.sql.SqlFormatter.formatSql;
 import static java.lang.String.format;
-
 import com.google.common.base.Joiner;
 import edu.stanford.futuredata.macrobase.sql.tree.AllColumns;
 import edu.stanford.futuredata.macrobase.sql.tree.ArithmeticBinaryExpression;
@@ -63,13 +62,11 @@ public final class ExpressionFormatter {
     private ExpressionFormatter() {
     }
 
-    public static String formatExpression(Expression expression,
-        Optional<List<Expression>> parameters) {
-        return new Formatter(parameters).process(expression, null);
+    public static String formatExpression(Expression expression, Optional<List<Expression>> parameters) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public static class Formatter
-        extends AstVisitor<String, Void> {
+    public static class Formatter extends AstVisitor<String, Void> {
 
         private final Optional<List<Expression>> parameters;
 
@@ -79,84 +76,77 @@ public final class ExpressionFormatter {
 
         @Override
         protected String visitNode(Node node, Void context) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitExpression(Expression node, Void context) {
-            throw new UnsupportedOperationException(
-                format("not yet implemented: %s.visit%s", getClass().getName(),
-                    node.getClass().getSimpleName()));
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitBooleanLiteral(BooleanLiteral node, Void context) {
-            return String.valueOf(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitStringLiteral(StringLiteral node, Void context) {
-            return formatStringLiteral(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitCharLiteral(CharLiteral node, Void context) {
-            return "CHAR " + formatStringLiteral(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitBinaryLiteral(BinaryLiteral node, Void context) {
-            return "X'" + node.toHexString() + "'";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitLongLiteral(IntLiteral node, Void context) {
-            return Long.toString(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitDoubleLiteral(DoubleLiteral node, Void context) {
-            return Double.toString(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitDecimalLiteral(DecimalLiteral node, Void context) {
-            return "DECIMAL '" + node.getValue() + "'";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitGenericLiteral(GenericLiteral node, Void context) {
-            return node.getType() + " " + formatStringLiteral(node.getValue());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitNullLiteral(NullLiteral node, Void context) {
-            return "null";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitSubqueryExpression(SubqueryExpression node, Void context) {
-            return "(" + formatSql(node.getQuery(), parameters) + ")";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitExists(ExistsPredicate node, Void context) {
-            return "(EXISTS " + formatSql(node.getSubquery(), parameters) + ")";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitIdentifier(Identifier node, Void context) {
-            if (!node.isDelimited()) {
-                return node.getValue();
-            } else {
-                return '"' + node.getValue().replace("\"", "\"\"") + '"';
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitDereferenceExpression(DereferenceExpression node, Void context) {
-            String baseString = process(node.getBase(), context);
-            return baseString + "." + process(node.getField());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private static String formatQualifiedName(QualifiedName name) {
@@ -169,120 +159,67 @@ public final class ExpressionFormatter {
 
         @Override
         public String visitFieldReference(FieldReference node, Void context) {
-            // add colon so this won't parse
-            return ":input(" + node.getFieldIndex() + ")";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitFunctionCall(FunctionCall node, Void context) {
-            StringBuilder builder = new StringBuilder();
-
-            String arguments = joinExpressions(node.getArguments());
-            if (node.getArguments().isEmpty() && "count"
-                .equalsIgnoreCase(node.getName().getSuffix())) {
-                arguments = "*";
-            }
-            if (node.isDistinct()) {
-                arguments = "DISTINCT " + arguments;
-            }
-
-            builder.append(formatQualifiedName(node.getName()))
-                .append('(').append(arguments).append(')');
-
-            if (node.getFilter().isPresent()) {
-                builder.append(" FILTER ").append(visitFilter(node.getFilter().get(), context));
-            }
-
-            return builder.toString();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitLogicalBinaryExpression(LogicalBinaryExpression node, Void context) {
-            return formatBinaryExpression(node.getType().toString(), node.getLeft(),
-                node.getRight());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitNotExpression(NotExpression node, Void context) {
-            return "(NOT " + process(node.getValue(), context) + ")";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitComparisonExpression(ComparisonExpression node, Void context) {
-            return formatBinaryExpression(node.getType().getValue(), node.getLeft(),
-                node.getRight());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitIsNullPredicate(IsNullPredicate node, Void context) {
-            return "(" + process(node.getValue(), context) + " IS NULL)";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitIsNotNullPredicate(IsNotNullPredicate node, Void context) {
-            return "(" + process(node.getValue(), context) + " IS NOT NULL)";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitArithmeticUnary(ArithmeticUnaryExpression node, Void context) {
-            String value = process(node.getValue(), context);
-
-            switch (node.getSign()) {
-                case MINUS:
-                    // this is to avoid turning a sequence of "-" into a comment (i.e., "-- comment")
-                    String separator = value.startsWith("-") ? " " : "";
-                    return "-" + separator + value;
-                case PLUS:
-                    return "+" + value;
-                default:
-                    throw new UnsupportedOperationException("Unsupported sign: " + node.getSign());
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitArithmeticBinary(ArithmeticBinaryExpression node, Void context) {
-            return formatBinaryExpression(node.getType().getValue(), node.getLeft(),
-                node.getRight());
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitLikePredicate(LikePredicate node, Void context) {
-            StringBuilder builder = new StringBuilder();
-
-            builder.append('(')
-                .append(process(node.getValue(), context))
-                .append(" LIKE ")
-                .append(process(node.getPattern(), context));
-
-            if (node.getEscape() != null) {
-                builder.append(" ESCAPE ")
-                    .append(process(node.getEscape(), context));
-            }
-
-            builder.append(')');
-
-            return builder.toString();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitAllColumns(AllColumns node, Void context) {
-            if (node.getPrefix().isPresent()) {
-                return node.getPrefix().get() + ".*";
-            }
-
-            return "*";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitWhenClause(WhenClause node, Void context) {
-            return "WHEN " + process(node.getOperand(), context) + " THEN " + process(
-                node.getResult(),
-                context);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         protected String visitInListExpression(InListExpression node, Void context) {
-            return "(" + joinExpressions(node.getValues()) + ")";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private String visitFilter(Expression node, Void context) {
@@ -290,23 +227,12 @@ public final class ExpressionFormatter {
         }
 
         @Override
-        protected String visitQuantifiedComparisonExpression(QuantifiedComparisonExpression node,
-            Void context) {
-            return new StringBuilder()
-                .append("(")
-                .append(process(node.getValue(), context))
-                .append(' ')
-                .append(node.getComparisonType().getValue())
-                .append(' ')
-                .append(node.getQuantifier().toString())
-                .append(' ')
-                .append(process(node.getSubquery(), context))
-                .append(")")
-                .toString();
+        protected String visitQuantifiedComparisonExpression(QuantifiedComparisonExpression node, Void context) {
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String visitRatioMetricExpression(RatioMetricExpression node, Void context) {
-            return node.getFuncName() + "(" + node.getAggExpr() + "(*))";
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private String formatBinaryExpression(String operator, Expression left, Expression right) {
@@ -314,8 +240,7 @@ public final class ExpressionFormatter {
         }
 
         private String joinExpressions(List<Expression> expressions) {
-            return Joiner.on(", ")
-                .join(expressions.stream().map((e) -> process(e, null)).iterator());
+            return Joiner.on(", ").join(expressions.stream().map((e) -> process(e, null)).iterator());
         }
 
         private static String formatIdentifier(String s) {
@@ -325,44 +250,15 @@ public final class ExpressionFormatter {
     }
 
     static String formatStringLiteral(String s) {
-        s = s.replace("'", "''");
-        if (isAsciiPrintable(s)) {
-            return s;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("U&'");
-        PrimitiveIterator.OfInt iterator = s.codePoints().iterator();
-        while (iterator.hasNext()) {
-            int codePoint = iterator.nextInt();
-            checkArgument(codePoint >= 0, "Invalid UTF-8 encoding in characters: %s", s);
-            if (isAsciiPrintable(codePoint)) {
-                char ch = (char) codePoint;
-                if (ch == '\\') {
-                    builder.append(ch);
-                }
-                builder.append(ch);
-            } else if (codePoint <= 0xFFFF) {
-                builder.append('\\');
-                builder.append(String.format("%04X", codePoint));
-            } else {
-                builder.append("\\+");
-                builder.append(String.format("%06X", codePoint));
-            }
-        }
-        builder.append("'");
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static String formatOrderBy(OrderBy orderBy, Optional<List<Expression>> parameters) {
-        return "ORDER BY " + formatSortItems(orderBy.getSortItems(), parameters);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private static String formatSortItems(List<SortItem> sortItems,
-        Optional<List<Expression>> parameters) {
-        return Joiner.on(", ").join((Iterable<?>) sortItems.stream()
-            .map(sortItemFormatterFunction(parameters))
-            .iterator());
+    private static String formatSortItems(List<SortItem> sortItems, Optional<List<Expression>> parameters) {
+        return Joiner.on(", ").join((Iterable<?>) sortItems.stream().map(sortItemFormatterFunction(parameters)).iterator());
     }
 
     private static boolean isAsciiPrintable(String s) {
@@ -378,14 +274,11 @@ public final class ExpressionFormatter {
         return codePoint < 0x7F && codePoint >= 0x20;
     }
 
-    private static Function<SortItem, String> sortItemFormatterFunction(
-        Optional<List<Expression>> parameters) {
+    private static Function<SortItem, String> sortItemFormatterFunction(Optional<List<Expression>> parameters) {
         return input -> {
             StringBuilder builder = new StringBuilder();
-
             builder.append(formatExpression(input.getSortKey(), parameters));
-
-            switch (input.getOrdering()) {
+            switch(input.getOrdering()) {
                 case ASCENDING:
                     builder.append(" ASC");
                     break;
@@ -393,11 +286,9 @@ public final class ExpressionFormatter {
                     builder.append(" DESC");
                     break;
                 default:
-                    throw new UnsupportedOperationException(
-                        "unknown ordering: " + input.getOrdering());
+                    throw new UnsupportedOperationException("unknown ordering: " + input.getOrdering());
             }
-
-            switch (input.getNullOrdering()) {
+            switch(input.getNullOrdering()) {
                 case FIRST:
                     builder.append(" NULLS FIRST");
                     break;
@@ -408,10 +299,8 @@ public final class ExpressionFormatter {
                     // no op
                     break;
                 default:
-                    throw new UnsupportedOperationException(
-                        "unknown null ordering: " + input.getNullOrdering());
+                    throw new UnsupportedOperationException("unknown null ordering: " + input.getNullOrdering());
             }
-
             return builder.toString();
         };
     }

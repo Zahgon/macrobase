@@ -7,6 +7,7 @@ import java.util.Random;
  * N.B. The current period is advanced explicitly.
  */
 public class FlexibleDampedReservoir<T> extends AChao<T> {
+
     private final double bias;
 
     public FlexibleDampedReservoir(int capacity, double bias, Random random) {
@@ -22,14 +23,14 @@ public class FlexibleDampedReservoir<T> extends AChao<T> {
     }
 
     public void advancePeriod() {
-        advancePeriod(1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void advancePeriod(int numPeriods) {
-        decayWeights(Math.pow(1 - bias, numPeriods));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void insert(T ele) {
-        insert(ele, 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

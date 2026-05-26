@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -30,11 +29,11 @@ public abstract class Node {
      * Accessible for {@link AstVisitor}, use {@link AstVisitor#process(Node, Object)} instead.
      */
     protected <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitNode(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Optional<NodeLocation> getLocation() {
-        return location;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public abstract List<? extends Node> getChildren();

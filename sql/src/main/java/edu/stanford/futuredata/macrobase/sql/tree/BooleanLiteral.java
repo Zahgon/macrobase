@@ -15,7 +15,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.base.Preconditions;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,8 +22,8 @@ import java.util.Optional;
 public class BooleanLiteral extends Literal {
 
     public static final BooleanLiteral TRUE_LITERAL = new BooleanLiteral(Optional.empty(), "true");
-    public static final BooleanLiteral FALSE_LITERAL = new BooleanLiteral(Optional.empty(),
-        "false");
+
+    public static final BooleanLiteral FALSE_LITERAL = new BooleanLiteral(Optional.empty(), "false");
 
     private final boolean value;
 
@@ -39,36 +38,26 @@ public class BooleanLiteral extends Literal {
     private BooleanLiteral(Optional<NodeLocation> location, String value) {
         super(location);
         requireNonNull(value, "value is null");
-        Preconditions.checkArgument(
-            value.toLowerCase(ENGLISH).equals("true") || value.toLowerCase(ENGLISH)
-                .equals("false"));
-
+        Preconditions.checkArgument(value.toLowerCase(ENGLISH).equals("true") || value.toLowerCase(ENGLISH).equals("false"));
         this.value = value.toLowerCase(ENGLISH).equals("true");
     }
 
     public Boolean getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitBooleanLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        BooleanLiteral other = (BooleanLiteral) obj;
-        return Objects.equals(this.value, other.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

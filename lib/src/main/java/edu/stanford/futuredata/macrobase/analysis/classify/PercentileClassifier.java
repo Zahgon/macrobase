@@ -11,12 +11,16 @@ public class PercentileClassifier extends Classifier implements ThresholdClassif
 
     // Parameters
     private double percentile = 0.5;
+
     private boolean includeHigh = true;
+
     private boolean includeLow = true;
 
     // Calculated values
     private double lowCutoff;
+
     private double highCutoff;
+
     private DataFrame output;
 
     public PercentileClassifier(String columnName) {
@@ -25,32 +29,17 @@ public class PercentileClassifier extends Classifier implements ThresholdClassif
 
     @Override
     public void process(DataFrame input) {
-        double[] metrics = input.getDoubleColumnByName(columnName);
-        int len = metrics.length;
-        lowCutoff = new Percentile().evaluate(metrics, percentile);
-        highCutoff = new Percentile().evaluate(metrics, 100.0 - percentile);
-
-        output = input.copy();
-        double[] resultColumn = new double[len];
-        for (int i = 0; i < len; i++) {
-            double curVal = metrics[i];
-            if ((curVal > highCutoff && includeHigh)
-                || (curVal < lowCutoff && includeLow)
-                ) {
-                resultColumn[i] = 1.0;
-            }
-        }
-        output.addColumn(outputColumnName, resultColumn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public DataFrame getResults() {
-        return output;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // Parameter Getters and Setters
     public double getPercentile() {
-        return percentile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,12 +47,11 @@ public class PercentileClassifier extends Classifier implements ThresholdClassif
      * @return this
      */
     public PercentileClassifier setPercentile(double percentile) {
-        this.percentile = percentile;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isIncludeHigh() {
-        return includeHigh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,12 +59,11 @@ public class PercentileClassifier extends Classifier implements ThresholdClassif
      * @return this
      */
     public PercentileClassifier setIncludeHigh(boolean includeHigh) {
-        this.includeHigh = includeHigh;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isIncludeLow() {
-        return includeLow;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -84,15 +71,14 @@ public class PercentileClassifier extends Classifier implements ThresholdClassif
      * @return this
      */
     public PercentileClassifier setIncludeLow(boolean includeLow) {
-        this.includeLow = includeLow;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getLowCutoff() {
-        return lowCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getHighCutoff() {
-        return highCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

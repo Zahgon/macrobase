@@ -10,15 +10,19 @@ import macrobase.conf.MacroBaseConf;
 import macrobase.conf.MacroBaseDefaults;
 import macrobase.ingest.DatumEncoder;
 import macrobase.util.Periodic;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class EWStreamingSummarizer extends Summarizer {
+
     private final ExponentiallyDecayingEmergingItemsets streamingSummarizer;
+
     private final Periodic summaryUpdater;
+
     private final Periodic summarizationTimer;
+
     private int count;
+
     private final DatumEncoder encoder;
 
     private final MBStream<Summary> output = new MBStream<>();
@@ -29,79 +33,42 @@ public class EWStreamingSummarizer extends Summarizer {
         this(conf, -1);
     }
 
-    public EWStreamingSummarizer(MacroBaseConf conf,
-                                 int maximumSummaryDelay) throws ConfigurationException {
-        Double summaryPeriod = conf.getDouble(MacroBaseConf.SUMMARY_UPDATE_PERIOD,
-                                              MacroBaseDefaults.SUMMARY_UPDATE_PERIOD);
+    public EWStreamingSummarizer(MacroBaseConf conf, int maximumSummaryDelay) throws ConfigurationException {
+        Double summaryPeriod = conf.getDouble(MacroBaseConf.SUMMARY_UPDATE_PERIOD, MacroBaseDefaults.SUMMARY_UPDATE_PERIOD);
         Double decayRate = conf.getDouble(MacroBaseConf.DECAY_RATE, MacroBaseDefaults.DECAY_RATE);
-        Integer outlierItemSummarySize = conf.getInt(MacroBaseConf.OUTLIER_ITEM_SUMMARY_SIZE,
-                                                     MacroBaseDefaults.OUTLIER_ITEM_SUMMARY_SIZE);
-        Integer inlierItemSummarySize = conf.getInt(MacroBaseConf.INLIER_ITEM_SUMMARY_SIZE,
-                                                    MacroBaseDefaults.INLIER_ITEM_SUMMARY_SIZE);
-
+        Integer outlierItemSummarySize = conf.getInt(MacroBaseConf.OUTLIER_ITEM_SUMMARY_SIZE, MacroBaseDefaults.OUTLIER_ITEM_SUMMARY_SIZE);
+        Integer inlierItemSummarySize = conf.getInt(MacroBaseConf.INLIER_ITEM_SUMMARY_SIZE, MacroBaseDefaults.INLIER_ITEM_SUMMARY_SIZE);
         Double minOIRatio = conf.getDouble(MacroBaseConf.MIN_OI_RATIO, MacroBaseDefaults.MIN_OI_RATIO);
         Double minSupport = conf.getDouble(MacroBaseConf.MIN_SUPPORT, MacroBaseDefaults.MIN_SUPPORT);
-
         List<String> attributes = conf.getStringList(MacroBaseConf.ATTRIBUTES);
-
         encoder = conf.getEncoder();
-
-        streamingSummarizer = new ExponentiallyDecayingEmergingItemsets(inlierItemSummarySize,
-                                                                        outlierItemSummarySize,
-                                                                        minSupport,
-                                                                        minOIRatio,
-                                                                        decayRate,
-                                                                        attributes.size(),
-                                                                        conf.getBoolean(MacroBaseConf.ATTRIBUTE_COMBINATIONS,
-                                                                                        MacroBaseDefaults.ATTRIBUTE_COMBINATIONS));
-
-        summaryUpdater = new Periodic(conf.getDecayType(),
-                                      summaryPeriod,
-                                      streamingSummarizer::markPeriod);
-
-        summarizationTimer = new Periodic(conf.getDecayType(),
-                                          maximumSummaryDelay,
-                                          () -> needsSummarization = true);
+        streamingSummarizer = new ExponentiallyDecayingEmergingItemsets(inlierItemSummarySize, outlierItemSummarySize, minSupport, minOIRatio, decayRate, attributes.size(), conf.getBoolean(MacroBaseConf.ATTRIBUTE_COMBINATIONS, MacroBaseDefaults.ATTRIBUTE_COMBINATIONS));
+        summaryUpdater = new Periodic(conf.getDecayType(), summaryPeriod, streamingSummarizer::markPeriod);
+        summarizationTimer = new Periodic(conf.getDecayType(), maximumSummaryDelay, () -> needsSummarization = true);
     }
 
     @Override
     public MBStream<Summary> getStream() {
-        return output;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void initialize() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume(List<OutlierClassificationResult> records) {
-        for(OutlierClassificationResult result : records) {
-            count++;
-            summaryUpdater.runIfNecessary();
-            summarizationTimer.runIfNecessary();
-
-            if(result.isOutlier()) {
-                streamingSummarizer.markOutlier(result.getDatum());
-            } else {
-                streamingSummarizer.markInlier(result.getDatum());
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Summarizer summarize() {
-        Stopwatch sw = Stopwatch.createStarted();
-        List<ItemsetResult> isr = streamingSummarizer.getItemsets(encoder);
-        output.add(new Summary(isr,
-                               streamingSummarizer.getInlierCount(),
-                               streamingSummarizer.getOutlierCount(),
-                               sw.elapsed(TimeUnit.MILLISECONDS)));
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

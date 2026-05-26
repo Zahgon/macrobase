@@ -3,7 +3,6 @@ package edu.stanford.futuredata.macrobase.analysis.classify;
 import edu.stanford.futuredata.macrobase.analysis.classify.stats.NormalDist;
 import edu.stanford.futuredata.macrobase.analysis.classify.stats.WeightedPercentile;
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
-
 import java.lang.Double;
 
 /**
@@ -12,20 +11,26 @@ import java.lang.Double;
  * for each group, which can be non-integer.
  */
 public class ArithmeticClassifier extends CubeClassifier implements ThresholdClassifier {
+
     // Parameters
     private String meanColumnName = "mean";
+
     private String stdColumnName = "std";
+
     private double percentile = 1.0;
+
     private boolean includeHigh = true;
+
     private boolean includeLow = true;
 
     // Calculated values
     private double lowCutoff;
+
     private double highCutoff;
+
     private DataFrame output;
 
-    public ArithmeticClassifier(String countColumnName, String meanColumnName,
-                                String stdColumnName) {
+    public ArithmeticClassifier(String countColumnName, String meanColumnName, String stdColumnName) {
         super(countColumnName);
         this.meanColumnName = meanColumnName;
         this.stdColumnName = stdColumnName;
@@ -33,52 +38,17 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
 
     @Override
     public void process(DataFrame input) {
-        double[] means = input.getDoubleColumnByName(meanColumnName);
-        double[] counts = input.getDoubleColumnByName(countColumnName);
-        double[] stds = input.getDoubleColumnByName(stdColumnName);
-        int len = means.length;
-
-        WeightedPercentile wp = new WeightedPercentile(counts, means);
-        lowCutoff = wp.evaluate(percentile);
-        highCutoff = wp.evaluate(100.0 - percentile);
-
-        output = input.copy();
-        double[] resultColumn = new double[len];
-        NormalDist dist = new NormalDist();
-        for (int i = 0; i < len; i++) {
-            double mean = means[i];
-            double std = stds[i];
-            double count = counts[i];
-            double numOutliers = 0.0;
-            if (Double.isNaN(std) || std == 0.0) {
-                // only one metric in group, or all metrics are equal
-                if ((includeHigh && mean > highCutoff)
-                        || (includeLow && mean < highCutoff)) {
-                    numOutliers = count;
-                }
-            } else {
-                if (includeHigh) {
-                    double percentile = dist.cdf(mean, std, highCutoff);
-                    numOutliers += count * (1.0 - percentile);
-                }
-                if (includeLow) {
-                    double percentile = dist.cdf(mean, std, lowCutoff);
-                    numOutliers += count * percentile;
-                }
-            }
-            resultColumn[i] = numOutliers;
-        }
-        output.addColumn(outputColumnName, resultColumn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public DataFrame getResults() {
-        return output;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // Parameter Getters and Setters
     public double getPercentile() {
-        return percentile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -86,12 +56,11 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
      * @return this
      */
     public ArithmeticClassifier setPercentile(double percentile) {
-        this.percentile = percentile;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getMeanColumnName() {
-        return meanColumnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,12 +69,11 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
      * @return this
      */
     public ArithmeticClassifier setMeanColumnName(String meanColumnName) {
-        this.meanColumnName = meanColumnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getStdColumnName() {
-        return stdColumnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -114,12 +82,11 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
      * @return this
      */
     public ArithmeticClassifier setStdColumnName(String stdColumnName) {
-        this.stdColumnName = stdColumnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isIncludeHigh() {
-        return includeHigh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,11 +94,11 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
      * @return this
      */
     public ArithmeticClassifier setIncludeHigh(boolean includeHigh) {
-        this.includeHigh = includeHigh;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public boolean isIncludeLow() {
-        return includeLow;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,14 +106,14 @@ public class ArithmeticClassifier extends CubeClassifier implements ThresholdCla
      * @return this
      */
     public ArithmeticClassifier setIncludeLow(boolean includeLow) {
-        this.includeLow = includeLow;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getLowCutoff() {
-        return lowCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public double getHighCutoff() {
-        return highCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

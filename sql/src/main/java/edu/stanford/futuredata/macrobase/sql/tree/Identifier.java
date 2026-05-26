@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +25,7 @@ public class Identifier extends Expression {
     private static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z_]([a-zA-Z0-9_:@])*");
 
     private final String value;
+
     private final boolean delimited;
 
     public Identifier(NodeLocation location, String value, boolean delimited) {
@@ -44,44 +44,34 @@ public class Identifier extends Expression {
         super(location);
         this.value = value;
         this.delimited = delimited;
-
-        checkArgument(delimited || NAME_PATTERN.matcher(value).matches(),
-            "value contains illegal characters: %s", value);
+        checkArgument(delimited || NAME_PATTERN.matcher(value).matches(), "value contains illegal characters: %s", value);
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isDelimited() {
-        return delimited;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitIdentifier(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Identifier that = (Identifier) o;
-        return Objects.equals(value, that.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

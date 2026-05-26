@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.io.BaseEncoding;
 import edu.stanford.futuredata.macrobase.sql.parser.ParsingException;
 import io.airlift.slice.Slice;
@@ -27,6 +26,7 @@ public class BinaryLiteral extends Literal {
 
     // the grammar could possibly include whitespace in the value it passes to us
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("[ \\r\\n\\t]");
+
     private static final Pattern NOT_HEX_DIGIT_PATTERN = Pattern.compile(".*[^A-F0-9].*");
 
     private final Slice value;
@@ -40,12 +40,10 @@ public class BinaryLiteral extends Literal {
         requireNonNull(value, "value is null");
         String hexString = WHITESPACE_PATTERN.matcher(value).replaceAll("").toUpperCase();
         if (NOT_HEX_DIGIT_PATTERN.matcher(hexString).matches()) {
-            throw new ParsingException("Binary literal can only contain hexadecimal digits",
-                location.get());
+            throw new ParsingException("Binary literal can only contain hexadecimal digits", location.get());
         }
         if (hexString.length() % 2 != 0) {
-            throw new ParsingException("Binary literal must contain an even number of digits",
-                location.get());
+            throw new ParsingException("Binary literal must contain an even number of digits", location.get());
         }
         this.value = Slices.wrappedBuffer(BaseEncoding.base16().decode(hexString));
     }
@@ -58,33 +56,25 @@ public class BinaryLiteral extends Literal {
      * Return the valued as a hex-formatted string with upper-case characters
      */
     public String toHexString() {
-        return BaseEncoding.base16().encode(value.getBytes());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Slice getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitBinaryLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        BinaryLiteral that = (BinaryLiteral) o;
-        return Objects.equals(value, that.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

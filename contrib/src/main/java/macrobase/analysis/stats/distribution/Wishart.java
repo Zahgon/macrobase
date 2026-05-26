@@ -7,11 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Wishart {
+
     private static final Logger log = LoggerFactory.getLogger(Wishart.class);
+
     private final double logDetOmega;
+
     private RealMatrix omega;
+
     private double nu;
-    private int D;  // dimensions
+
+    // dimensions
+    private int D;
 
     public Wishart(RealMatrix omega, double nu) {
         this.omega = omega;
@@ -29,13 +35,7 @@ public class Wishart {
      * @return log value of the normalizing factor.
      */
     public double lnB() {
-        double lnB = -0.5 * nu * logDetOmega
-                - 0.5 * nu * D * Math.log(2)
-                - 0.25 * D * (D - 1) * Math.log(Math.PI);
-        for (int i = 1; i <= D; i++) {
-            lnB -= Gamma.logGamma(0.5 * (nu + 1 - i));
-        }
-        return lnB;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private double expectationLnLambda() {
@@ -47,14 +47,10 @@ public class Wishart {
     }
 
     public double getEntropy() {
-        return -lnB() - 0.5 * (nu - D - 1) * expectationLnLambda() + nu * D / 2.;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getExpectationLogDeterminantLambda() {
-        double ex_log_lambda = D * Math.log(2) + logDetOmega;
-        for (int i=0; i<D; i++) {
-            ex_log_lambda += Gamma.digamma(0.5 * (nu - i));
-        }
-        return ex_log_lambda;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

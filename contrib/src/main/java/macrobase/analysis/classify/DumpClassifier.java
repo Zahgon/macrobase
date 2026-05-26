@@ -6,7 +6,6 @@ import macrobase.conf.MacroBaseConf;
 import macrobase.datamodel.Datum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,10 +17,15 @@ import java.util.List;
  * results to a file.
  */
 public class DumpClassifier extends OutlierClassifier {
+
     private static final Logger log = LoggerFactory.getLogger(DumpClassifier.class);
+
     protected final OutlierClassifier input;
+
     protected MacroBaseConf conf;
+
     private PrintWriter out;
+
     private int count;
 
     private MBStream<OutlierClassificationResult> outputStream = new MBStream<>();
@@ -35,45 +39,32 @@ public class DumpClassifier extends OutlierClassifier {
     public DumpClassifier(MacroBaseConf conf, OutlierClassifier input, String name) throws IOException {
         this.conf = conf;
         this.input = input;
-	// TODO: output directory should be configurable
+        // TODO: output directory should be configurable
         filepath = String.format("%s-dumpClassifier.txt", name);
         out = new PrintWriter(new BufferedWriter(new FileWriter(filepath)));
     }
 
-    public String getFilePath(){
-        return filepath;
+    public String getFilePath() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void initialize() throws Exception {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume(List<Datum> records) throws Exception {
-
-        input.consume(records);
-        List<OutlierClassificationResult> results = input.getStream().drain();
-
-        for(OutlierClassificationResult res : results) {
-            int flag = 0;
-            if (res.isOutlier()) {
-                flag = 1;
-            }
-            out.format("%d,%d\n", count, flag);
-            count++;
-        }
-
-        outputStream.add(results);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() throws Exception {
-        out.close();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public MBStream<OutlierClassificationResult> getStream() throws Exception {
-        return outputStream;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

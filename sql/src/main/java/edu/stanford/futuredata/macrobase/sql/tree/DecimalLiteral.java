@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,28 +36,21 @@ public class DecimalLiteral extends Literal {
     }
 
     public double getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitDecimalLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DecimalLiteral that = (DecimalLiteral) o;
-        return Objects.equals(value, that.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

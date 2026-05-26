@@ -5,6 +5,7 @@ import macrobase.datamodel.Datum;
 public class OutlierClassificationResult {
 
     private Boolean isClassifiedAsOutlier;
+
     private Datum datum;
 
     public OutlierClassificationResult(Datum datum, Boolean outlier) {
@@ -13,10 +14,10 @@ public class OutlierClassificationResult {
     }
 
     public Boolean isOutlier() {
-        return isClassifiedAsOutlier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Datum getDatum() {
-        return datum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

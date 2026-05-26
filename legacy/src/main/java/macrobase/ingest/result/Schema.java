@@ -1,12 +1,14 @@
 package macrobase.ingest.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class Schema {
+
     public static class SchemaColumn {
+
         private String name;
+
         private String type;
 
         public SchemaColumn(String name, String type) {
@@ -16,12 +18,12 @@ public class Schema {
 
         @JsonProperty
         public String getName() {
-            return name;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @JsonProperty
         public String getType() {
-            return type;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public SchemaColumn() {
@@ -33,7 +35,7 @@ public class Schema {
 
     @JsonProperty
     public List<SchemaColumn> getColumns() {
-        return columns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Schema(List<SchemaColumn> _columns) {

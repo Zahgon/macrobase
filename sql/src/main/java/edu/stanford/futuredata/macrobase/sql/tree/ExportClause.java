@@ -2,7 +2,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import edu.stanford.futuredata.macrobase.sql.parser.ParsingException;
 import java.util.List;
@@ -12,31 +11,24 @@ import java.util.Optional;
 public class ExportClause extends Node {
 
     private final String fieldDelimiter;
+
     private final String lineDelimiter;
+
     private final String filename;
 
-    public ExportClause(Optional<DelimiterClause> fieldDelimiter,
-        Optional<DelimiterClause> lineDelimiter,
-        String filename) {
+    public ExportClause(Optional<DelimiterClause> fieldDelimiter, Optional<DelimiterClause> lineDelimiter, String filename) {
         this(Optional.empty(), fieldDelimiter, lineDelimiter, filename);
     }
 
-    public ExportClause(
-        NodeLocation location,
-        Optional<DelimiterClause> fieldDelimiter, Optional<DelimiterClause> lineDelimiter,
-        String filename) {
+    public ExportClause(NodeLocation location, Optional<DelimiterClause> fieldDelimiter, Optional<DelimiterClause> lineDelimiter, String filename) {
         this(Optional.of(location), fieldDelimiter, lineDelimiter, filename);
     }
 
-    private ExportClause(
-        Optional<NodeLocation> location,
-        Optional<DelimiterClause> fieldDelimiter, Optional<DelimiterClause> lineDelimiter,
-        String filename) {
+    private ExportClause(Optional<NodeLocation> location, Optional<DelimiterClause> fieldDelimiter, Optional<DelimiterClause> lineDelimiter, String filename) {
         super(location);
         requireNonNull(fieldDelimiter, "fieldDelimiter is null");
         requireNonNull(lineDelimiter, "lineDelimiter is null");
         requireNonNull(filename, "filename is null");
-
         this.fieldDelimiter = fieldDelimiter.orElse(new DelimiterClause(",")).toString();
         if (this.fieldDelimiter.length() != 1) {
             throw new ParsingException("FIELDS TERMINATED BY argument has length not equal to 1");
@@ -46,51 +38,34 @@ public class ExportClause extends Node {
     }
 
     public String getFilename() {
-        return filename;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getFieldDelimiter() {
-        return fieldDelimiter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getLineDelimiter() {
-        return lineDelimiter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<? extends Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(new DelimiterClause(fieldDelimiter))
-            .add(new DelimiterClause(lineDelimiter))
-            .add(new StringLiteral(filename));
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fieldDelimiter, lineDelimiter, filename);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        ExportClause o = (ExportClause) obj;
-        return Objects.equals(fieldDelimiter, o.fieldDelimiter) &&
-            Objects.equals(lineDelimiter, o.lineDelimiter) &&
-            Objects.equals(filename, o.filename);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("fieldDelimiter", fieldDelimiter)
-            .add("lineDelimiter", lineDelimiter)
-            .add("filename", filename)
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

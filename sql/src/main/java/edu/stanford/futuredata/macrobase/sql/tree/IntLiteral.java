@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import edu.stanford.futuredata.macrobase.sql.parser.ParsingException;
 import java.util.Optional;
 
@@ -41,30 +40,21 @@ public class IntLiteral extends Literal {
     }
 
     public int getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitLongLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        IntLiteral that = (IntLiteral) o;
-
-        return value == that.value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return (int) (value ^ (value >>> 32));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

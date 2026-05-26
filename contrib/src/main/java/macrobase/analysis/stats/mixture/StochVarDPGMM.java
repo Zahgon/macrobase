@@ -4,13 +4,16 @@ import macrobase.conf.MacroBaseConf;
 import macrobase.datamodel.Datum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 public class StochVarDPGMM extends DPGMM {
+
     private static final Logger log = LoggerFactory.getLogger(StochVarDPGMM.class);
+
     private final int desiredMinibatchSize;
+
     private final double delay;
+
     private final double forgettingRate;
 
     public StochVarDPGMM(MacroBaseConf conf) {
@@ -22,10 +25,6 @@ public class StochVarDPGMM extends DPGMM {
 
     @Override
     public void trainTest(List<Datum> trainData, List<Datum> testData) {
-        // 0. Initialize all approximating factors
-        clusters = new NormalWishartClusters(T, trainData.get(0).metrics().getDimension());
-        clusters.initializeBaseForDP(trainData);
-        clusters.initializeAtomsForDP(trainData, initialClusterCentersFile, conf.getRandom());
-        VariationalInference.trainTestStochastic(this, trainData, testData, mixingComponents, clusters, desiredMinibatchSize, delay, forgettingRate);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

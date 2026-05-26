@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -38,67 +37,56 @@ public class TableSubquery extends QueryBody {
     }
 
     public Query getQuery() {
-        return query;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitTableSubquery(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Select getSelect() {
-        return SELECT_ALL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Optional<Expression> getWhere() {
-        return Optional.empty();
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Optional<OrderBy> getOrderBy() {
-        return Optional.empty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Optional<String> getLimit() {
-        return Optional.empty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Optional<ExportClause> getExportExpr() {
-        return Optional.empty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .addValue(query)
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        TableSubquery tableSubquery = (TableSubquery) o;
-        return Objects.equals(query, tableSubquery.query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return query.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -2,7 +2,6 @@ package edu.stanford.futuredata.macrobase.analysis.summary.fpg;
 
 import edu.stanford.futuredata.macrobase.analysis.summary.Explanation;
 import edu.stanford.futuredata.macrobase.analysis.summary.fpg.result.FPGAttributeSet;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +11,16 @@ import java.util.List;
  * so far.
  */
 public class FPGExplanation implements Explanation {
+
     private final long numOutliers;
+
     private final long numInliers;
+
     private List<FPGAttributeSet> itemsets;
+
     private final long creationTimeMs;
 
-    public FPGExplanation(List<FPGAttributeSet> resultList,
-                          long numInliers,
-                          long numOutliers,
-                          long creationTimeMs) {
+    public FPGExplanation(List<FPGAttributeSet> resultList, long numInliers, long numOutliers, long creationTimeMs) {
         itemsets = new ArrayList<>(resultList);
         this.numInliers = numInliers;
         this.numOutliers = numOutliers;
@@ -32,81 +32,48 @@ public class FPGExplanation implements Explanation {
      * @return New explanation with redundant itemsets removed.
      */
     public FPGExplanation prune() {
-        itemsets.sort((FPGAttributeSet a, FPGAttributeSet b) -> -a.compareTo(b));
-        List<FPGAttributeSet> newItemsets = new ArrayList<>();
-        int n = itemsets.size();
-        for (int i = 0; i < n; i++) {
-            FPGAttributeSet aSet = itemsets.get(i);
-            boolean redundant = false;
-            // an explanation is redundant if it has lower risk ratio (occurs after since sorted)
-            // than an explanation that involves a subset of the same attributes
-            for (int j = 0; j < i; j++) {
-                FPGAttributeSet comparisonSet = itemsets.get(j);
-                if (aSet.contains(comparisonSet)) {
-                    redundant = true;
-                    break;
-                }
-            }
-            if (!redundant) {
-                newItemsets.add(aSet);
-            }
-        }
-
-        FPGExplanation newExplanation = new FPGExplanation(
-                newItemsets,
-                numInliers,
-                numOutliers,
-                creationTimeMs
-        );
-        return newExplanation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void sortByRiskRatio() {
-        itemsets.sort((FPGAttributeSet a, FPGAttributeSet b) -> -a.compareTo(b));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void sortBySupport() {
-        itemsets.sort((FPGAttributeSet a, FPGAttributeSet b) -> -Double.compare(a.getSupport(),b.getSupport()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<FPGAttributeSet> getItemsets() {
-        return itemsets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public double numOutliers() { return (double)numOutliers;}
-    public double numTotal() {return (double)numOutliers + numInliers;}
+    public double numOutliers() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public double numTotal() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
     public long getNumOutliers() {
-        return numOutliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public long getNumInliers() {
-        return numInliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public long getCreationTimeMs() {
-        return creationTimeMs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String prettyPrint() {
-        StringBuilder header = new StringBuilder(String.format(
-                "Outlier Explanation:\n"
-                + "numOutliers: %d\n"
-                + "numInliers: %d\n"
-                + "Itemsets: \n"
-                + "--------\n",
-                numOutliers,
-                numInliers));
-        for (FPGAttributeSet is : itemsets) {
-            header.append(is.prettyPrint());
-        }
-        return header.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "Explanation{" +
-                "numOutliers=" + numOutliers +
-                ", numInliers=" + numInliers +
-                ", itemsets=" + itemsets +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

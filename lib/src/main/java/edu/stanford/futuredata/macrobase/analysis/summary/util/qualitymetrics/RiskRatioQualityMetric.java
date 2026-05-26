@@ -7,10 +7,14 @@ import edu.stanford.futuredata.macrobase.analysis.summary.fpg.RiskRatio;
  * the probability of being an outlier given the attribute to the probability
  * of being an outlier when without the attribute.
  */
-public class RiskRatioQualityMetric implements QualityMetric{
+public class RiskRatioQualityMetric implements QualityMetric {
+
     private int outlierCountIdx;
+
     private int totalCountIdx;
+
     private double totalOutliers;
+
     private double totalInliers;
 
     public RiskRatioQualityMetric(int outlierCountIdx, int totalCountIdx) {
@@ -20,26 +24,21 @@ public class RiskRatioQualityMetric implements QualityMetric{
 
     @Override
     public String name() {
-        return "risk_ratio";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public QualityMetric initialize(double[] globalAggregates) {
-        totalOutliers = globalAggregates[outlierCountIdx];
-        totalInliers = globalAggregates[totalCountIdx] - totalOutliers;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double value(double[] aggregates) {
-        return RiskRatio.compute(aggregates[totalCountIdx] - aggregates[outlierCountIdx],
-                aggregates[outlierCountIdx],
-                totalInliers,
-                totalOutliers);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isMonotonic() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

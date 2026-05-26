@@ -11,7 +11,6 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 /**
@@ -19,11 +18,15 @@ import java.util.List;
  * Assumes that the input data already has probabilities corresponding to each of the groups as their metrics.
  */
 public class MixtureGroupClassifier extends OutlierClassifier {
+
     private static final Logger log = LoggerFactory.getLogger(MixtureGroupClassifier.class);
+
     private RealVector targetLocation;
+
     private final BatchMixtureModel mixtureModel;
 
     MBStream<OutlierClassificationResult> results = new MBStream<>();
+
     private int targetClusterIndex = -1;
 
     public MixtureGroupClassifier(MacroBaseConf conf, BatchMixtureModel mixtureModel) throws ConfigurationException {
@@ -43,56 +46,25 @@ public class MixtureGroupClassifier extends OutlierClassifier {
 
     @Override
     public void initialize() throws Exception {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume(List<Datum> records) throws Exception {
-        if (targetClusterIndex < 0) {
-            setTargetClusterIndex(records);
-        }
-        log.debug("target cluster index is {}", targetClusterIndex);
-
-        List<RealVector> clusters = mixtureModel.getClusterCenters();
-        int K = clusters.size();
-        log.debug("cluster center are: {}", clusters);
-        for (Datum d : records) {
-            boolean isOutlier = true;
-            for (int i = 0; i < K; i++) {
-                if (d.metrics().getEntry(i) > d.metrics().getEntry(targetClusterIndex)) {
-                    isOutlier = false;
-                    break;
-                }
-            }
-            results.add(new OutlierClassificationResult(d, isOutlier));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() throws Exception {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public MBStream<OutlierClassificationResult> getStream() throws Exception {
-        return results;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTargetClusterIndex(List<Datum> records) {
-        log.debug("got {} records", records.size());
-        List<RealVector> clusters = mixtureModel.getClusterCenters();
-        int K = clusters.size();
-        log.debug("cluster center are: {}", clusters);
-        log.debug("target cluster is: {}", targetLocation);
-        int targetClusterIndex = -1;
-        double distanceToClosestCluster = Double.MAX_VALUE;
-        for (int i = 0; i < K; i++) {
-            double dist = clusters.get(i).getDistance(targetLocation);
-            if (dist < distanceToClosestCluster) {
-                distanceToClosestCluster = dist;
-                targetClusterIndex = i;
-            }
-        }
-        this.targetClusterIndex = targetClusterIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

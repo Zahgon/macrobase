@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,8 +22,11 @@ import java.util.Optional;
 public class FunctionCall extends Expression {
 
     private final QualifiedName name;
+
     private final Optional<Expression> filter;
+
     private final boolean distinct;
+
     private final List<Expression> arguments;
 
     public FunctionCall(QualifiedName name, List<Expression> arguments) {
@@ -39,28 +41,23 @@ public class FunctionCall extends Expression {
         this(Optional.empty(), name, Optional.empty(), distinct, arguments);
     }
 
-    public FunctionCall(NodeLocation location, QualifiedName name, boolean distinct,
-        List<Expression> arguments) {
+    public FunctionCall(NodeLocation location, QualifiedName name, boolean distinct, List<Expression> arguments) {
         this(Optional.of(location), name, Optional.empty(), distinct, arguments);
     }
 
-    public FunctionCall(QualifiedName name, Optional<Expression> filter,
-        boolean distinct, List<Expression> arguments) {
+    public FunctionCall(QualifiedName name, Optional<Expression> filter, boolean distinct, List<Expression> arguments) {
         this(Optional.empty(), name, filter, distinct, arguments);
     }
 
-    public FunctionCall(NodeLocation location, QualifiedName name,
-        Optional<Expression> filter, boolean distinct, List<Expression> arguments) {
+    public FunctionCall(NodeLocation location, QualifiedName name, Optional<Expression> filter, boolean distinct, List<Expression> arguments) {
         this(Optional.of(location), name, filter, distinct, arguments);
     }
 
-    private FunctionCall(Optional<NodeLocation> location, QualifiedName name,
-        Optional<Expression> filter, boolean distinct, List<Expression> arguments) {
+    private FunctionCall(Optional<NodeLocation> location, QualifiedName name, Optional<Expression> filter, boolean distinct, List<Expression> arguments) {
         super(location);
         requireNonNull(name, "name is null");
         requireNonNull(filter, "filter is null");
         requireNonNull(arguments, "arguments is null");
-
         this.name = name;
         this.distinct = distinct;
         this.arguments = arguments;
@@ -68,51 +65,38 @@ public class FunctionCall extends Expression {
     }
 
     public QualifiedName getName() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isDistinct() {
-        return distinct;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Expression> getArguments() {
-        return arguments;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Optional<Expression> getFilter() {
-        return filter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitFunctionCall(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        filter.ifPresent(nodes::add);
-        nodes.addAll(arguments);
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        FunctionCall o = (FunctionCall) obj;
-        return Objects.equals(name, o.name) &&
-            Objects.equals(filter, o.filter) &&
-            Objects.equals(distinct, o.distinct) &&
-            Objects.equals(arguments, o.arguments);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, distinct, filter, arguments);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

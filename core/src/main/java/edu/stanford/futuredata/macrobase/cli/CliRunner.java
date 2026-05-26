@@ -17,11 +17,6 @@ public class CliRunner {
     private static Logger log = LoggerFactory.getLogger(CliRunner.class);
 
     public static void main(String[] args) throws Exception {
-        String configFile = args[0];
-        PipelineConfig conf = PipelineConfig.fromYamlFile(configFile);
-        Pipeline p = PipelineUtils.createPipeline(conf);
-        Explanation e = p.results();
-        log.info("Computed Results");
-        System.out.println(e.prettyPrint());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

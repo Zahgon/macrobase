@@ -8,7 +8,6 @@ import edu.stanford.futuredata.macrobase.analysis.summary.util.AttributeEncoder;
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
 import edu.stanford.futuredata.macrobase.datamodel.Schema;
 import edu.stanford.futuredata.macrobase.operator.IncrementalOperator;
-
 import java.util.*;
 import java.util.function.DoublePredicate;
 
@@ -21,33 +20,49 @@ import java.util.function.DoublePredicate;
  * are retired.
  */
 public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
+
     // Number of panes that we keep track in the summarizer
     private int numPanes;
+
     // Default parameters for the summarizer
     private String outlierColumn = "_OUTLIER";
+
     private double minOutlierSupport = 0.1;
+
     private double minRiskRatio = 3.0;
+
     private List<String> attributes = new ArrayList<>();
+
     // Default predicate for filtering outlying rows
     private DoublePredicate predicate = d -> d != 0.0;
 
     // Encoder and encoded attribute sets
     private AttributeEncoder encoder = new AttributeEncoder();
+
     private List<Set<Integer>> inlierItemsets, outlierItemsets;
 
     // Internal book keeping
     private Deque<HashMap<Set<Integer>, Double>> inlierItemsetPaneCounts;
+
     private Deque<HashMap<Set<Integer>, Double>> outlierItemsetPaneCounts;
+
     private HashMap<Set<Integer>, Double> inlierItemsetPaneCount = new HashMap<>();
+
     private HashMap<Set<Integer>, Double> outlierItemsetPaneCount = new HashMap<>();
+
     private HashMap<Set<Integer>, Double> inlierItemsetWindowCount = new HashMap<>();
+
     private HashMap<Set<Integer>, Double> outlierItemsetWindowCount = new HashMap<>();
+
     private Deque<Integer> inlierPaneCounts;
+
     private Deque<Integer> outlierPaneCounts;
+
     private HashMap<Set<Integer>, Integer> trackingMap = new HashMap<>();
 
     // Temp Intermediate Values
     private List<Integer> inlierCountCumSum;
+
     private List<Integer> outlierCountCumSum;
 
     public IncrementalSummarizer(int numPanes) {
@@ -61,26 +76,34 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
     }
 
     protected IncrementalSummarizer initializePanes() {
-        inlierPaneCounts = new ArrayDeque<>(numPanes);
-        outlierPaneCounts = new ArrayDeque<>(numPanes);
-        inlierItemsetPaneCounts = new ArrayDeque<>(numPanes);
-        outlierItemsetPaneCounts = new ArrayDeque<>(numPanes);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setWindowSize(int numPanes) {
-        this.numPanes = numPanes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     @Override
-    public int getWindowSize() { return numPanes; }
+    public int getWindowSize() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     public void setMinSupport(double minSupport) {
-        this.minOutlierSupport = minSupport;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    public double getMinSupport() { return minOutlierSupport; }
-    public void setMinRiskRatio(double minRiskRatio) { this.minRiskRatio = minRiskRatio; }
-    public double getMinRiskRatio() { return minRiskRatio; }
+
+    public double getMinSupport() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public void setMinRiskRatio(double minRiskRatio) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public double getMinRiskRatio() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
      * By default, will check for nonzero entries in a column of doubles.
@@ -88,17 +111,20 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
      * @return this
      */
     public IncrementalSummarizer setOutlierPredicate(DoublePredicate predicate) {
-        this.predicate = predicate;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    public DoublePredicate getOutlierPredicate() { return predicate; }
+
+    public DoublePredicate getOutlierPredicate() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     public IncrementalSummarizer setAttributes(List<String> attributes) {
-        this.attributes = attributes;
-        this.encoder.setColumnNames(attributes);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    public List<String> getAttributes() { return attributes; }
+
+    public List<String> getAttributes() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
      * Set the column which indicates outlier status. "_OUTLIER" by default.
@@ -106,10 +132,12 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
      * @return this
      */
     public IncrementalSummarizer setOutlierColumn(String outlierColumn) {
-        this.outlierColumn = outlierColumn;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    public String getOutlierColumn() { return outlierColumn; }
+
+    public String getOutlierColumn() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /* Split dataframe into inliers and outliers and encode attributes into itemsets
      *
@@ -121,7 +149,6 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
         // Filter inliers and outliers
         DataFrame outlierDF = df.filter(outlierColumn, predicate);
         DataFrame inlierDF = df.filter(outlierColumn, predicate.negate());
-
         // Encode inlier and outlier attribute columns
         if (attributes.isEmpty()) {
             encoder.setColumnNames(df.getSchema().getColumnNamesByType(Schema.ColType.STRING));
@@ -142,16 +169,15 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
      *   - outlierCountCumSum:
      */
     private void calcCumSum() {
-        int[] inlierCounts = inlierPaneCounts.stream().mapToInt(i->i).toArray();
-        int[] outlierCounts = outlierPaneCounts.stream().mapToInt(i->i).toArray();
-
+        int[] inlierCounts = inlierPaneCounts.stream().mapToInt(i -> i).toArray();
+        int[] outlierCounts = outlierPaneCounts.stream().mapToInt(i -> i).toArray();
         inlierCountCumSum = new ArrayList<>(inlierPaneCounts.size() + 1);
         outlierCountCumSum = new ArrayList<>(inlierPaneCounts.size() + 1);
         inlierCountCumSum.add(0);
         outlierCountCumSum.add(0);
-        for (int i = 0; i < inlierPaneCounts.size(); i ++) {
-            inlierCountCumSum.add(inlierCountCumSum.get(i) + (int)inlierCounts[i]);
-            outlierCountCumSum.add(outlierCountCumSum.get(i) + (int)outlierCounts[i]);
+        for (int i = 0; i < inlierPaneCounts.size(); i++) {
+            inlierCountCumSum.add(inlierCountCumSum.get(i) + (int) inlierCounts[i]);
+            outlierCountCumSum.add(outlierCountCumSum.get(i) + (int) outlierCounts[i]);
         }
     }
 
@@ -178,12 +204,14 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
             double o = outlierItemsetWindowCount.getOrDefault(itemset, 0.0) - outlierCounts.get(itemset);
             if (i > 0) {
                 inlierItemsetWindowCount.put(itemset, i);
-            } else if (inlierItemsetWindowCount.containsKey(itemset)) { // Remove 0-count itemsets
+            } else if (inlierItemsetWindowCount.containsKey(itemset)) {
+                // Remove 0-count itemsets
                 inlierItemsetWindowCount.remove(itemset);
             }
             if (o > 0) {
                 outlierItemsetWindowCount.put(itemset, o);
-            } else if (outlierItemsetWindowCount.containsKey(itemset)) { // Remove 0-count itemsets
+            } else if (outlierItemsetWindowCount.containsKey(itemset)) {
+                // Remove 0-count itemsets
                 outlierItemsetWindowCount.remove(itemset);
             }
         }
@@ -208,7 +236,6 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
     private void addNewPane() {
         inlierItemsetPaneCount = new HashMap<>();
         outlierItemsetPaneCount = new HashMap<>();
-
         // Compute support for frequent itemsets in the new pane
         for (Set<Integer> supportedItem : outlierItemsetWindowCount.keySet()) {
             for (Set<Integer> itemset : inlierItemsets) {
@@ -224,7 +251,6 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
                 }
             }
         }
-
         // Update support for the window
         for (Set<Integer> itemset : outlierItemsetWindowCount.keySet()) {
             double i = inlierItemsetWindowCount.getOrDefault(itemset, 0.0) + inlierItemsetPaneCount.getOrDefault(itemset, 0.0);
@@ -249,8 +275,7 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
         HashSet<Set<Integer>> unSupported = new HashSet<>();
         int currPanes = inlierPaneCounts.size();
         for (Set<Integer> itemset : outlierItemsetWindowCount.keySet()) {
-            double supportSinceTracked = outlierCountCumSum.get(currPanes) -
-                    outlierCountCumSum.get(trackingMap.get(itemset));
+            double supportSinceTracked = outlierCountCumSum.get(currPanes) - outlierCountCumSum.get(trackingMap.get(itemset));
             if (outlierItemsetWindowCount.getOrDefault(itemset, 0.0) < minOutlierSupport * supportSinceTracked) {
                 unSupported.add(itemset);
                 trackingMap.remove(itemset);
@@ -277,10 +302,7 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
         for (Set<Integer> itemset : outlierItemsetWindowCount.keySet()) {
             int outlierSupport = outlierCountCumSum.get(currPanes) - outlierCountCumSum.get(trackingMap.get(itemset));
             int inlierSupport = inlierCountCumSum.get(currPanes) - inlierCountCumSum.get(trackingMap.get(itemset));
-            double rr = RiskRatio.compute(inlierItemsetWindowCount.get(itemset),
-                    outlierItemsetWindowCount.get(itemset),
-                    inlierSupport,
-                    outlierSupport);
+            double rr = RiskRatio.compute(inlierItemsetWindowCount.get(itemset), outlierItemsetWindowCount.get(itemset), inlierSupport, outlierSupport);
             // Add to output if the itemset has sufficient risk ratio
             if (rr < minRiskRatio) {
                 lowRR.add(itemset);
@@ -312,13 +334,14 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
     private void addNewFrequent() {
         // Return when the outlier population is too small, otherwise all
         // outlying combos in the current pane might get tracked
-        if (minOutlierSupport * outlierItemsets.size() < 1) { return; }
+        if (minOutlierSupport * outlierItemsets.size() < 1) {
+            return;
+        }
         double minSupport = Math.ceil(minOutlierSupport * outlierItemsets.size());
         HashMap<Integer, Double> inlierPaneSingletonCount = new ExactCount().count(inlierItemsets).getCounts();
         // Get new frequent itemsets in outliers
         FPGrowth fpGrowth = new FPGrowth();
-        List<ItemsetWithCount> frequent = fpGrowth.getItemsetsWithSupportCount(outlierItemsets,
-                minSupport);
+        List<ItemsetWithCount> frequent = fpGrowth.getItemsetsWithSupportCount(outlierItemsets, minSupport);
         List<ItemsetWithCount> newFrequent = new ArrayList<>();
         for (ItemsetWithCount iwc : frequent) {
             Set<Integer> itemset = iwc.getItems();
@@ -327,9 +350,8 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
             }
         }
         // Get support in the inlier transactions
-        List<ItemsetWithCount> newFrequentInlierCounts = fpGrowth.getCounts(
-                inlierItemsets, inlierPaneSingletonCount, inlierPaneSingletonCount.keySet(), newFrequent);
-        for (int i = 0; i < newFrequent.size(); i ++) {
+        List<ItemsetWithCount> newFrequentInlierCounts = fpGrowth.getCounts(inlierItemsets, inlierPaneSingletonCount, inlierPaneSingletonCount.keySet(), newFrequent);
+        for (int i = 0; i < newFrequent.size(); i++) {
             ItemsetWithCount iiwc = newFrequentInlierCounts.get(i);
             ItemsetWithCount oiwc = newFrequent.get(i);
             double exposedInlierCount = iiwc.getCount();
@@ -344,56 +366,13 @@ public class IncrementalSummarizer implements IncrementalOperator<Explanation> {
 
     @Override
     public void process(DataFrame df) {
-        // 1. Retire old pane counts if necessary
-        if (inlierPaneCounts.size() == numPanes) { expireLastPane(); }
-        // 2. Add support counts for the new pane
-        encodeAttributes(df);
-        addNewPane();
-        // 3. Prune unsupported outlier itemsets
-        calcCumSum();
-        pruneUnsupported();
-        pruneLowRR();
-        // 4. Compute new frequent outlier itemsets
-        addNewFrequent();
-        // Add final pane counts to buffer
-        inlierItemsetPaneCounts.add(inlierItemsetPaneCount);
-        outlierItemsetPaneCounts.add(outlierItemsetPaneCount);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return explanation
      */
     public FPGExplanation getResults() {
-        long startTime = System.currentTimeMillis();
-
-        calcCumSum();
-        pruneUnsupported();
-
-        int currPanes = inlierPaneCounts.size();
-        List<FPGAttributeSet> attributeSets = new ArrayList<>();
-        for (Set<Integer> itemset : outlierItemsetWindowCount.keySet()) {
-            int outlierSupport = outlierCountCumSum.get(currPanes) - outlierCountCumSum.get(trackingMap.get(itemset));
-            int inlierSupport = inlierCountCumSum.get(currPanes) - inlierCountCumSum.get(trackingMap.get(itemset));
-            double rr = RiskRatio.compute(inlierItemsetWindowCount.get(itemset),
-                    outlierItemsetWindowCount.get(itemset),
-                    inlierSupport,
-                    outlierSupport);
-            // Add to output if the itemset has sufficient risk ratio
-            if (rr >= minRiskRatio) {
-                FPGItemsetResult result = new FPGItemsetResult(
-                        outlierItemsetWindowCount.get(itemset) / outlierSupport,
-                        outlierItemsetWindowCount.get(itemset),
-                        rr,
-                        itemset);
-                attributeSets.add(new FPGAttributeSet(result, encoder));
-            }
-        }
-        long elapsed = System.currentTimeMillis() - startTime;
-        FPGExplanation explanation = new FPGExplanation(attributeSets,
-                (long) inlierCountCumSum.get(currPanes),
-                (long) outlierCountCumSum.get(currPanes),
-                elapsed);
-        return explanation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

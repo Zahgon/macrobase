@@ -7,10 +7,10 @@ import macrobase.conf.ConfigurationException;
 import macrobase.conf.MacroBaseConf;
 import macrobase.conf.MacroBaseDefaults;
 import macrobase.datamodel.Datum;
-
 import java.util.List;
 
 public class BatchSlidingWindowTransform extends SlidingWindowTransform {
+
     private BatchWindowAggregate windowAggregate;
 
     public BatchSlidingWindowTransform(MacroBaseConf conf, long slideSize) throws ConfigurationException {
@@ -23,7 +23,9 @@ public class BatchSlidingWindowTransform extends SlidingWindowTransform {
 
     private void slideWindow() {
         int i = 0;
-        while (i < currWindow.size() && datumInRange(currWindow.get(i), windowStart, 0)) { i++; }
+        while (i < currWindow.size() && datumInRange(currWindow.get(i), windowStart, 0)) {
+            i++;
+        }
         currWindow.subList(0, i).clear();
     }
 
@@ -37,25 +39,21 @@ public class BatchSlidingWindowTransform extends SlidingWindowTransform {
 
     @Override
     public void consume(List<Datum> data) {
-        if (data.isEmpty())
-            return;
-        if (windowStart < 0)
-            windowStart = data.get(0).getTime(timeColumn);
-
-        for (Datum d: data) {
-            while (!datumInRange(d, windowStart, windowSize)) {
-                aggregateWindow();
-            }
-            currWindow.add(d);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public MBStream<Datum> getStream() { return output; }
+    public MBStream<Datum> getStream() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     @Override
-    public void initialize() throws Exception {}
+    public void initialize() throws Exception {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     @Override
-    public void shutdown() { aggregateWindow(); }
+    public void shutdown() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

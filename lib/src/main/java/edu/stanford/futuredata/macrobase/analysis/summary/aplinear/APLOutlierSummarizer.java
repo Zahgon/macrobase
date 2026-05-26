@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 public class APLOutlierSummarizer extends APLSummarizer {
 
     private Logger log = LoggerFactory.getLogger("APLOutlierSummarizer");
+
     private String countColumn = null;
+
     private boolean useBitmaps;
 
     public APLOutlierSummarizer(boolean useBitmaps) {
@@ -23,83 +25,48 @@ public class APLOutlierSummarizer extends APLSummarizer {
 
     @Override
     public List<String> getAggregateNames() {
-        return Arrays.asList("Outliers", "Count");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AggregationOp[] getAggregationOps() {
-        AggregationOp[] curOps = {AggregationOp.SUM, AggregationOp.SUM};
-        return curOps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int[][] getEncoded(List<String[]> columns, DataFrame input) {
-        return encoder.encodeAttributesWithSupport(columns, minOutlierSupport,
-            input.getDoubleColumnByName(outlierColumn), useBitmaps);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double[][] getAggregateColumns(DataFrame input) {
-        double[] outlierCol = input.getDoubleColumnByName(outlierColumn);
-        double[] countCol = processCountCol(input, countColumn, outlierCol.length);
-
-        double[][] aggregateColumns = new double[2][];
-        aggregateColumns[0] = outlierCol;
-        aggregateColumns[1] = countCol;
-
-        return aggregateColumns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<QualityMetric> getQualityMetricList() {
-        List<QualityMetric> qualityMetricList = new ArrayList<>();
-        qualityMetricList.add(
-            new SupportQualityMetric(0)
-        );
-        switch (ratioMetric) {
-            case "risk_ratio":
-            case "riskratio":
-                qualityMetricList.add(
-                    new RiskRatioQualityMetric(0, 1));
-                break;
-            case "prevalence_ratio":
-            case "prevalenceratio":
-                qualityMetricList.add(
-                    new PrevalenceRatioQualityMetric(0, 1));
-                break;
-            case "global_ratio":
-            case "globalratio":
-            default:
-                qualityMetricList.add(
-                    new GlobalRatioQualityMetric(0, 1));
-        }
-        return qualityMetricList;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Double> getThresholds() {
-        return Arrays.asList(minOutlierSupport, minRatioMetric);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double getNumberOutliers(double[][] aggregates) {
-        double count = 0.0;
-        double[] outlierCount = aggregates[0];
-        for (int i = 0; i < outlierCount.length; i++) {
-            count += outlierCount[i];
-        }
-        return count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getCountColumn() {
-        return countColumn;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setCountColumn(String countColumn) {
-        this.countColumn = countColumn;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getMinRatioMetric() {
-        return minRatioMetric;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

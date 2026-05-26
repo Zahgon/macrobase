@@ -5,10 +5,10 @@ import macrobase.analysis.result.OutlierClassificationResult;
 import macrobase.conf.MacroBaseConf;
 import macrobase.conf.MacroBaseDefaults;
 import macrobase.datamodel.Datum;
-
 import java.util.List;
 
 public class StaticThresholdClassifier extends OutlierClassifier {
+
     MBStream<OutlierClassificationResult> results = new MBStream<>();
 
     private final double threshold;
@@ -19,23 +19,21 @@ public class StaticThresholdClassifier extends OutlierClassifier {
 
     @Override
     public MBStream<OutlierClassificationResult> getStream() {
-        return results;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void initialize() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume(List<Datum> records) {
-        for(Datum r : records) {
-            results.add(new OutlierClassificationResult(r, threshold < r.metrics().getNorm()));
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

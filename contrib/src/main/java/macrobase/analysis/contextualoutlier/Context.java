@@ -5,7 +5,6 @@ import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,24 +13,36 @@ import macrobase.datamodel.Datum;
 import macrobase.ingest.DatumEncoder;
 
 public class Context {
+
     private static final Logger log = LoggerFactory.getLogger(Context.class);
+
     /**
      * A list of ordered contextual dimensions this node represents
      * and intervals for each dimension
      */
     private List<Integer> dimensions = new ArrayList<Integer>();
+
     private List<Interval> intervals = new ArrayList<Interval>();
+
     private int size = -1;
+
     private List<Context> parents = new ArrayList<Context>();
+
     private HashSet<Context> oneDimensionalAncestors = new HashSet<Context>();
+
     //Sample datums in this context
     //the outlier detector used for detection in this context
     private BatchTrainScore detector;
+
     //the following is for context pruning
     private HashSet<ContextualDatum> sample = new HashSet<ContextualDatum>();
+
     private HashSet<ContextualDatum> globalSample = new HashSet<ContextualDatum>();
+
     private boolean densityPruning;
+
     private boolean dependencyPruning;
+
     private double alpha;
 
     /**
@@ -84,29 +95,7 @@ public class Context {
     }
 
     public BitSet getContextualBitSet(List<ContextualDatum> data, Map<Context, BitSet> context2BitSet) {
-        //global context
-        if (parents.size() == 0) {
-            BitSet bs = new BitSet(data.size());
-            bs.set(0, data.size());
-            return bs;
-        }
-        BitSet bs = null;
-        //one dimensional context
-        if (parents.size() == 1 && context2BitSet.containsKey(this)) {
-            bs = context2BitSet.get(this);
-        }
-        //context whose parents are known
-        if (parents.size() == 2) {
-            Context p1 = parents.get(0);
-            Context p2 = parents.get(1);
-            if (context2BitSet.containsKey(p1) && context2BitSet.containsKey(p2)) {
-                BitSet b1 = context2BitSet.get(p1);
-                BitSet b2 = context2BitSet.get(p2);
-                bs = (BitSet) b1.clone();
-                bs.and(b2);
-            }
-        }
-        return bs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -116,22 +105,7 @@ public class Context {
      * @return
      */
     public boolean containDatum(ContextualDatum datum) {
-        int discreteDimensions = datum.getContextualDiscreteAttributes().size();
-        int doubleDimensions = datum.getContextualDoubleAttributes().getDimension();
-        int totalDimensions = discreteDimensions + doubleDimensions;
-        for (int i = 0; i < dimensions.size(); i++) {
-            int k = dimensions.get(i);
-            if (k >= 0 && k < discreteDimensions) {
-                int value = datum.getContextualDiscreteAttributes().get(k);
-                if (!intervals.get(i).contains(value))
-                    return false;
-            } else if (k >= discreteDimensions && k < totalDimensions) {
-                double value = datum.getContextualDoubleAttributes().getEntry(k - discreteDimensions);
-                if (!intervals.get(i).contains(value))
-                    return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,42 +118,7 @@ public class Context {
      * @return
      */
     public Context join(Context other, List<ContextualDatum> data, double tau) {
-        //create new dimensions and intervals
-        List<Integer> newDimensions = new ArrayList<Integer>();
-        List<Interval> newIntervals = new ArrayList<Interval>();
-        List<Integer> dimensions1 = dimensions;
-        List<Integer> dimensions2 = other.dimensions;
-        if (dimensions1.size() != dimensions2.size())
-            return null;
-        for (int i = 0; i < dimensions1.size(); i++) {
-            int dimension1 = dimensions1.get(i);
-            int dimension2 = dimensions2.get(i);
-            Interval interval1 = intervals.get(i);
-            Interval interval2 = other.intervals.get(i);
-            if (i != dimensions1.size() - 1) {
-                if (dimension1 != dimension2)
-                    return null;
-                if (interval1 != interval2)
-                    return null;
-                newDimensions.add(dimension1);
-                newIntervals.add(interval1);
-            } else {
-                newDimensions.add(dimension1);
-                newIntervals.add(interval1);
-                newDimensions.add(dimension2);
-                newIntervals.add(interval2);
-            }
-        }
-        //create new context
-        Context newUnit = new Context(newDimensions, newIntervals, this, other);
-        //check if this new context can be pruned
-        if (densityPruning(newUnit, tau)) {
-            return null;
-        }
-        if (dependencyPruning(newUnit)) {
-            return null;
-        }
-        return newUnit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -245,53 +184,39 @@ public class Context {
     }
 
     public String print(DatumEncoder encoder) {
-        if (dimensions.size() == 0) {
-            return "Global Context: ";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < dimensions.size(); i++) {
-            sb.append(intervals.get(i).print(encoder) + " ");
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        if (dimensions.size() == 0) {
-            return "Global Context: ";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < dimensions.size(); i++) {
-            sb.append(intervals.get(i).toString() + " ");
-        }
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getSize() {
-        return size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSize(int size) {
-        this.size = size;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public HashSet<ContextualDatum> getSample() {
-        return sample;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Interval> getIntervals() {
-        return intervals;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Context> getParents() {
-        return parents;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchTrainScore getDetector() {
-        return detector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDetector(BatchTrainScore detector) {
-        this.detector = detector;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

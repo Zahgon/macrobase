@@ -10,6 +10,7 @@ import java.util.Set;
  * support checking for membership.
  */
 public class IntSetAsArray implements IntSet {
+
     private int[] values;
 
     public IntSetAsArray(int a) {
@@ -44,7 +45,6 @@ public class IntSetAsArray implements IntSet {
         } else {
             values[0] = b;
             values[1] = a;
-
         }
     }
 
@@ -98,61 +98,37 @@ public class IntSetAsArray implements IntSet {
     }
 
     public int getFirst() {
-        return values[0];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getSecond() {
-        return values[1];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getThird() {
-        return values[2];
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<Integer> getSet() {
-        HashSet<Integer> curSet = new HashSet<>(values.length);
-        for (int v : values) {
-            curSet.add(v);
-        }
-        return curSet;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean contains(int i) {
-        switch (values.length) {
-            case 1: {
-                return values[0] == 1;
-            }
-            case 2: {
-                return values[0] == i || values[1] == i;
-            }
-            case 3: {
-                return values[0] == i || values[1] == i || values[2] == i;
-            }
-            default: {
-                return Arrays.binarySearch(values, i) >= 0;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IntSetAsArray that = (IntSetAsArray) o;
-
-        return Arrays.equals(values, that.values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(values);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "IntSetAsArray{" +
-                "values=" + Arrays.toString(values) +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

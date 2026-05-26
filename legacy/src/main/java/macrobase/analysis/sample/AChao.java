@@ -3,7 +3,6 @@ package macrobase.analysis.sample;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,26 +18,32 @@ import java.util.stream.Collectors;
  * See http://arxiv.org/pdf/1012.0256.pdf
  */
 class AChao<T> {
+
     private class OverweightItem<T> implements Comparable<OverweightItem> {
+
         public Double weight;
+
         public T item;
 
-        public OverweightItem(T item,
-                              double weight) {
+        public OverweightItem(T item, double weight) {
             this.item = item;
             this.weight = weight;
         }
 
         @Override
         public int compareTo(OverweightItem o) {
-            return weight.compareTo(o.weight);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private final List<T> reservoir;
+
     double runningCount;
+
     private final int reservoirCapacity;
+
     private final Random random;
+
     private final PriorityQueue<OverweightItem<T>> overweightItems = new PriorityQueue<>();
 
     public AChao(int capacity) {
@@ -52,9 +57,9 @@ class AChao<T> {
     }
 
     private void updateOverweightItems() {
-        while(!overweightItems.isEmpty()) {
+        while (!overweightItems.isEmpty()) {
             OverweightItem<T> ow = overweightItems.peek();
-            if(reservoirCapacity * ow.weight / runningCount <= 1) {
+            if (reservoirCapacity * ow.weight / runningCount <= 1) {
                 overweightItems.poll();
                 insert(ow.item, ow.weight);
             } else {
@@ -64,43 +69,14 @@ class AChao<T> {
     }
 
     public final List<T> getReservoir() {
-        updateOverweightItems();
-
-        if(!overweightItems.isEmpty()) {
-            // overweight items always make it in the sample
-            List<T> ret = overweightItems.stream().map(i -> i.item).collect(Collectors.toList());
-
-            assert (ret.size() <= reservoirCapacity);
-
-            // fill the return value with a sample of non-overweight elements
-            Collections.shuffle(reservoir, random);
-            ret.addAll(reservoir.subList(0, reservoirCapacity-ret.size()));
-            return ret;
-        }
-
-        return reservoir;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected void decayWeights(double decay) {
-        runningCount *= decay;
-        overweightItems.forEach(i -> i.weight *= decay);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void insert(T ele, double weight) {
-        runningCount += weight;
-
-        updateOverweightItems();
-
-        if (reservoir.size() < reservoirCapacity) {
-            reservoir.add(ele);
-        } else {
-            double pInsertion = reservoirCapacity * weight / runningCount;
-
-            if(pInsertion > 1) {
-                overweightItems.add(new OverweightItem(ele, weight));
-            } else if (random.nextDouble() < pInsertion) {
-                reservoir.set(random.nextInt(reservoirCapacity), ele);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

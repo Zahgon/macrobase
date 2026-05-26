@@ -1,20 +1,20 @@
 package macrobase.analysis.summary.itemset.result;
 
 import macrobase.ingest.result.ColumnValue;
-
 import java.util.List;
 import java.util.StringJoiner;
 
 public class ItemsetResult {
+
     private double support;
+
     private double numRecords;
+
     private double ratioToInliers;
+
     private List<ColumnValue> items;
 
-    public ItemsetResult(double support,
-                         double numRecords,
-                         double ratioToInliers,
-                         List<ColumnValue> items) {
+    public ItemsetResult(double support, double numRecords, double ratioToInliers, List<ColumnValue> items) {
         this.support = support;
         this.numRecords = numRecords;
         this.ratioToInliers = ratioToInliers;
@@ -22,40 +22,27 @@ public class ItemsetResult {
     }
 
     public String prettyPrint() {
-        StringJoiner joiner = new StringJoiner("\n");
-        items.stream()
-                .forEach(i -> joiner.add(String.format("\t%s: %s",
-                                                       i.getColumn(),
-                                                       i.getValue())));
-
-        return String.format("support: %f\n" +
-                             "records: %f\n" +
-                             "ratio: %f\n" +
-                             "\nColumns:\n%s\n\n",
-                             support,
-                             numRecords,
-                             ratioToInliers,
-                             joiner.toString());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getSupport() {
-        return support;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumRecords() {
-        return numRecords;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getRatioToInliers() {
-        return ratioToInliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRatioToInliers(double ratio) {
-        ratioToInliers = ratio;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ColumnValue> getItems() {
-        return items;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ItemsetResult() {

@@ -3,32 +3,13 @@ package macrobase.util;
 import macrobase.datamodel.Datum;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DiagnosticsUtils {
 
     public static List<Datum> createGridFixedIncrement(double[][] boundaries, double delta) {
-        int dimension = boundaries.length;
-        int[] dimensionPoints = new int[dimension];
-        int size = 1;
-        for (int d = 0; d < dimension; d++) {
-            dimensionPoints[d] = (int) ((boundaries[d][1] - boundaries[d][0]) / delta + 1);
-            size *= dimensionPoints[d];
-        }
-
-        List<RealVector> gridPointVectors = new ArrayList<>(dimension);
-
-        for (int d = 0; d < dimension; d++) {
-            double[] array = new double[dimensionPoints[d]];
-            for (int i = 0; i < dimensionPoints[d]; i++) {
-                array[i] = boundaries[d][0] + i * delta;
-            }
-            gridPointVectors.add(new ArrayRealVector(array));
-        }
-
-        return convertToGrid(gridPointVectors);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static List<Datum> convertToGrid(List<RealVector> anchors) {
@@ -58,22 +39,6 @@ public class DiagnosticsUtils {
     }
 
     public static List<Datum> createGridFixedSize(double[][] boundaries, int pointsPerDimension) {
-        int dimension = boundaries.length;
-        double delta[] = new double[dimension];
-        for (int d = 0; d < dimension; d++) {
-            delta[d] = (boundaries[d][1] - boundaries[d][0]) / (pointsPerDimension - 1.);
-        }
-
-        List<RealVector> gridPointVectors = new ArrayList<>(dimension);
-
-        for (int d = 0; d < dimension; d++) {
-            double[] array = new double[pointsPerDimension];
-            for (int i = 0; i < pointsPerDimension; i++) {
-                array[i] = boundaries[d][0] + i * delta[d];
-            }
-            gridPointVectors.add(new ArrayRealVector(array));
-        }
-
-        return convertToGrid(gridPointVectors);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

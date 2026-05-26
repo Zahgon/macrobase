@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MBMultiInputStream<T> extends MBStream<T> {
+
     private final List<MBStream<T>> inputs;
+
     private int idx = 0;
 
     public MBMultiInputStream(List<MBStream<T>> inputs) {
@@ -16,26 +18,11 @@ public class MBMultiInputStream<T> extends MBStream<T> {
     }
 
     public void addStream(MBStream<T> input) {
-        inputs.add(input);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<T> drain(int maxElements) {
-        List<T> ret = new ArrayList<>();
-
-        int numDrains = 0;
-        // loop through once
-        while (numDrains < inputs.size() &&
-               // until we receive the requested number of elements
-               (ret.size() < maxElements
-                // or we want to drain all of the elements
-                || maxElements < 0)) {
-            ret.addAll(inputs.get(idx % inputs.size())
-                               .drain(maxElements - ret.size()));
-            numDrains++;
-            idx++;
-        }
-
-        return ret;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

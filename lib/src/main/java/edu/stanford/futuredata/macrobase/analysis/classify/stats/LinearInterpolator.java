@@ -7,7 +7,9 @@ import edu.stanford.futuredata.macrobase.util.MacroBaseInternalError;
  * occur until an evaluation is requested.
  */
 public class LinearInterpolator {
+
     private double[] x;
+
     private double[] y;
 
     /**
@@ -25,24 +27,6 @@ public class LinearInterpolator {
     }
 
     public double evaluate(double value) throws MacroBaseInternalError {
-        if ((value > x[x.length - 1]) || (value < x[0])) {
-            return Double.NaN;
-        }
-
-        for (int i = 0; i < x.length; i++) {
-            if (value == x[i]) {
-                return y[i];
-            }
-            if (value >= x[i+1]) {
-                continue;
-            }
-            double dx = x[i+1] - x[i];
-            double dy = y[i+1] - y[i];
-            double slope = dy / dx;
-            double intercept = y[i] - x[i] * slope;
-            return slope * value + intercept;
-        }
-
-        throw new MacroBaseInternalError("Linear interpolator implemented incorrectly");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

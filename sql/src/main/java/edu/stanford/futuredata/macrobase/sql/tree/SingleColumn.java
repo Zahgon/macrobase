@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +22,7 @@ import java.util.Optional;
 public class SingleColumn extends SelectItem {
 
     private final Optional<Identifier> alias;
+
     private final Expression expression;
 
     public SingleColumn(Expression expression) {
@@ -41,51 +41,39 @@ public class SingleColumn extends SelectItem {
         this(Optional.of(location), expression, alias);
     }
 
-    private SingleColumn(Optional<NodeLocation> location, Expression expression,
-        Optional<Identifier> alias) {
+    private SingleColumn(Optional<NodeLocation> location, Expression expression, Optional<Identifier> alias) {
         super(location);
         requireNonNull(expression, "expression is null");
         requireNonNull(alias, "alias is null");
-
         this.expression = expression;
         this.alias = alias;
     }
 
     public Optional<Identifier> getAlias() {
-        return alias;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getExpression() {
-        return expression;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isUDF() {
-        return expression instanceof FunctionCall;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        SingleColumn other = (SingleColumn) obj;
-        return Objects.equals(this.alias, other.alias) && Objects
-            .equals(this.expression, other.expression);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(alias, expression);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        // column name for the UDF is either 1) the user-provided alias, or
-        // 2) the function name and arguments
-        return alias.map(Identifier::toString).orElseGet(() -> formatForColName(expression));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,16 +86,15 @@ public class SingleColumn extends SelectItem {
             return expr.toString().replaceAll("\"", "");
         }
         return expr.toString();
-
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitSingleColumn(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(expression);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

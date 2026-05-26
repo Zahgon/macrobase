@@ -8,7 +8,6 @@ import edu.stanford.futuredata.macrobase.analysis.summary.util.qualitymetrics.Su
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,73 +18,48 @@ import java.util.List;
  * support among both inlier and outlier population where the shift of the mean of a value
  * from the inliers to the outliers passes some threshold.
  */
-public class APLCountMeanShiftSummarizer  extends APLSummarizer {
+public class APLCountMeanShiftSummarizer extends APLSummarizer {
+
     private Logger log = LoggerFactory.getLogger("APLMeanSummarizer");
 
     private double minMeanShift = 1.0;
 
     @Override
     public List<String> getAggregateNames() {
-        return Arrays.asList("outlierCount", "inlierCount", "outlierMeanSum", "inlierMeanSum");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public AggregationOp[] getAggregationOps() {
-        AggregationOp[] curOps = {AggregationOp.SUM, AggregationOp.SUM, AggregationOp.SUM, AggregationOp.SUM};
-        return curOps;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int[][] getEncoded(List<String[]> columns, DataFrame input) {
-        return encoder.encodeAttributesAsArray(columns);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double[][] getAggregateColumns(DataFrame input) {
-        double[] outlierCountColumn = input.getDoubleColumnByName(CountMeanShiftCubedClassifier.outlierCountColumnName);
-        double[] inlierCountColumn = input.getDoubleColumnByName(CountMeanShiftCubedClassifier.inlierCountColumnName);
-        double[] outlierMeanSumColumn = input.getDoubleColumnByName(CountMeanShiftCubedClassifier.outlierMeanSumColumnName);
-        double[] inlierMeanSumColumn = input.getDoubleColumnByName(CountMeanShiftCubedClassifier.inlierMeanSumColumnName);
-
-        double[][] aggregateColumns = new double[4][];
-        aggregateColumns[0] = outlierCountColumn;
-        aggregateColumns[1] = inlierCountColumn;
-        aggregateColumns[2] = outlierMeanSumColumn;
-        aggregateColumns[3] = inlierMeanSumColumn;
-
-        return aggregateColumns;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<QualityMetric> getQualityMetricList() {
-        List<QualityMetric> qualityMetricList = new ArrayList<>();
-        qualityMetricList.add(
-                new SupportQualityMetric(0)
-        );
-        qualityMetricList.add(
-                new SupportQualityMetric(1)
-        );
-        qualityMetricList.add(
-                new MeanShiftQualityMetric(0, 1, 2, 3)
-        );
-        return qualityMetricList;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Double> getThresholds() {
-        return Arrays.asList(minOutlierSupport, minOutlierSupport, minMeanShift);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double getNumberOutliers(double[][] aggregates) {
-        double sum = 0;
-        for (double outlierCount: aggregates[0])
-            sum += outlierCount;
-        return sum;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setMinMeanShift(double minMeanShift) {
-        this.minMeanShift = minMeanShift;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

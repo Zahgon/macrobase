@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,70 +22,58 @@ import java.util.Optional;
 public class ComparisonExpression extends Expression {
 
     private final ComparisonExpressionType type;
+
     private final Expression left;
+
     private final Expression right;
 
     public ComparisonExpression(ComparisonExpressionType type, Expression left, Expression right) {
         this(Optional.empty(), type, left, right);
     }
 
-    public ComparisonExpression(NodeLocation location, ComparisonExpressionType type,
-        Expression left,
-        Expression right) {
+    public ComparisonExpression(NodeLocation location, ComparisonExpressionType type, Expression left, Expression right) {
         this(Optional.of(location), type, left, right);
     }
 
-    private ComparisonExpression(Optional<NodeLocation> location, ComparisonExpressionType type,
-        Expression left, Expression right) {
+    private ComparisonExpression(Optional<NodeLocation> location, ComparisonExpressionType type, Expression left, Expression right) {
         super(location);
         requireNonNull(type, "type is null");
         requireNonNull(left, "left is null");
         requireNonNull(right, "right is null");
-
         this.type = type;
         this.left = left;
         this.right = right;
     }
 
     public ComparisonExpressionType getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getLeft() {
-        return left;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getRight() {
-        return right;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitComparisonExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(left, right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        ComparisonExpression that = (ComparisonExpression) o;
-        return (type == that.type) &&
-            Objects.equals(left, that.left) &&
-            Objects.equals(right, that.right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, left, right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

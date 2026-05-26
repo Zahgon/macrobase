@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Optional;
 public class DereferenceExpression extends Expression {
 
     private final Expression base;
+
     private final Identifier field;
 
     public DereferenceExpression(Expression base, Identifier field) {
@@ -22,8 +22,7 @@ public class DereferenceExpression extends Expression {
         this(Optional.of(location), base, field);
     }
 
-    private DereferenceExpression(Optional<NodeLocation> location, Expression base,
-        Identifier field) {
+    private DereferenceExpression(Optional<NodeLocation> location, Expression base, Identifier field) {
         super(location);
         checkArgument(base != null, "base is null");
         checkArgument(field != null, "fieldName is null");
@@ -33,20 +32,20 @@ public class DereferenceExpression extends Expression {
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitDereferenceExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(base);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getBase() {
-        return base;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Identifier getField() {
-        return field;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -54,23 +53,11 @@ public class DereferenceExpression extends Expression {
      * return null
      */
     public static QualifiedName getQualifiedName(DereferenceExpression expression) {
-        List<String> parts = tryParseParts(expression.base,
-            expression.field.getValue().toLowerCase(Locale.ENGLISH));
-        return parts == null ? null : QualifiedName.of(parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Expression from(QualifiedName name) {
-        Expression result = null;
-
-        for (String part : name.getParts()) {
-            if (result == null) {
-                result = new Identifier(part);
-            } else {
-                result = new DereferenceExpression(result, new Identifier(part));
-            }
-        }
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static List<String> tryParseParts(Expression base, String fieldName) {
@@ -89,20 +76,11 @@ public class DereferenceExpression extends Expression {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DereferenceExpression that = (DereferenceExpression) o;
-        return Objects.equals(base, that.base) &&
-            Objects.equals(field, that.field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(base, field);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

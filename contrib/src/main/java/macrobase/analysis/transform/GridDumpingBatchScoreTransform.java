@@ -11,22 +11,28 @@ import macrobase.diagnostics.ScoreDumper;
 import macrobase.util.AlgebraUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 public class GridDumpingBatchScoreTransform extends FeatureTransform {
+
     public static final String DUMP_SCORE_GRID = "macrobase.diagnostic.dumpScoreGrid";
+
     public static final String NUM_SCORE_GRID_POINTS_PER_DIMENSION = "macrobase.diagnostic.gridPointsPerDimension";
+
     public static final String DUMP_MIXTURE_COMPONENTS = "macrobase.diagnostic.dumpMixtureComponents";
 
     public static final Integer NUM_SCORE_GRID_POINTS_PER_DIMENSION_DEFAULT = 1000;
+
     public static final String DUMP_SCORE_GRID_DEFAULT = null;
 
     private static final Logger log = LoggerFactory.getLogger(GridDumpingBatchScoreTransform.class);
 
     private final String dumpFilename;
+
     private final Integer dimensionsPerGrid;
+
     private final BatchScoreFeatureTransform underlyingTransform;
+
     private final String dumpMixtureComponents;
 
     public GridDumpingBatchScoreTransform(MacroBaseConf conf, BatchScoreFeatureTransform batchScoreFeatureTransform) {
@@ -38,34 +44,21 @@ public class GridDumpingBatchScoreTransform extends FeatureTransform {
 
     @Override
     public void initialize() throws Exception {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume(List<Datum> records) throws Exception {
-        underlyingTransform.consume(records);
-        log.debug("dumping");
-        if (dumpFilename != null) {
-            BatchTrainScore batchTrainScore = underlyingTransform.getBatchTrainScore();
-            ScoreDumper.tryToDumpScoredGrid(batchTrainScore, AlgebraUtils.getBoundingBox(records), dimensionsPerGrid, dumpFilename);
-        }
-
-        if (this.dumpMixtureComponents != null) {
-            BatchMixtureModel mixtureModel = (BatchMixtureModel) underlyingTransform.getBatchTrainScore();
-            JsonUtils.tryToDumpAsJson(mixtureModel.getClusterProportions(), "weights-" + dumpMixtureComponents);
-            JsonUtils.tryToDumpAsJson(mixtureModel.getClusterCovariances(), "covariances-" + dumpMixtureComponents);
-            JsonUtils.tryToDumpAsJson(mixtureModel.getClusterCenters(), "centers-" + dumpMixtureComponents);
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() throws Exception {
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public MBStream<Datum> getStream() throws Exception {
-        return underlyingTransform.getStream();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

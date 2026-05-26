@@ -15,7 +15,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static io.airlift.slice.Slices.utf8Slice;
 import static java.util.Objects.requireNonNull;
-
 import io.airlift.slice.Slice;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,6 +22,7 @@ import java.util.Optional;
 public class StringLiteral extends Literal {
 
     private final String value;
+
     private final Slice slice;
 
     public StringLiteral(String value) {
@@ -41,33 +41,25 @@ public class StringLiteral extends Literal {
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Slice getSlice() {
-        return slice;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitStringLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        StringLiteral that = (StringLiteral) o;
-        return Objects.equals(value, that.value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

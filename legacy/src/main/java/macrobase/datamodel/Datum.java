@@ -3,18 +3,21 @@ package macrobase.datamodel;
 import com.google.common.collect.Lists;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Datum {
+
     private static AtomicLong idGen = new AtomicLong();
 
     private final Long id;
+
     private List<Integer> attributes;
+
     private RealVector metrics;
 
-    private final Long parentDatumID; //the parent datum this datum is created from
+    //the parent datum this datum is created from
+    private final Long parentDatumID;
 
     public Datum() {
         id = idGen.incrementAndGet();
@@ -47,34 +50,32 @@ public class Datum {
         this.attributes = attributes;
         this.metrics = metrics;
     }
-    
+
     public long getTime(Integer timeColumn) {
-        return (long) metrics.getEntry(timeColumn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Integer> attributes() {
-        return attributes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RealVector metrics() {
-        return metrics;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Long getID() {
-        return id;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Long getParentID() {
-        return parentDatumID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String toString() {
-        return String.format(
-                "metrics: %s, encoded attributes: %s",
-                metrics().toString(), attributes().toString());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double norm() {
-        return metrics().getNorm();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

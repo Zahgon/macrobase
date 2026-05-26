@@ -4,7 +4,8 @@ import macrobase.ingest.DatumEncoder;
 
 public class IntervalDiscrete extends Interval {
 
-    int value; //the integer used to encode the value
+    //the integer used to encode the value
+    int value;
 
     public IntervalDiscrete(int dimension, String columnName, int value) {
         super(dimension, columnName);
@@ -13,24 +14,20 @@ public class IntervalDiscrete extends Interval {
 
     @Override
     public boolean contains(Object d) {
-        int dd = (int) d;
-        if (dd == value)
-            return true;
-        else
-            return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String print(DatumEncoder encoder) {
-        return "< " + columnName + " = " + encoder.getAttribute(value).getValue() + " > ";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return columnName + " = " + value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

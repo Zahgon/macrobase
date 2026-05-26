@@ -36,34 +36,26 @@ public class SubqueryExpression extends Expression {
     }
 
     public Query getQuery() {
-        return query;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitSubqueryExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        SubqueryExpression that = (SubqueryExpression) o;
-        return Objects.equals(query, that.query);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return query.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

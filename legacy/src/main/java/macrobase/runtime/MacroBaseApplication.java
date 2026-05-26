@@ -11,31 +11,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MacroBaseApplication extends Application<MacroBaseConf> {
+
     private static final Logger log = LoggerFactory.getLogger(MacroBaseApplication.class);
 
     public static void main(String[] args) throws Exception {
-        new MacroBaseApplication().run(args);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getName() {
-        return "macrobase";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void initialize(Bootstrap<MacroBaseConf> bootstrap) {
-        bootstrap.addCommand(new MacroBasePipelineCommand());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    public void run(MacroBaseConf configuration,
-                    Environment environment) throws Exception {
-        configuration.loadSystemProperties();
-        environment.healthChecks().register("basic", new HealthCheck() {
-            @Override
-            protected Result check() throws Exception {
-                return null;
-            }
-        });
+    public void run(MacroBaseConf configuration, Environment environment) throws Exception {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -23,28 +22,30 @@ import java.util.Optional;
 public class SortItem extends Node {
 
     public enum Ordering {
+
         ASCENDING, DESCENDING
     }
 
     public enum NullOrdering {
+
         FIRST, LAST, UNDEFINED
     }
 
     private final Expression sortKey;
+
     private final Ordering ordering;
+
     private final NullOrdering nullOrdering;
 
     public SortItem(Expression sortKey, Ordering ordering, NullOrdering nullOrdering) {
         this(Optional.empty(), sortKey, ordering, nullOrdering);
     }
 
-    public SortItem(NodeLocation location, Expression sortKey, Ordering ordering,
-        NullOrdering nullOrdering) {
+    public SortItem(NodeLocation location, Expression sortKey, Ordering ordering, NullOrdering nullOrdering) {
         this(Optional.of(location), sortKey, ordering, nullOrdering);
     }
 
-    private SortItem(Optional<NodeLocation> location, Expression sortKey, Ordering ordering,
-        NullOrdering nullOrdering) {
+    private SortItem(Optional<NodeLocation> location, Expression sortKey, Ordering ordering, NullOrdering nullOrdering) {
         super(location);
         this.ordering = ordering;
         this.sortKey = sortKey;
@@ -52,53 +53,39 @@ public class SortItem extends Node {
     }
 
     public Expression getSortKey() {
-        return sortKey;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Ordering getOrdering() {
-        return ordering;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public NullOrdering getNullOrdering() {
-        return nullOrdering;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitSortItem(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(sortKey);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("sortKey", sortKey)
-            .add("ordering", ordering)
-            .add("nullOrdering", nullOrdering)
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        SortItem sortItem = (SortItem) o;
-        return Objects.equals(sortKey, sortItem.sortKey) &&
-            (ordering == sortItem.ordering) &&
-            (nullOrdering == sortItem.nullOrdering);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sortKey, ordering, nullOrdering);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

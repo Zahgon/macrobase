@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
@@ -26,40 +25,30 @@ public class FieldReference extends Expression {
     public FieldReference(int fieldIndex) {
         super(Optional.empty());
         checkArgument(fieldIndex >= 0, "fieldIndex must be >= 0");
-
         this.fieldIndex = fieldIndex;
     }
 
     public int getFieldIndex() {
-        return fieldIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitFieldReference(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        FieldReference that = (FieldReference) o;
-
-        return fieldIndex == that.fieldIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return fieldIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

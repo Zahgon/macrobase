@@ -15,7 +15,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -36,48 +35,35 @@ public class Query extends Statement {
     private Query(Optional<NodeLocation> location, QueryBody queryBody) {
         super(location);
         requireNonNull(queryBody, "queryBody is null");
-
         this.queryBody = queryBody;
     }
 
     public QueryBody getQueryBody() {
-        return queryBody;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitQuery(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(queryBody);
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("queryBody", queryBody)
-            .omitNullValues()
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        Query o = (Query) obj;
-        return Objects.equals(queryBody, o.queryBody);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(queryBody);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

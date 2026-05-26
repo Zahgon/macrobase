@@ -6,7 +6,6 @@ import edu.stanford.futuredata.macrobase.analysis.summary.util.AttributeEncoder;
 import edu.stanford.futuredata.macrobase.analysis.summary.fpg.result.FPGItemsetResult;
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
 import edu.stanford.futuredata.macrobase.datamodel.Schema;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,17 +15,23 @@ import java.util.Set;
  * string attribute columns. Each batch is considered as an independent unit.
  */
 public class FPGrowthSummarizer extends BatchSummarizer {
+
     protected double minRiskRatio = 3;
+
     // Encoder
     protected AttributeEncoder encoder = new AttributeEncoder();
+
     private boolean useAttributeCombinations = true;
 
     // Output
     private FPGExplanation explanation = null;
+
     private List<Set<Integer>> inlierItemsets, outlierItemsets;
+
     private FPGrowthEmerging fpg = new FPGrowthEmerging();
 
-    public FPGrowthSummarizer() { }
+    public FPGrowthSummarizer() {
+    }
 
     /**
      * Whether or not to use combinations of attributes in explanation, or only
@@ -35,48 +40,17 @@ public class FPGrowthSummarizer extends BatchSummarizer {
      * @return this
      */
     public FPGrowthSummarizer setUseAttributeCombinations(boolean useAttributeCombinations) {
-        this.useAttributeCombinations = useAttributeCombinations;
-        fpg.setCombinationsEnabled(useAttributeCombinations);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void process(DataFrame df) {
-        // Filter inliers and outliers
-        DataFrame outlierDF = df.filter(outlierColumn, (double d) -> d > 0.0);
-        DataFrame inlierDF = df.filter(outlierColumn, (double d) -> d == 0.0);
-
-        // Encode inlier and outlier attribute columns
-        if (attributes.isEmpty()) {
-            encoder.setColumnNames(df.getSchema().getColumnNamesByType(Schema.ColType.STRING));
-            inlierItemsets = encoder.encodeAttributesAsSets(inlierDF.getStringCols());
-            outlierItemsets = encoder.encodeAttributesAsSets(outlierDF.getStringCols());
-        } else {
-            encoder.setColumnNames(attributes);
-            inlierItemsets = encoder.encodeAttributesAsSets(inlierDF.getStringColsByName(attributes));
-            outlierItemsets = encoder.encodeAttributesAsSets(outlierDF.getStringColsByName(attributes));
-        }
-
-        long startTime = System.currentTimeMillis();
-        List<FPGItemsetResult> itemsetResults = fpg.getEmergingItemsetsWithMinSupport(
-                inlierItemsets,
-                outlierItemsets,
-                minOutlierSupport,
-                minRiskRatio);
-        // Decode results
-        List<FPGAttributeSet> attributeSets = new ArrayList<>();
-        itemsetResults.forEach(i -> attributeSets.add(new FPGAttributeSet(i, encoder)));
-        long elapsed = System.currentTimeMillis() - startTime;
-
-        explanation = new FPGExplanation(attributeSets,
-                inlierItemsets.size(),
-                outlierItemsets.size(),
-                elapsed);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public FPGExplanation getResults() {
-        return explanation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,7 +59,6 @@ public class FPGrowthSummarizer extends BatchSummarizer {
      * @return this
      */
     public BatchSummarizer setMinRiskRatio(double minRiskRatio) {
-        this.minRiskRatio = minRiskRatio;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

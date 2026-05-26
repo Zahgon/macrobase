@@ -15,59 +15,21 @@ import macrobase.datamodel.Datum;
 import macrobase.ingest.DataIngester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BasicBatchedPipeline extends BasePipeline {
+
     private static final Logger log = LoggerFactory.getLogger(BasicBatchedPipeline.class);
 
     @Override
     public Pipeline initialize(MacroBaseConf conf) throws Exception {
-        super.initialize(conf);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<AnalysisResult> run() throws Exception {
-        Stopwatch sw = Stopwatch.createStarted();
-        DataIngester ingester = conf.constructIngester();
-        List<Datum> data = ingester.getStream().drain();
-
-        if(conf.isSet(MacroBaseConf.LOW_METRIC_TRANSFORM)) {
-            LowMetricTransform lmt = new LowMetricTransform(conf);
-            lmt.consume(data);
-            data = lmt.getStream().drain();
-        }
-
-        System.gc();
-        final long loadMs = sw.elapsed(TimeUnit.MILLISECONDS);
-
-        FeatureTransform ft = new BatchScoreFeatureTransform(conf);
-        ft.consume(data);
-
-        OutlierClassifier oc = new BatchingPercentileClassifier(conf);
-
-        oc.consume(ft.getStream().drain());
-
-        Summarizer bs = new BatchSummarizer(conf);
-        bs.consume(oc.getStream().drain());
-        Summary result = bs.summarize().getStream().drain().get(0);
-
-        final long totalMs = sw.elapsed(TimeUnit.MILLISECONDS) - loadMs;
-        final long summarizeMs = result.getCreationTimeMs();
-        final long executeMs = totalMs - result.getCreationTimeMs();
-
-        log.info("took {}ms ({} tuples/sec)",
-                totalMs,
-                (result.getNumInliers() + result.getNumOutliers()) / (double) totalMs * 1000);
-
-        return Arrays.asList(new AnalysisResult(result.getNumOutliers(),
-                result.getNumInliers(),
-                loadMs,
-                executeMs,
-                summarizeMs,
-                result.getItemsets()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

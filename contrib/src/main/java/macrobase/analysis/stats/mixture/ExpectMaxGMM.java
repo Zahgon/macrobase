@@ -7,18 +7,27 @@ import macrobase.util.TrainTestSpliter;
 import org.apache.commons.math3.linear.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExpectMaxGMM extends BatchMixtureModel {
+
     private static final Logger log = LoggerFactory.getLogger(ExpectMaxGMM.class);
 
-    private int K;  // Number of mixture components
-    private double[] phi;  // Mixing coefficients, K vector
-    private List<RealVector> mu;  // Means of Gaussians
-    private List<RealMatrix> sigma;  // Covariances of Gaussians
+    // Number of mixture components
+    private int K;
+
+    // Mixing coefficients, K vector
+    private double[] phi;
+
+    // Means of Gaussians
+    private List<RealVector> mu;
+
+    // Covariances of Gaussians
+    private List<RealMatrix> sigma;
+
     private List<MultivariateNormal> mixtureDistributions;
+
     private double EMCutoffProgress;
 
     public ExpectMaxGMM(MacroBaseConf conf) {
@@ -30,12 +39,7 @@ public class ExpectMaxGMM extends BatchMixtureModel {
 
     @Override
     public void train(List<Datum> data) {
-        if ( trainTestSplit > 0 && trainTestSplit < 1) {
-            TrainTestSpliter splitter = new TrainTestSpliter(data, trainTestSplit, conf.getRandom());
-            trainTestEM(splitter.getTrainData(), splitter.getTestData());
-        } else {
-            trainTestEM(data, data);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void trainTestEM(List<Datum> trainData, List<Datum> testData) {
@@ -61,13 +65,13 @@ public class ExpectMaxGMM extends BatchMixtureModel {
             mixtureDistributions.add(new MultivariateNormal(mu.get(k), sigma.get(k)));
             phi[k] = 1. / K;
         }
-
         // EM algorithm;
         double logLikelihood = -Double.MAX_VALUE;
         for (int iteration = 0; iteration < maxIterationsToConverge; iteration++) {
             // 2. E step. Evaluate the responsibilities using the current parameter values.
             double[][] gamma = new double[N][K];
-            double[] clusterWeight = new double[N];  // N_k (Bishop)
+            // N_k (Bishop)
+            double[] clusterWeight = new double[N];
             for (int n = 0; n < N; n++) {
                 double normalizingConstant = 0;
                 for (int k = 0; k < K; k++) {
@@ -79,7 +83,6 @@ public class ExpectMaxGMM extends BatchMixtureModel {
                     clusterWeight[k] += gamma[n][k];
                 }
             }
-
             // 3. M step. Re-estimate the parameters using the current responsibilities.
             for (int k = 0; k < K; k++) {
                 RealVector newMu = new ArrayRealVector(dimensions);
@@ -97,25 +100,20 @@ public class ExpectMaxGMM extends BatchMixtureModel {
                 sigma.set(k, newSigma);
                 phi[k] = clusterWeight[k] / N;
             }
-
             // 4. Evaluate the log likelihood
             for (int k = 0; k < this.K; k++) {
                 mixtureDistributions.set(k, new MultivariateNormal(mu.get(k), sigma.get(k)));
             }
-
             double oldLogLikelihood = logLikelihood;
             logLikelihood = 0;
             for (int n = 0; n < testData.size(); n++) {
                 logLikelihood += score(testData.get(n));
             }
             logLikelihood /= testData.size();
-
             log.debug("per point log likelihood after iteration {} is {}", iteration, logLikelihood);
-
             log.debug("cluster likelihoods are: {}", phi);
             log.debug("cluster centers are at {}", mu);
             log.debug("cluster covariances are at {}", sigma);
-
             double improvement = (logLikelihood - oldLogLikelihood) / (-logLikelihood);
             if (improvement >= 0 && improvement < this.EMCutoffProgress) {
                 log.debug("Breaking because improvement was {} percent", improvement * 100);
@@ -132,41 +130,26 @@ public class ExpectMaxGMM extends BatchMixtureModel {
      */
     @Override
     public double score(Datum datum) {
-        double probability = 0;
-        for (int k = 0; k < K; k++) {
-            probability += phi[k] * mixtureDistributions.get(k).density(datum.metrics());
-        }
-        return Math.log(probability);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<RealVector> getClusterCenters() {
-        return mu;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double[] getClusterProportions() {
-        return phi;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<RealMatrix> getClusterCovariances() {
-        return sigma;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double[] getClusterProbabilities(Datum d) {
-        double[] probas = new double[K];
-        double normalizingConstant = 0;
-        for (int k = 0; k < K; k++) {
-            probas[k] = phi[k] * mixtureDistributions.get(k).density(d.metrics());
-            normalizingConstant += probas[k];
-        }
-        for (int k = 0; k < K; k++) {
-            probas[k] /= normalizingConstant;
-        }
-        return probas;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }
-

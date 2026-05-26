@@ -27,12 +27,11 @@ public abstract class Expression extends Node {
      */
     @Override
     protected <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitExpression(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public final String toString() {
-        return ExpressionFormatter.formatExpression(this, Optional
-            .empty()); // This will not replace parameters, but we don't have access to them here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

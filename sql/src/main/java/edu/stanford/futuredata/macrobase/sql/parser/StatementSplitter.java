@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.parser;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import edu.stanford.futuredata.macrobase.SqlBaseLexer;
@@ -30,6 +29,7 @@ import org.antlr.v4.runtime.TokenSource;
 public class StatementSplitter {
 
     private final List<Statement> completeStatements;
+
     private final String partialStatement;
 
     public StatementSplitter(String sql) {
@@ -60,41 +60,19 @@ public class StatementSplitter {
     }
 
     public List<Statement> getCompleteStatements() {
-        return completeStatements;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getPartialStatement() {
-        return partialStatement;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static String squeezeStatement(String sql) {
-        TokenSource tokens = getLexer(sql, ImmutableSet.of());
-        StringBuilder sb = new StringBuilder();
-        while (true) {
-            Token token = tokens.nextToken();
-            if (token.getType() == Token.EOF) {
-                break;
-            }
-            if (token.getType() == SqlBaseLexer.WS) {
-                sb.append(' ');
-            } else {
-                sb.append(token.getText());
-            }
-        }
-        return sb.toString().trim();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static boolean isEmptyStatement(String sql) {
-        TokenSource tokens = getLexer(sql, ImmutableSet.of());
-        while (true) {
-            Token token = tokens.nextToken();
-            if (token.getType() == Token.EOF) {
-                return true;
-            }
-            if (token.getChannel() != Token.HIDDEN_CHANNEL) {
-                return false;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static TokenSource getLexer(String sql, Set<String> terminators) {
@@ -106,6 +84,7 @@ public class StatementSplitter {
     public static class Statement {
 
         private final String statement;
+
         private final String terminator;
 
         public Statement(String statement, String terminator) {
@@ -114,34 +93,26 @@ public class StatementSplitter {
         }
 
         public String statement() {
-            return statement;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String terminator() {
-            return terminator;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if ((obj == null) || (getClass() != obj.getClass())) {
-                return false;
-            }
-            Statement o = (Statement) obj;
-            return Objects.equals(statement, o.statement) &&
-                Objects.equals(terminator, o.terminator);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(statement, terminator);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public String toString() {
-            return statement + terminator;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

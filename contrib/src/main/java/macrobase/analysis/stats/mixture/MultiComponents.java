@@ -5,10 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MultiComponents implements MixingComponents {
+
     private static final Logger log = LoggerFactory.getLogger(MultiComponents.class);
 
     private double priorAlpha;
+
     private double[] coeffs;
+
     private int K;
 
     // Auxiliaries.
@@ -27,46 +30,28 @@ public class MultiComponents implements MixingComponents {
 
     @Override
     public double[] calcExpectationLog() {
-        double[] exLogMixing = new double[K];
-        for (int i = 0; i < K; i++) {
-            exLogMixing[i] = Gamma.digamma(coeffs[i]) - Gamma.digamma(sumCoeffs);
-        }
-        return exLogMixing;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void update(double[][] r) {
-        double[] clusterWeight = VariationalInference.calculateClusterWeights(r);
-        sumCoeffs = 0;
-        for (int k = 0; k < K; k++) {
-            coeffs[k] = priorAlpha + clusterWeight[k];
-            sumCoeffs += coeffs[k];
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void moveNatural(double[][] r, double pace, double portion) {
-        double[] clusterWeight = VariationalInference.calculateClusterWeights(r);
-        sumCoeffs = 0;
-        for (int k = 0; k < K; k++) {
-            coeffs[k] = VariationalInference.step(coeffs[k], priorAlpha + portion * clusterWeight[k], pace);
-            sumCoeffs += coeffs[k];
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double[] getNormalizedClusterProportions() {
-        double[] normalized = new double[coeffs.length];
-        for (int i=0; i< coeffs.length; i++) {
-            normalized[i] = coeffs[i] / sumCoeffs;
-        }
-        return normalized;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double[] getCoeffs() {
-        return coeffs;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getPrior() {
-        return priorAlpha;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

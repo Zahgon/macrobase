@@ -16,6 +16,7 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 public final class NodeLocation {
 
     private final int line;
+
     private final int charPositionInLine;
 
     public NodeLocation(int line, int charPositionInLine) {
@@ -24,10 +25,10 @@ public final class NodeLocation {
     }
 
     public int getLineNumber() {
-        return line;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getColumnNumber() {
-        return charPositionInLine + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

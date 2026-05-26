@@ -10,7 +10,9 @@ import edu.stanford.futuredata.macrobase.operator.Transformer;
  * outliers in each group.
  */
 public abstract class CubeClassifier implements Transformer {
+
     protected String countColumnName = "count";
+
     protected String outputColumnName = "_OUTLIER";
 
     public CubeClassifier(String countColumnName) {
@@ -18,7 +20,7 @@ public abstract class CubeClassifier implements Transformer {
     }
 
     public String getOutputColumnName() {
-        return outputColumnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -26,12 +28,11 @@ public abstract class CubeClassifier implements Transformer {
      * @return this
      */
     public CubeClassifier setOutputColumnName(String outputColumnName) {
-        this.outputColumnName = outputColumnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getCountColumnName() {
-        return countColumnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -41,7 +42,6 @@ public abstract class CubeClassifier implements Transformer {
      * @return this
      */
     public CubeClassifier setCountColumnName(String countColumnName) {
-        this.countColumnName = countColumnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

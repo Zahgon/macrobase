@@ -14,29 +14,22 @@
 package edu.stanford.futuredata.macrobase.sql.parser;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.Iterables;
 import java.util.EnumSet;
 
 public class SqlParserOptions {
 
-    private final EnumSet<IdentifierSymbol> allowedIdentifierSymbols = EnumSet
-        .noneOf(IdentifierSymbol.class);
+    private final EnumSet<IdentifierSymbol> allowedIdentifierSymbols = EnumSet.noneOf(IdentifierSymbol.class);
 
     public SqlParserOptions allowIdentifierSymbol(Iterable<IdentifierSymbol> identifierSymbols) {
-        Iterables.addAll(allowedIdentifierSymbols, identifierSymbols);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public EnumSet<IdentifierSymbol> getAllowedIdentifierSymbols() {
-        return EnumSet.copyOf(allowedIdentifierSymbols);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SqlParserOptions allowIdentifierSymbol(IdentifierSymbol... identifierSymbols) {
-        for (IdentifierSymbol identifierSymbol : identifierSymbols) {
-            allowedIdentifierSymbols
-                .add(requireNonNull(identifierSymbol, "identifierSymbol is null"));
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

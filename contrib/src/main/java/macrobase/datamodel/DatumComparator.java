@@ -17,10 +17,6 @@ public class DatumComparator implements Comparator {
 
     @Override
     public int compare(Object o1, Object o2) {
-        Datum d1 = (Datum) o1;
-        Datum d2 = (Datum) o2;
-        Double metric1 = d1.metrics().getEntry(this.dimension);
-        Double metric2 = d2.metrics().getEntry(this.dimension);
-        return metric1.compareTo(metric2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

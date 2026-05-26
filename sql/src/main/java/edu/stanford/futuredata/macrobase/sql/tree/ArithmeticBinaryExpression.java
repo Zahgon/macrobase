@@ -21,11 +21,9 @@ import java.util.Optional;
 public class ArithmeticBinaryExpression extends Expression {
 
     public enum Type {
-        ADD("+"),
-        SUBTRACT("-"),
-        MULTIPLY("*"),
-        DIVIDE("/"),
-        MODULUS("%");
+
+        ADD("+"), SUBTRACT("-"), MULTIPLY("*"), DIVIDE("/"), MODULUS("%");
+
         private final String value;
 
         Type(String value) {
@@ -33,25 +31,25 @@ public class ArithmeticBinaryExpression extends Expression {
         }
 
         public String getValue() {
-            return value;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private final Type type;
+
     private final Expression left;
+
     private final Expression right;
 
     public ArithmeticBinaryExpression(Type type, Expression left, Expression right) {
         this(Optional.empty(), type, left, right);
     }
 
-    public ArithmeticBinaryExpression(NodeLocation location, Type type, Expression left,
-        Expression right) {
+    public ArithmeticBinaryExpression(NodeLocation location, Type type, Expression left, Expression right) {
         this(Optional.of(location), type, left, right);
     }
 
-    private ArithmeticBinaryExpression(Optional<NodeLocation> location, Type type, Expression left,
-        Expression right) {
+    private ArithmeticBinaryExpression(Optional<NodeLocation> location, Type type, Expression left, Expression right) {
         super(location);
         this.type = type;
         this.left = left;
@@ -59,44 +57,34 @@ public class ArithmeticBinaryExpression extends Expression {
     }
 
     public Type getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getLeft() {
-        return left;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getRight() {
-        return right;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitArithmeticBinary(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(left, right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        ArithmeticBinaryExpression that = (ArithmeticBinaryExpression) o;
-        return (type == that.type) &&
-            Objects.equals(left, that.left) &&
-            Objects.equals(right, that.right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, left, right);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

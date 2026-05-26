@@ -1,7 +1,9 @@
 package macrobase.ingest.result;
 
 public class ColumnValue {
+
     private String column;
+
     private String value;
 
     public ColumnValue(String column, String value) {
@@ -10,11 +12,11 @@ public class ColumnValue {
     }
 
     public String getColumn() {
-        return column;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ColumnValue() {

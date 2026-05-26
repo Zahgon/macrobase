@@ -2,7 +2,6 @@ package edu.stanford.futuredata.macrobase.operator;
 
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
 import edu.stanford.futuredata.macrobase.util.ArrayUtils;
-
 import java.util.*;
 
 /**
@@ -13,13 +12,16 @@ import java.util.*;
  * effectively rounded up.
  * @param <O> output type of the operator
  */
-public class WindowedOperator<O>
-        implements Operator<DataFrame, O> {
+public class WindowedOperator<O> implements Operator<DataFrame, O> {
+
     private String timeColumn = "time";
+
     private double windowLength = 60.0;
+
     private double slideLength = 10.0;
 
     private double maxWindowTime;
+
     private IncrementalOperator<O> op;
 
     private ArrayList<DataFrame> batchBuffer;
@@ -27,15 +29,10 @@ public class WindowedOperator<O>
     public WindowedOperator(IncrementalOperator op) {
         this.op = op;
     }
+
     public WindowedOperator<O> initialize() {
-        this.maxWindowTime = 0.0;
-        this.batchBuffer = new ArrayList<>();
-
-        int numPanes = (int)Math.ceil(windowLength / slideLength);
-        op.setWindowSize(numPanes);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Process a small batch of data. Data is buffered until a pane (or multiple)
@@ -46,10 +43,7 @@ public class WindowedOperator<O>
      */
     @Override
     public void process(DataFrame input) throws Exception {
-        List<DataFrame> newPanes = addToBuffer(input);
-        for (DataFrame pane: newPanes) {
-            op.process(pane);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,11 +52,7 @@ public class WindowedOperator<O>
      * @return new effective window end time
      */
     public double flushBuffer() throws Exception {
-        DataFrame partialPane = DataFrame.unionAll(batchBuffer);
-        maxWindowTime += slideLength;
-        op.process(partialPane);
-        batchBuffer.clear();
-        return maxWindowTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,78 +61,47 @@ public class WindowedOperator<O>
      * @return completed panes derived from the buffer and current input
      */
     protected List<DataFrame> addToBuffer(DataFrame input) {
-        int n = input.getNumRows();
-        if (n == 0) {
-            return Collections.emptyList();
-        }
-        double[] times = input.getDoubleColumnByName(timeColumn);
-        double maxInputTime = ArrayUtils.max(times);
-
-        DataFrame restInput = input;
-        ArrayList<DataFrame> newPanes = new ArrayList<>(1);
-
-        // Assuming in order arrival, break up incoming batch into panes
-        while (maxInputTime >= maxWindowTime + slideLength) {
-            // When we fill up a pane, split off the overflow from the current batch
-            double nextWindowEnd = maxWindowTime + slideLength;
-            DataFrame earlyInput = restInput.filter(timeColumn, (double t) -> t < nextWindowEnd);
-            restInput = restInput.filter(timeColumn, (double t) -> t >= nextWindowEnd);
-            batchBuffer.add(earlyInput);
-            DataFrame newPane = DataFrame.unionAll(batchBuffer);
-
-            // Reset the batch buffer and start collecting for the next pane
-            maxWindowTime = nextWindowEnd;
-            batchBuffer.clear();
-            newPanes.add(newPane);
-        }
-
-        // Buffer partially filled pane until it is filled
-        batchBuffer.add(restInput);
-        return newPanes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public O getResults() {
-        return op.getResults();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getTimeColumn() {
-        return timeColumn;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setTimeColumn(String timeColumn) {
-        this.timeColumn = timeColumn;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getWindowLength() {
-        return windowLength;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setWindowLength(double windowLength) {
-        this.windowLength = windowLength;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getSlideLength() {
-        return slideLength;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setSlideLength(double slideLength) {
-        this.slideLength = slideLength;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getMaxWindowTime() {
-        return maxWindowTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getBufferSize() {
-        return batchBuffer.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public int getNumBufferedRows() {
-        int numRows = 0;
-        for (DataFrame df : batchBuffer) {
-            numRows += df.getNumRows();
-        }
-        return numRows;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

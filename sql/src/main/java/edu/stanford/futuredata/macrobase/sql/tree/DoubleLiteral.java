@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import java.util.Optional;
 
 public class DoubleLiteral extends Literal {
@@ -36,32 +35,22 @@ public class DoubleLiteral extends Literal {
     }
 
     public double getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitDoubleLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        DoubleLiteral that = (DoubleLiteral) o;
-
-        return Double.compare(that.value, value) == 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("UnaryPlus")
     @Override
     public int hashCode() {
-        long temp = value != +0.0d ? Double.doubleToLongBits(value) : 0L;
-        return (int) (temp ^ (temp >>> 32));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

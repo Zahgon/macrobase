@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
@@ -26,35 +25,25 @@ public class MinRatioExpression extends Node {
 
     @Override
     public List<? extends Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(minRatio);
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return minRatio.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        MinRatioExpression o = (MinRatioExpression) obj;
-        return o.minRatio.equals(minRatio);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return minRatio.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getMinRatio() {
-        return minRatio.getValue();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -3,7 +3,9 @@ package macrobase.diagnostics;
 import org.apache.commons.math3.linear.RealVector;
 
 public class MetricsAndScore {
+
     private RealVector metrics;
+
     private double score;
 
     public MetricsAndScore(RealVector metrics, double score) {
@@ -12,10 +14,10 @@ public class MetricsAndScore {
     }
 
     public RealVector getMetrics() {
-        return metrics;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getScore() {
-        return score;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

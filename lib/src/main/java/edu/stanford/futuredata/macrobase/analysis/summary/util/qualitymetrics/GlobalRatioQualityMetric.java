@@ -3,9 +3,12 @@ package edu.stanford.futuredata.macrobase.analysis.summary.util.qualitymetrics;
 /**
  * Measures the relative outlier rate w.r.t. the global outlier rate
  */
-public class GlobalRatioQualityMetric implements QualityMetric{
+public class GlobalRatioQualityMetric implements QualityMetric {
+
     private int outlierCountIdx;
+
     private int totalCountIdx;
+
     private double baseRate = 0.0;
 
     public GlobalRatioQualityMetric(int outlierCountIdx, int totalCountIdx) {
@@ -15,22 +18,21 @@ public class GlobalRatioQualityMetric implements QualityMetric{
 
     @Override
     public String name() {
-        return "global_ratio";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public QualityMetric initialize(double[] globalAggregates) {
-        baseRate = globalAggregates[outlierCountIdx] / globalAggregates[totalCountIdx];
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double value(double[] aggregates) {
-        return (aggregates[outlierCountIdx] / aggregates[totalCountIdx]) / baseRate;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isMonotonic() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

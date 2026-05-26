@@ -3,15 +3,16 @@ package edu.stanford.futuredata.macrobase.analysis.summary.fpg.result;
 import java.util.Set;
 
 public class FPGItemsetResult {
+
     private double support;
+
     private double numRecords;
+
     private double ratioToInliers;
+
     private Set<Integer> items;
 
-    public FPGItemsetResult(double support,
-                            double numRecords,
-                            double ratioToInliers,
-                            Set<Integer> items) {
+    public FPGItemsetResult(double support, double numRecords, double ratioToInliers, Set<Integer> items) {
         this.support = support;
         this.numRecords = numRecords;
         this.ratioToInliers = ratioToInliers;
@@ -19,28 +20,23 @@ public class FPGItemsetResult {
     }
 
     public double getSupport() {
-        return support;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumRecords() {
-        return numRecords;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getRatioToInliers() {
-        return ratioToInliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<Integer> getItems() {
-        return items;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "FPGItemsetResult{" +
-                "support=" + support +
-                ", numRecords=" + numRecords +
-                ", ratioToInliers=" + ratioToInliers +
-                ", items=" + items +
-                '}';
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql;
 
 import static java.nio.file.Files.exists;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -34,11 +33,15 @@ import org.slf4j.LoggerFactory;
 public class MacroBaseSQLRepl {
 
     private static final String ASCII_ART_FILE = "ascii_art.txt";
+
     private static final Logger log = LoggerFactory.getLogger(MacroBaseSQLRepl.class);
 
     private final ConsoleReader reader;
+
     private final SqlParser parser;
+
     private final QueryEngine queryEngine;
+
     private final boolean paging;
 
     private File tempFileForPaging;
@@ -58,7 +61,6 @@ public class MacroBaseSQLRepl {
         handler.setStripAnsi(true);
         reader.setCompletionHandler(handler);
         reader.addCompleter(new FileNameCompleter());
-
         parser = new SqlParser();
         queryEngine = new QueryEngine();
     }
@@ -76,8 +78,7 @@ public class MacroBaseSQLRepl {
         }
         try {
             tempFileForPaging = File.createTempFile("mb-sql", null);
-            final Process p = Runtime.getRuntime()
-                .exec(new String[]{"less", tempFileForPaging.getAbsolutePath()});
+            final Process p = Runtime.getRuntime().exec(new String[] { "less", tempFileForPaging.getAbsolutePath() });
             return p.waitFor() == 0;
         } catch (IOException | InterruptedException e) {
             log.warn("--paging set to true, but unable to enable paging");
@@ -117,11 +118,9 @@ public class MacroBaseSQLRepl {
                 }
                 if (paging) {
                     try {
-                        final PrintStream ps = new PrintStream(
-                            new FileOutputStream(tempFileForPaging.getAbsolutePath()));
+                        final PrintStream ps = new PrintStream(new FileOutputStream(tempFileForPaging.getAbsolutePath()));
                         result.prettyPrint(ps, -1);
-                        ProcessBuilder pb = new ProcessBuilder("less",
-                            tempFileForPaging.getAbsolutePath());
+                        ProcessBuilder pb = new ProcessBuilder("less", tempFileForPaging.getAbsolutePath());
                         pb.inheritIO();
                         Process p = pb.start();
                         p.waitFor();
@@ -137,10 +136,8 @@ public class MacroBaseSQLRepl {
                         // print result to file; if file already exists, do nothing and print error message
                         final String filename = exportExpr.getFilename();
                         if (!exists(Paths.get(filename))) {
-                            try (OutputStreamWriter outFile = new OutputStreamWriter(
-                                new FileOutputStream(filename))) {
-                                new CSVDataFrameWriter(exportExpr.getFieldDelimiter(),
-                                    exportExpr.getLineDelimiter()).writeToStream(result, outFile);
+                            try (OutputStreamWriter outFile = new OutputStreamWriter(new FileOutputStream(filename))) {
+                                new CSVDataFrameWriter(exportExpr.getFieldDelimiter(), exportExpr.getLineDelimiter()).writeToStream(result, outFile);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -164,7 +161,6 @@ public class MacroBaseSQLRepl {
      * @param queries A single String which contains the queries to execute. Each query in the
      * String should be delimited by ';' and optional whitespace.
      */
-
     private void executeQueries(final String queries) {
         executeQueries(queries, false);
     }
@@ -181,7 +177,6 @@ public class MacroBaseSQLRepl {
             if (query.equals("")) {
                 break;
             }
-
             executeQueries(query);
         }
     }
@@ -210,34 +205,6 @@ public class MacroBaseSQLRepl {
     }
 
     public static void main(String... args) throws IOException {
-        ArgumentParser parser = ArgumentParsers.newFor("MacroBase SQL").build()
-            .defaultHelp(true)
-            .description("Run MacroBase SQL.");
-        parser.addArgument("-f", "--file").help("Load file with SQL queries to execute");
-        parser.addArgument("-p", "--paging").type(Arguments.booleanType()).setDefault(false)
-            .help("Turn on paging of results for SQL queries");
-        parser.addArgument("-q", "--quit").type(Arguments.booleanType()).setDefault(false)
-            .help("Exit immediately, only used if '-f/--file' is present");
-        final Namespace parsedArgs = parser.parseArgsOrFail(args);
-
-        final MacroBaseSQLRepl repl = new MacroBaseSQLRepl(parsedArgs.get("paging"));
-        final String asciiArt = Resources
-            .toString(Resources.getResource(ASCII_ART_FILE), Charsets.UTF_8);
-
-        boolean printedWelcome = false;
-        if (parsedArgs.get("file") != null) {
-            System.out.println(asciiArt);
-            printedWelcome = true;
-            final String queriesFromFile = Files
-                .toString(new File((String) parsedArgs.get("file")), Charsets.UTF_8);
-            repl.executeQueries(queriesFromFile, true);
-            if (parsedArgs.get("quit")) {
-                return;
-            }
-        }
-        if (!printedWelcome) {
-            System.out.println(asciiArt);
-        }
-        repl.runRepl();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

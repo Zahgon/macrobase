@@ -19,8 +19,7 @@ import java.util.Optional;
 public abstract class QueryBody extends Relation {
 
     // subclasses can use this to return nothing for getSelect()
-    protected static final Select SELECT_ALL = new Select(false,
-        Lists.newArrayList(new SingleColumn(new StringLiteral("*"))));
+    protected static final Select SELECT_ALL = new Select(false, Lists.newArrayList(new SingleColumn(new StringLiteral("*"))));
 
     protected QueryBody(Optional<NodeLocation> location) {
         super(location);
@@ -28,7 +27,7 @@ public abstract class QueryBody extends Relation {
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitQueryBody(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public abstract Select getSelect();

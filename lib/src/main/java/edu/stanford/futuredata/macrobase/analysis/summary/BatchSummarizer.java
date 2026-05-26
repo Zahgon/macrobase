@@ -17,13 +17,21 @@ public abstract class BatchSummarizer implements Operator<DataFrame, Explanation
 
     // Parameters
     protected String outlierColumn = "_OUTLIER";
+
     protected double minOutlierSupport = 0.1;
+
     protected double minRatioMetric = 3;
+
     protected List<String> attributes = new ArrayList<>();
+
     protected int numThreads = Runtime.getRuntime().availableProcessors();
+
     protected String ratioMetric = "global_ratio";
+
     protected int maxOrder = 3;
+
     protected boolean useFDs = false;
+
     protected int[] functionalDependencies;
 
     /**
@@ -32,13 +40,11 @@ public abstract class BatchSummarizer implements Operator<DataFrame, Explanation
      * @param minSupport lowest outlier support of the results returned.
      */
     public BatchSummarizer setMinSupport(double minSupport) {
-        this.minOutlierSupport = minSupport;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchSummarizer setAttributes(List<String> attributes) {
-        this.attributes = attributes;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -47,8 +53,7 @@ public abstract class BatchSummarizer implements Operator<DataFrame, Explanation
      * @param outlierColumn new outlier indicator column.
      */
     public BatchSummarizer setOutlierColumn(String outlierColumn) {
-        this.outlierColumn = outlierColumn;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -56,10 +61,8 @@ public abstract class BatchSummarizer implements Operator<DataFrame, Explanation
      *
      * @param minRatioMetric lowest risk ratio to consider for meaningful explanations.
      */
-
     public BatchSummarizer setMinRatioMetric(double minRatioMetric) {
-        this.minRatioMetric = minRatioMetric;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -68,31 +71,22 @@ public abstract class BatchSummarizer implements Operator<DataFrame, Explanation
      * @param numThreads Number of threads to use.
      */
     public BatchSummarizer setNumThreads(int numThreads) {
-        this.numThreads = numThreads;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchSummarizer setRatioMetric(final String ratioMetric) {
-        this.ratioMetric = ratioMetric;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchSummarizer setMaxOrder(final int maxOrder) throws MacroBaseException {
-        if (maxOrder < 1 || maxOrder > 3) {
-            throw new MacroBaseException("Max Order " + maxOrder +
-                " cannot be less than 1 or greater than 3");
-        }
-        this.maxOrder = maxOrder;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchSummarizer setFDUsage(final boolean useFDs) {
-        this.useFDs = useFDs;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public BatchSummarizer setFDValues(final int[] functionalDependencies) {
-        this.functionalDependencies = functionalDependencies;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

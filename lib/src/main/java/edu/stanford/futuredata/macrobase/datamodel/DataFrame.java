@@ -4,7 +4,6 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 import static java.util.stream.Collectors.toList;
-
 import com.google.common.base.Joiner;
 import edu.stanford.futuredata.macrobase.analysis.summary.util.ModBitSet;
 import edu.stanford.futuredata.macrobase.datamodel.Schema.ColType;
@@ -31,8 +30,11 @@ public class DataFrame {
     private static final int MAX_COLS_FOR_TABULAR_PRINT = 10;
 
     private Schema schema;
+
     private ArrayList<String[]> stringCols;
+
     private ArrayList<double[]> doubleCols;
+
     // external indices define a global ordering on columns, but internally each
     // column is stored with other columns of its type. Thus external indices must be
     // converted into internal type-specific indices.
@@ -113,29 +115,12 @@ public class DataFrame {
      * @return shallow DataFrame copy
      */
     public DataFrame copy() {
-        DataFrame other = new DataFrame();
-        other.schema = schema.copy();
-        other.indexToTypeIndex = new ArrayList<>(indexToTypeIndex);
-        other.numRows = numRows;
-        other.stringCols = new ArrayList<>(stringCols);
-        other.doubleCols = new ArrayList<>(doubleCols);
-        return other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        final DataFrame o = (DataFrame) obj;
-        return Objects.equals(schema, o.schema) &&
-            Objects.equals(numRows, o.numRows) &&
-            Objects.equals(indexToTypeIndex, o.indexToTypeIndex) &&
-            compareStringCols(stringCols, o.stringCols) &&
-            compareDoubleCols(doubleCols, o.doubleCols);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,14 +157,24 @@ public class DataFrame {
         return true;
     }
 
-    public Schema getSchema() {return this.schema;}
-    public int getNumRows() {return numRows;}
-    public ArrayList<double[]> getDoubleCols() { return doubleCols; }
-    public ArrayList<String[]> getStringCols() { return stringCols; }
+    public Schema getSchema() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public int getNumRows() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public ArrayList<double[]> getDoubleCols() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public ArrayList<String[]> getStringCols() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     public String toString() {
-        // TODO: replace with getRowIterator()
-        return getRows().toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -216,61 +211,7 @@ public class DataFrame {
      * -1 prints out all rows)
      */
     public void prettyPrint(final PrintStream out, final int maxNumToPrint) {
-        out.println(numRows +  (numRows == 1 ? " row" : " rows"));
-        out.println();
-
-        if (schema.getNumColumns() > MAX_COLS_FOR_TABULAR_PRINT) {
-            // print each row so that each value is on a separate line, because the terminal isn't
-            // wide enough to display the entire table
-            if (maxNumToPrint > 0 && numRows > maxNumToPrint) {
-                final int numToPrint = maxNumToPrint / 2;
-                for (Row r : getRowIterator(0, numToPrint)) {
-                    r.prettyPrintColumnWise(out);
-                }
-                out.println();
-                out.println("...");
-                out.println();
-                for (Row r : getRowIterator(numRows - numToPrint, numRows)) {
-                    r.prettyPrintColumnWise(out);
-                }
-            } else {
-                for (Row r : getRowIterator()) {
-                    r.prettyPrintColumnWise(out);
-                }
-            }
-        } else {
-            // print DataFrame as a table
-            final int maxColNameLength = schema.getColumnNames().stream()
-                .reduce("", (x, y) -> x.length() > y.length() ? x : y).length();
-            final int tableWidth =
-                maxColNameLength + 4; // 2 extra spaces on both sides of each column name and value
-            final List<String> colStrs = schema.getColumnNames().stream()
-                .map((x) -> StringUtils.center(String.valueOf(x), tableWidth)).collect(toList());
-            final String schemaStr = "|" + Joiner.on("|").join(colStrs) + "|";
-            final String dashes = Joiner.on("").join(Collections.nCopies(schemaStr.length(), "-"));
-            out.println(dashes);
-            out.println(schemaStr);
-            out.println(dashes);
-
-            if (maxNumToPrint > 0 && numRows > maxNumToPrint) {
-                final int numToPrint = maxNumToPrint / 2;
-                for (Row r : getRowIterator(0, numToPrint))  {
-                    r.prettyPrint(out, tableWidth);
-                }
-                out.println();
-                out.println("...");
-                out.println();
-                for (Row r : getRowIterator(numRows - numToPrint, numRows))  {
-                    r.prettyPrint(out, tableWidth);
-                }
-            } else {
-                for (Row r : getRowIterator())  {
-                    r.prettyPrint(out, tableWidth);
-                }
-            }
-            out.println(dashes);
-            out.println();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -278,61 +219,44 @@ public class DataFrame {
      * and <tt>maxNumToPrint</tt> set to 20
      */
     public void prettyPrint() {
-        prettyPrint(System.out, 20);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * {@link #prettyPrint(PrintStream, int)} with default <tt>maxNumToPrint</tt> set to 20
      */
     public void prettyPrint(final PrintStream out) {
-      prettyPrint(out, 20);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * {@link #prettyPrint(PrintStream, int)} with default <tt>out</tt> set to <tt>System.out</tt>
      */
     public void prettyPrint(final int maxNumToPrint) {
-        prettyPrint(System.out, maxNumToPrint);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // Fast Column-based methods
     public DataFrame addColumn(String colName, String[] colValues) {
-        if (numRows == 0) {
-            numRows = colValues.length;
-        }
-
-        schema.addColumn(Schema.ColType.STRING, colName);
-        addStringColumnInternal(colValues);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DataFrame addColumn(String colName, double[] colValues) {
-        if (numRows == 0) {
-            numRows = colValues.length;
-        }
-
-        schema.addColumn(ColType.DOUBLE, colName);
-        addDoubleColumnInternal(colValues);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void addStringColumnInternal(String[] colValues) {
         stringCols.add(colValues);
-        indexToTypeIndex.add(stringCols.size()-1);
+        indexToTypeIndex.add(stringCols.size() - 1);
     }
 
     private void addDoubleColumnInternal(double[] colValues) {
         doubleCols.add(colValues);
-        indexToTypeIndex.add(doubleCols.size()-1);
+        indexToTypeIndex.add(doubleCols.size() - 1);
     }
 
     protected int[] getSubIndices(List<Integer> columns) {
-        int d = columns.size();
-        int[] typeSubIndices = new int[d];
-        for (int i = 0; i < d; i++) {
-            typeSubIndices[i] = indexToTypeIndex.get(columns.get(i));
-        }
-        return typeSubIndices;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -344,50 +268,43 @@ public class DataFrame {
      * @return true if rename was successful, false otherwise
      */
     public boolean renameColumn(final String oldColumnName, final String newColumnName) {
-        return schema.renameColumn(oldColumnName, newColumnName);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    public boolean hasColumn(String columnName) { return schema.hasColumn(columnName); }
+    public boolean hasColumn(String columnName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     public double[] getDoubleColumn(int columnIdx) {
-        return doubleCols.get(indexToTypeIndex.get(columnIdx));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public double[] getDoubleColumnByName(String columnName) {
-        return doubleCols.get(indexToTypeIndex.get(schema.getColumnIndex(columnName)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<double[]> getDoubleCols(List<Integer> columns) {
-        ArrayList<double[]> cols = new ArrayList<>();
-        for (int c : columns) {
-            if (schema.getColumnType(c) != ColType.DOUBLE) {
-                throw new UnsupportedOperationException(
-                    "Column " + schema.getColumnName(c) + " not of type Double!");
-            }
-            cols.add(getDoubleColumn(c));
-        }
-        return cols;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<double[]> getDoubleColsByName(List<String> columns) {
-        return getDoubleCols(this.schema.getColumnIndices(columns));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public String[] getStringColumn(int columnIdx) {
-        return stringCols.get(indexToTypeIndex.get(columnIdx));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public String[] getStringColumnByName(String columnName) {
-        return stringCols.get(indexToTypeIndex.get(schema.getColumnIndex(columnName)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<String[]> getStringCols(List<Integer> columns) {
-        ArrayList<String[]> cols = new ArrayList<>();
-        for (int c : columns) {
-            if (schema.getColumnType(c) != ColType.STRING) {
-                throw new UnsupportedOperationException(
-                    "Column " + schema.getColumnName(c) + " not of type String!");
-            }
-            cols.add(getStringColumn(c));
-        }
-        return cols;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<String[]> getStringColsByName(List<String> columns) {
-        return getStringCols(this.schema.getColumnIndices(columns));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -395,52 +312,7 @@ public class DataFrame {
      * @return new DataFrame with copied rows
      */
     public static DataFrame unionAll(List<DataFrame> others) {
-        int k = others.size();
-        if (k == 0) {
-            return new DataFrame();
-        }
-
-        DataFrame first = others.get(0);
-        DataFrame combined = new DataFrame();
-        combined.schema = first.schema.copy();
-        combined.indexToTypeIndex = new ArrayList<>(first.indexToTypeIndex);
-        int n = 0;
-        for (DataFrame other : others) {
-            n += other.numRows;
-        }
-        combined.numRows = n;
-        int d = first.schema.getNumColumns();
-
-        for (int colIdx = 0; colIdx < d; colIdx++) {
-            Schema.ColType t = combined.schema.getColumnType(colIdx);
-            if (t == Schema.ColType.STRING) {
-                String[] newCol = new String[n];
-                int i = 0;
-                for (DataFrame curOther : others) {
-                    String[] otherCol = curOther.getStringColumn(colIdx);
-                    for (String curString : otherCol) {
-                        newCol[i] = curString;
-                        i++;
-                    }
-                }
-                combined.stringCols.add(newCol);
-            } else if (t == Schema.ColType.DOUBLE) {
-                double[] newCol = new double[n];
-                int i = 0;
-                for (DataFrame curOther : others) {
-                    double[] otherCol = curOther.getDoubleColumn(colIdx);
-                    for (double curDouble : otherCol) {
-                        newCol[i] = curDouble;
-                        i++;
-                    }
-                }
-                combined.doubleCols.add(newCol);
-            } else {
-                throw new MacroBaseInternalError("Invalid Col Type");
-            }
-        }
-
-        return combined;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -450,19 +322,7 @@ public class DataFrame {
      */
     // TODO: write test for this method
     public DataFrame project(List<String> projectionCols) {
-        final DataFrame other = new DataFrame();
-        for (String col : projectionCols) {
-            if (!schema.hasColumn(col)) {
-                continue;
-            }
-            final ColType type = schema.getColumnTypeByName(col);
-            if (type == ColType.DOUBLE) {
-                other.addColumn(col, getDoubleColumnByName(col));
-            } else if (type == ColType.STRING) {
-                other.addColumn(col, getStringColumnByName(col));
-            }
-        }
-        return other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -472,17 +332,7 @@ public class DataFrame {
      */
     // TODO: write test for this method
     public DataFrame project(String projectionCol) {
-        final DataFrame other = new DataFrame();
-        if (!schema.hasColumn(projectionCol)) {
-            return other;
-        }
-        final ColType type = schema.getColumnTypeByName(projectionCol);
-        if (type == ColType.DOUBLE) {
-            other.addColumn(projectionCol, getDoubleColumnByName(projectionCol));
-        } else if (type == ColType.STRING) {
-            other.addColumn(projectionCol, getStringColumnByName(projectionCol));
-        }
-        return other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -490,57 +340,15 @@ public class DataFrame {
      * @return new DataFrame with subset of rows
      */
     public DataFrame filter(ModBitSet mask) {
-        DataFrame other = new DataFrame();
-
-        int d = schema.getNumColumns();
-        int numTrue = 0;
-        for (int i = 0; i < numRows; i++) {
-            if (mask.get(i)) {
-                numTrue++;
-            }
-        }
-        for (int c = 0; c < d; c++) {
-            Schema.ColType t = schema.getColumnType(c);
-            String columnName = schema.getColumnName(c);
-            if (t == Schema.ColType.STRING) {
-                String[] oldColumn = getStringColumn(c);
-                String[] newColumn = new String[numTrue];
-                int j = 0;
-                for (int i = 0; i < numRows; i++) {
-                    if (mask.get(i)) {
-                        newColumn[j] = oldColumn[i];
-                        j++;
-                    }
-                }
-                other.addColumn(columnName, newColumn);
-            } else if (t == Schema.ColType.DOUBLE) {
-                double[] oldColumn = getDoubleColumn(c);
-                double[] newColumn = new double[numTrue];
-                int j = 0;
-                for (int i = 0; i < numRows; i++) {
-                    if (mask.get(i)) {
-                        newColumn[j] = oldColumn[i];
-                        j++;
-                    }
-                }
-                other.addColumn(columnName, newColumn);
-            } else {
-                throw new MacroBaseInternalError("Bad Column Type");
-            }
-        }
-        return other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DataFrame filter(int columnIdx, Predicate<Object> filter) {
-        String[] filterColumn = getStringColumn(columnIdx);
-        final ModBitSet mask = new ModBitSet(numRows);
-        for (int i = 0; i < numRows; i++) {
-          mask.set(i, filter.test(filterColumn[i]));
-        }
-        return filter(mask);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public DataFrame filter(String columnName, Predicate<Object> filter) {
-        return filter(schema.getColumnIndex(columnName), filter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -549,8 +357,7 @@ public class DataFrame {
      * @return new DataFrame with subset of rows
      */
     public DataFrame filter(int columnIdx, DoublePredicate filter) {
-        final ModBitSet mask = getMaskForFilter(columnIdx, filter);
-        return filter(mask);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -560,12 +367,7 @@ public class DataFrame {
      * on each row in the DataFrame
      */
     public ModBitSet getMaskForFilter(int columnIdx, Predicate<String> filter) {
-        String[] filterColumn = getStringColumn(columnIdx);
-        final ModBitSet mask = new ModBitSet(numRows);
-        for (int i = 0; i < numRows; i++) {
-          mask.set(i, filter.test(filterColumn[i]));
-        }
-        return mask;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -575,12 +377,7 @@ public class DataFrame {
      * on each row in the DataFrame
      */
     public ModBitSet getMaskForFilter(int columnIdx, DoublePredicate filter) {
-        double[] filterColumn = getDoubleColumn(columnIdx);
-        final ModBitSet mask = new ModBitSet(numRows);
-        for (int i = 0; i < numRows; i++) {
-            mask.set(i, filter.test(filterColumn[i]));
-        }
-        return mask;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -589,7 +386,7 @@ public class DataFrame {
      * @return new DataFrame with subset of rows
      */
     public DataFrame filter(String columnName, DoublePredicate filter) {
-        return filter(schema.getColumnIndex(columnName), filter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -597,7 +394,7 @@ public class DataFrame {
      * @return this DataFrame, unchanged
      */
     public DataFrame limit() {
-        return limit(-1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -607,56 +404,15 @@ public class DataFrame {
      * @return the new DataFrame with only the first <tt>numRows</tt> rows.
      */
     public DataFrame limit(final int numRows) {
-      if (numRows < 0 || numRows >= this.numRows) {
-          return this;
-      }
-      final DataFrame result = new DataFrame();
-      result.schema = this.schema.copy();
-      result.indexToTypeIndex = new ArrayList<>(this.indexToTypeIndex);
-      result.numRows = numRows;
-      final int numColumns = this.schema.getNumColumns();
-
-      for (int colIdx = 0; colIdx < numColumns; colIdx++) {
-          Schema.ColType t = result.schema.getColumnType(colIdx);
-          if (t == Schema.ColType.STRING) {
-              final String[] col = this.getStringColumn(colIdx);
-              final String[] newCol = new String[numRows];
-              for (int i = 0; i < numRows; ++i) {
-                  newCol[i] = col[i];
-              }
-              result.stringCols.add(newCol);
-          } else if (t == Schema.ColType.DOUBLE) {
-              final double[] col = this.getDoubleColumn(colIdx);
-              final double[] newCol = new double[numRows];
-              for (int i = 0; i < numRows; ++i) {
-                  newCol[i] = col[i];
-              }
-              result.doubleCols.add(newCol);
-          }
-      }
-      return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Row getRow(int rowIdx) {
-        final int numColumns = schema.getNumColumns();
-        ArrayList<Object> rowValues = new ArrayList<>(numColumns);
-        for (int c = 0; c < numColumns; c++) {
-            Schema.ColType t = schema.getColumnType(c);
-            int typeSubIndex = indexToTypeIndex.get(c);
-            if (t == Schema.ColType.STRING) {
-                rowValues.add(stringCols.get(typeSubIndex)[rowIdx]);
-            } else if (t == Schema.ColType.DOUBLE) {
-                rowValues.add(doubleCols.get(typeSubIndex)[rowIdx]);
-            } else {
-                throw new MacroBaseInternalError("Bad ColType");
-            }
-        }
-        Row r = new Row(schema, rowValues);
-        return r;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Row> getRows() {
-        return getRows(0, numRows);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private List<Row> getRows(final int startIndex, int numRowsToGet) {
@@ -671,40 +427,19 @@ public class DataFrame {
     }
 
     public ArrayList<double[]> getDoubleRows(List<Integer> columns) {
-        ArrayList<double[]> rows = new ArrayList<>(this.numRows);
-        int d = columns.size();
-        int[] typeSubIndices = getSubIndices(columns);
-
-        for (int i = 0; i < this.numRows; i++) {
-            double[] curRow = new double[d];
-            for (int j = 0; j < d; j++) {
-                int colSubIndex = typeSubIndices[j];
-                curRow[j] = doubleCols.get(colSubIndex)[i];
-            }
-            rows.add(curRow);
-        }
-        return rows;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<String[]> getStringRows(List<Integer> columns) {
-        ArrayList<String[]> rows = new ArrayList<>(this.numRows);
-        int d = columns.size();
-        int[] typeSubIndices = getSubIndices(columns);
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-        for (int i = 0; i < this.numRows; i++) {
-            String[] curRow = new String[d];
-            for (int j = 0; j < d; j++) {
-                int colSubIndex = typeSubIndices[j];
-                curRow[j] = stringCols.get(colSubIndex)[i];
-            }
-            rows.add(curRow);
-        }
-        return rows;
-    }
     public ArrayList<double[]> getDoubleRowsByName(List<String> columns) {
-        return getDoubleRows(this.schema.getColumnIndices(columns));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<String[]> getStringRowsByName(List<String> columns) {
-        return getStringRows(this.schema.getColumnIndices(columns));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -716,51 +451,11 @@ public class DataFrame {
      * not in the DataFrame's schema, return the same DataFrame, unchanged
      */
     public DataFrame orderBy(final String sortCol, final boolean sortAsc) {
-      // If column is not present in DataFrame, return as is
-      if (!this.schema.hasColumn(sortCol)) {
-          return this;
-      }
-
-      final DataFrame sortedDf = new DataFrame();
-      final ColType sortColType = this.schema.getColumnTypeByName(sortCol);
-      final int numColumns = this.schema.getNumColumns();
-
-      if (sortColType == ColType.DOUBLE) {
-          sortColumns(sortedDf, numColumns, getDoubleColumnByName(sortCol), sortAsc);
-      } else {
-          sortColumns(sortedDf, numColumns, getStringColumnByName(sortCol), sortAsc);
-      }
-      return sortedDf;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // TODO: this code duplication is awful, gotta think of a better way of doing this
-    private void sortColumns(final DataFrame sortedDf, final int numColumns,
-        final double[] sortColumn, final boolean sortAsc) {
-        Comparator<Integer> comparator = comparing(i -> sortColumn[i], nullsLast(
-            naturalOrder()));
-        if (!sortAsc) {
-            comparator = comparator.reversed();
-        }
-        for (int c = 0; c < numColumns; ++c) {
-            if (this.schema.getColumnType(c) == ColType.DOUBLE) {
-                final double[] origCol = this.getDoubleColumn(c);
-                final double[] newCol = IntStream.range(0, origCol.length).boxed()
-                    .sorted(comparator)
-                    .mapToDouble(i -> origCol[i]).toArray();
-                sortedDf.addColumn(this.schema.getColumnName(c), newCol);
-            } else {
-                // ColType.STRING
-                final String[] origCol = this.getStringColumn(c);
-                final String[] newCol = IntStream.range(0, origCol.length).boxed()
-                    .sorted(comparator).map(i -> origCol[i])
-                    .toArray(String[]::new);
-                sortedDf.addColumn(this.schema.getColumnName(c), newCol);
-            }
-        }
-    }
-
-    private void sortColumns(final DataFrame sortedDf, final int numColumns,
-        final String[] sortColumn, final boolean sortAsc) {
+    private void sortColumns(final DataFrame sortedDf, final int numColumns, final double[] sortColumn, final boolean sortAsc) {
         Comparator<Integer> comparator = comparing(i -> sortColumn[i], nullsLast(naturalOrder()));
         if (!sortAsc) {
             comparator = comparator.reversed();
@@ -768,16 +463,31 @@ public class DataFrame {
         for (int c = 0; c < numColumns; ++c) {
             if (this.schema.getColumnType(c) == ColType.DOUBLE) {
                 final double[] origCol = this.getDoubleColumn(c);
-                final double[] newCol = IntStream.range(0, origCol.length).boxed()
-                    .sorted(comparator)
-                    .mapToDouble(i -> origCol[i]).toArray();
+                final double[] newCol = IntStream.range(0, origCol.length).boxed().sorted(comparator).mapToDouble(i -> origCol[i]).toArray();
                 sortedDf.addColumn(this.schema.getColumnName(c), newCol);
             } else {
                 // ColType.STRING
                 final String[] origCol = this.getStringColumn(c);
-                final String[] newCol = IntStream.range(0, origCol.length).boxed()
-                    .sorted(comparator).map(i -> origCol[i])
-                    .toArray(String[]::new);
+                final String[] newCol = IntStream.range(0, origCol.length).boxed().sorted(comparator).map(i -> origCol[i]).toArray(String[]::new);
+                sortedDf.addColumn(this.schema.getColumnName(c), newCol);
+            }
+        }
+    }
+
+    private void sortColumns(final DataFrame sortedDf, final int numColumns, final String[] sortColumn, final boolean sortAsc) {
+        Comparator<Integer> comparator = comparing(i -> sortColumn[i], nullsLast(naturalOrder()));
+        if (!sortAsc) {
+            comparator = comparator.reversed();
+        }
+        for (int c = 0; c < numColumns; ++c) {
+            if (this.schema.getColumnType(c) == ColType.DOUBLE) {
+                final double[] origCol = this.getDoubleColumn(c);
+                final double[] newCol = IntStream.range(0, origCol.length).boxed().sorted(comparator).mapToDouble(i -> origCol[i]).toArray();
+                sortedDf.addColumn(this.schema.getColumnName(c), newCol);
+            } else {
+                // ColType.STRING
+                final String[] origCol = this.getStringColumn(c);
+                final String[] newCol = IntStream.range(0, origCol.length).boxed().sorted(comparator).map(i -> origCol[i]).toArray(String[]::new);
                 sortedDf.addColumn(this.schema.getColumnName(c), newCol);
             }
         }
@@ -788,15 +498,17 @@ public class DataFrame {
      * @return
      */
     public Iterable<Row> getRowIterator() {
-        return getRowIterator(0, numRows);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Iterable<Row> getRowIterator(final int start, final int finish) {
-        return new RowIterable(start, finish);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private class RowIterator implements Iterator<Row> {
+
         int start;
+
         int finish;
 
         RowIterator(final int start, final int finish) {
@@ -806,25 +518,24 @@ public class DataFrame {
 
         @Override
         public boolean hasNext() {
-            return start < finish;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Row next() {
-            if (start >= finish) {
-                return null;
-            }
-            return getRow(start++);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void remove() {
-            // No-op
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     private class RowIterable implements Iterable<Row> {
+
         int start;
+
         int finish;
 
         RowIterable(final int start, final int finish) {
@@ -834,7 +545,7 @@ public class DataFrame {
 
         @Override
         public Iterator<Row> iterator() {
-            return new RowIterator(start, finish);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

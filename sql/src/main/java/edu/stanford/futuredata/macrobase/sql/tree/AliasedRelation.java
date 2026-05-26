@@ -15,7 +15,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -24,78 +23,62 @@ import java.util.Optional;
 public class AliasedRelation extends Relation {
 
     private final Relation relation;
+
     private final Identifier alias;
+
     private final List<Identifier> columnNames;
 
     public AliasedRelation(Relation relation, Identifier alias, List<Identifier> columnNames) {
         this(Optional.empty(), relation, alias, columnNames);
     }
 
-    public AliasedRelation(NodeLocation location, Relation relation, Identifier alias,
-        List<Identifier> columnNames) {
+    public AliasedRelation(NodeLocation location, Relation relation, Identifier alias, List<Identifier> columnNames) {
         this(Optional.of(location), relation, alias, columnNames);
     }
 
-    private AliasedRelation(Optional<NodeLocation> location, Relation relation, Identifier alias,
-        List<Identifier> columnNames) {
+    private AliasedRelation(Optional<NodeLocation> location, Relation relation, Identifier alias, List<Identifier> columnNames) {
         super(location);
         requireNonNull(relation, "relation is null");
         requireNonNull(alias, " is null");
-
         this.relation = relation;
         this.alias = alias;
         this.columnNames = columnNames;
     }
 
     public Relation getRelation() {
-        return relation;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Identifier getAlias() {
-        return alias;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<Identifier> getColumnNames() {
-        return columnNames;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitAliasedRelation(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(relation);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("relation", relation)
-            .add("alias", alias)
-            .add("columnNames", columnNames)
-            .omitNullValues()
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        AliasedRelation that = (AliasedRelation) o;
-        return Objects.equals(relation, that.relation) &&
-            Objects.equals(alias, that.alias) &&
-            Objects.equals(columnNames, that.columnNames);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(relation, alias, columnNames);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

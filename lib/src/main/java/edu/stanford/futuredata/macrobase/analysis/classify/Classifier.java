@@ -5,6 +5,7 @@ import edu.stanford.futuredata.macrobase.operator.Transformer;
 public abstract class Classifier implements Transformer {
 
     protected String columnName;
+
     protected String outputColumnName = "_OUTLIER";
 
     public Classifier(String columnName) {
@@ -12,16 +13,15 @@ public abstract class Classifier implements Transformer {
     }
 
     public String getColumnName() {
-        return columnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Classifier setColumnName(String columnName) {
-        this.columnName = columnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getOutputColumnName() {
-        return outputColumnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -29,7 +29,6 @@ public abstract class Classifier implements Transformer {
      * @return this
      */
     public Classifier setOutputColumnName(String outputColumnName) {
-        this.outputColumnName = outputColumnName;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

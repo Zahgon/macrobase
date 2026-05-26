@@ -14,6 +14,7 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 public enum ComparisonExpressionType {
+
     EQUAL("="),
     NOT_EQUAL("<>"),
     LESS_THAN("<"),
@@ -29,46 +30,14 @@ public enum ComparisonExpressionType {
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ComparisonExpressionType flip() {
-        switch (this) {
-            case EQUAL:
-                return EQUAL;
-            case NOT_EQUAL:
-                return NOT_EQUAL;
-            case LESS_THAN:
-                return GREATER_THAN;
-            case LESS_THAN_OR_EQUAL:
-                return GREATER_THAN_OR_EQUAL;
-            case GREATER_THAN:
-                return LESS_THAN;
-            case GREATER_THAN_OR_EQUAL:
-                return LESS_THAN_OR_EQUAL;
-            case IS_DISTINCT_FROM:
-                return IS_DISTINCT_FROM;
-            default:
-                throw new IllegalArgumentException("Unsupported comparison: " + this);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public ComparisonExpressionType negate() {
-        switch (this) {
-            case EQUAL:
-                return NOT_EQUAL;
-            case NOT_EQUAL:
-                return EQUAL;
-            case LESS_THAN:
-                return GREATER_THAN_OR_EQUAL;
-            case LESS_THAN_OR_EQUAL:
-                return GREATER_THAN;
-            case GREATER_THAN:
-                return LESS_THAN_OR_EQUAL;
-            case GREATER_THAN_OR_EQUAL:
-                return LESS_THAN;
-            default:
-                throw new IllegalArgumentException("Unsupported comparison: " + this);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

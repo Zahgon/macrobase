@@ -3,7 +3,9 @@ package macrobase.ingest.result;
 import java.util.List;
 
 public class RowSet {
+
     public static class Row {
+
         private List<ColumnValue> columnValues;
 
         public Row(List<ColumnValue> columnValues) {
@@ -11,7 +13,7 @@ public class RowSet {
         }
 
         public List<ColumnValue> getColumnValues() {
-            return columnValues;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Row() {
@@ -26,7 +28,7 @@ public class RowSet {
     }
 
     public List<Row> getRows() {
-        return rows;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public RowSet() {

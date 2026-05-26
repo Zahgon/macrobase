@@ -1,10 +1,10 @@
 package macrobase.analysis.pipeline.stream;
 
 import macrobase.datamodel.Datum;
-
 import java.util.List;
 
 public class TimeDatumStream extends MBStream<Datum> {
+
     private int timeColumn;
 
     public TimeDatumStream(int timeColumn) {
@@ -22,15 +22,10 @@ public class TimeDatumStream extends MBStream<Datum> {
     }
 
     public List<Datum> drainDuration(long duration) {
-        int i = 0;
-        long startTime = getDatumTime(i);
-        while (i < output.size() && getDatumTime(i) - startTime < duration) {
-            i ++;
-        }
-        return drain(i);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Datum peek() {
-        return output.get(output.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

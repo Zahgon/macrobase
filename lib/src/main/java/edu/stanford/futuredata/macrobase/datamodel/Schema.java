@@ -10,12 +10,16 @@ import java.util.Objects;
  * Provides column names, types, and order
  */
 public class Schema {
+
     public enum ColType {
-        STRING,
-        DOUBLE
+
+        STRING, DOUBLE
     }
+
     private ArrayList<String> columnNames;
+
     private ArrayList<ColType> columnTypes;
+
     private HashMap<String, Integer> columnIndices;
 
     public Schema() {
@@ -23,21 +27,13 @@ public class Schema {
         this.columnTypes = new ArrayList<>();
         this.columnIndices = new HashMap<>();
     }
+
     public Schema copy() {
-        Schema other = new Schema();
-        other.columnNames = new ArrayList<>(columnNames);
-        other.columnTypes = new ArrayList<>(columnTypes);
-        other.columnIndices = new HashMap<>(columnIndices);
-        return other;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String toString() {
-        int d = columnNames.size();
-        List<String> pairs = new ArrayList<>(d);
-        for (int i = 0; i < d; i++) {
-            pairs.add(columnNames.get(i)+":"+columnTypes.get(i));
-        }
-        return pairs.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -49,84 +45,55 @@ public class Schema {
      * @return true if rename was successful, false otherwise
      */
     boolean renameColumn(String oldColumnName, String newColumnName) {
-        if (!columnIndices.containsKey(oldColumnName)) {
-            return false;
-        }
-
-        for (int i = 0; i < columnNames.size(); ++i) {
-            if (columnNames.get(i).equals(oldColumnName)) {
-                columnNames.set(i, newColumnName);
-                final int index = columnIndices.remove(oldColumnName);
-                columnIndices.put(newColumnName, index);
-                return true;
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
+    public boolean hasColumn(String columnName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-    public boolean hasColumn(String columnName) { return columnNames.contains(columnName); }
     public boolean hasColumns(Collection<String> columnNames) {
-        return this.columnNames.containsAll(columnNames);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getNumColumns() {
-        return columnNames.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public int getColumnIndex(String s) {
-        if (!columnIndices.containsKey(s)) {
-            throw new UnsupportedOperationException("Column " + s + " not present in the schema");
-        }
-        return columnIndices.get(s);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ArrayList<Integer> getColumnIndices(List<String> columns) {
-        ArrayList<Integer> indices = new ArrayList<>(columns.size());
-        for (String colName: columns) {
-            indices.add(getColumnIndex(colName));
-        }
-        return indices;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public String getColumnName(int i) {
-        return columnNames.get(i);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public List<String> getColumnNames() {
-        return this.columnNames;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public List<String> getColumnNamesByType(ColType type) {
-        List<String> names = new ArrayList<>();
-        for (int i = 0; i < columnNames.size(); i ++) {
-            if (getColumnType(i).equals(type)) {
-                names.add(getColumnName(i));
-            }
-        }
-        return names;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ColType getColumnType(int i) {
-        return columnTypes.get(i);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public ColType getColumnTypeByName(String s) {
-        return getColumnType(getColumnIndex(s));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Schema addColumn(ColType t, String colName) {
-        int nextIdx = columnNames.size();
-        this.columnNames.add(colName);
-        this.columnTypes.add(t);
-        this.columnIndices.put(colName, nextIdx);
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        final Schema o = (Schema) obj;
-        return Objects.equals(columnTypes, o.columnTypes) &&
-            Objects.equals(columnTypes, o.columnTypes) &&
-            Objects.equals(columnIndices, o.columnIndices);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

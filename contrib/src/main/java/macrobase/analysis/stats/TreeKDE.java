@@ -7,27 +7,34 @@ import macrobase.analysis.index.KDTree;
 import org.apache.commons.math3.linear.RealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TreeKDE extends KDE {
 
     private static final Logger log = LoggerFactory.getLogger(TreeKDE.class);
+
     private KDTree kdtree;
+
     private int kdtreeLeafCapacity;
+
     private double scoreScaleLog;
+
     private double onePointTolerance;
+
     private final double accuracy;
+
     // Leave this off until we have a more refined appromixation, saw very bad results with true
     private boolean approximateLeaves = false;
 
     private int numScored = 0;
 
     public static final String KDTREE_LEAF_CAPACITY = "macrobase.analysis.treeKde.leafCapacity";
+
     public static final String TREE_KDE_ACCURACY = "macrobase.analysis.treeKde.accuracy";
 
     public static final Integer KDTREE_LEAF_CAPACITY_DEFAULT = 2;
+
     public static final Double TREE_KDE_ACCURACY_DEFAULT = 1e-5;
 
     public TreeKDE(MacroBaseConf conf) throws ConfigurationException {
@@ -38,21 +45,12 @@ public class TreeKDE extends KDE {
     }
 
     public void setApproximateLeaves(boolean approximateLeaves) {
-        this.approximateLeaves = approximateLeaves;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void train(List<Datum> data) {
-        this.setBandwidth(data);
-        log.debug("training kd-tree KDE on {} points", data.size());
-        this.kdtree = new KDTree(new ArrayList<>(data), kdtreeLeafCapacity);
-        this.scoreScalingFactor = 1.0 / (bandwidthDeterminantSqrt * data.size());
-        this.scoreScaleLog = Math.log(scoreScalingFactor);
-
-        // Instead of scaling scores we scale acceptance
-        this.onePointTolerance = bandwidthDeterminantSqrt * accuracy;
-        log.info("using accuracy = {}", accuracy);
-        log.debug("onePointTolerance = {}", onePointTolerance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private double scoreKDTree(KDTree tree, Datum datum) {
@@ -75,7 +73,6 @@ public class TreeKDE extends KDE {
                     }
                     return _score;
                 }
-
             } else {
                 return scoreKDTree(tree.getHiChild(), datum) + scoreKDTree(tree.getLoChild(), datum);
             }
@@ -83,25 +80,19 @@ public class TreeKDE extends KDE {
     }
 
     public KDTree getKdtree() {
-        return kdtree;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
-    /**
+    public /**
      * Return the negative log pdf density, this avoids underflow errors while still being
      * an interpretable quantity. Use scoreDensity if you need the actual negative pdf.
      */
-    public double score(Datum datum) {
-        numScored++;
-        if (numScored % 10000 == 0) {
-            log.debug("Scored {}", numScored);
-        }
-        double unscaledScore = scoreKDTree(kdtree, datum);
-        // Note: return score with a minus sign, s.t. outliers are selected not inliers.
-        return -(Math.log(unscaledScore) + scoreScaleLog);
+    double score(Datum datum) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double scoreDensity(Datum datum) {
-        return -Math.exp(-score(datum));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

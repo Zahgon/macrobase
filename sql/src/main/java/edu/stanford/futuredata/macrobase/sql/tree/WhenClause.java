@@ -21,6 +21,7 @@ import java.util.Optional;
 public class WhenClause extends Expression {
 
     private final Expression operand;
+
     private final Expression result;
 
     public WhenClause(Expression operand, Expression result) {
@@ -38,39 +39,30 @@ public class WhenClause extends Expression {
     }
 
     public Expression getOperand() {
-        return operand;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Expression getResult() {
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitWhenClause(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        return ImmutableList.of(operand, result);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        WhenClause that = (WhenClause) o;
-        return Objects.equals(operand, that.operand) &&
-            Objects.equals(result, that.result);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operand, result);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

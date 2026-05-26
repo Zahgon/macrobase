@@ -14,7 +14,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import edu.stanford.futuredata.macrobase.sql.parser.ParsingException;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +21,7 @@ import java.util.Optional;
 public final class GenericLiteral extends Literal {
 
     private final String type;
+
     private final String value;
 
     public GenericLiteral(String type, String value) {
@@ -40,43 +40,32 @@ public final class GenericLiteral extends Literal {
             // we explicitly disallow "X" as type name, so if the user arrived here,
             // it must be because that he intended to give a binaryLiteral instead, but
             // added whitespace between the X and quote
-            throw new ParsingException(
-                "Spaces are not allowed between 'X' and the starting quote of a binary literal",
-                location.get());
+            throw new ParsingException("Spaces are not allowed between 'X' and the starting quote of a binary literal", location.get());
         }
         this.type = type;
         this.value = value;
     }
 
     public String getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitGenericLiteral(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, type);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        GenericLiteral other = (GenericLiteral) obj;
-        return Objects.equals(this.value, other.value) &&
-            Objects.equals(this.type, other.type);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

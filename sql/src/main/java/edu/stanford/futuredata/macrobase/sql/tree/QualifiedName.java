@@ -18,7 +18,6 @@ import static com.google.common.collect.Iterables.isEmpty;
 import static com.google.common.collect.Iterables.transform;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -29,25 +28,19 @@ import java.util.Optional;
 public class QualifiedName {
 
     private final List<String> parts;
+
     private final List<String> originalParts;
 
     public static QualifiedName of(String first, String... rest) {
-        requireNonNull(first, "first is null");
-        return of(ImmutableList.copyOf(Lists.asList(first, rest)));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static QualifiedName of(String name) {
-        requireNonNull(name, "name is null");
-        return of(ImmutableList.of(name));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static QualifiedName of(Iterable<String> originalParts) {
-        requireNonNull(originalParts, "originalParts is null");
-        checkArgument(!isEmpty(originalParts), "originalParts is empty");
-        List<String> parts = ImmutableList
-            .copyOf(transform(originalParts, part -> part.toLowerCase(ENGLISH)));
-
-        return new QualifiedName(ImmutableList.copyOf(originalParts), parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private QualifiedName(List<String> originalParts, List<String> parts) {
@@ -56,16 +49,16 @@ public class QualifiedName {
     }
 
     public List<String> getParts() {
-        return parts;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getOriginalParts() {
-        return originalParts;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return Joiner.on('.').join(parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -73,41 +66,24 @@ public class QualifiedName {
      * returns absent
      */
     public Optional<QualifiedName> getPrefix() {
-        if (parts.size() == 1) {
-            return Optional.empty();
-        }
-
-        List<String> subList = parts.subList(0, parts.size() - 1);
-        return Optional.of(new QualifiedName(subList, subList));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasSuffix(QualifiedName suffix) {
-        if (parts.size() < suffix.getParts().size()) {
-            return false;
-        }
-
-        int start = parts.size() - suffix.getParts().size();
-
-        return parts.subList(start, parts.size()).equals(suffix.getParts());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSuffix() {
-        return Iterables.getLast(parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        return parts.equals(((QualifiedName) o).parts);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return parts.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

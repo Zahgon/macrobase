@@ -14,19 +14,17 @@
 package edu.stanford.futuredata.macrobase.sql.parser;
 
 import static java.lang.String.format;
-
 import edu.stanford.futuredata.macrobase.sql.tree.NodeLocation;
 import org.antlr.v4.runtime.RecognitionException;
 
 public class ParsingException extends RuntimeException {
 
     private final int line;
+
     private final int charPositionInLine;
 
-    public ParsingException(String message, RecognitionException cause, int line,
-        int charPositionInLine) {
+    public ParsingException(String message, RecognitionException cause, int line, int charPositionInLine) {
         super(message, cause);
-
         this.line = line;
         this.charPositionInLine = charPositionInLine;
     }
@@ -40,19 +38,19 @@ public class ParsingException extends RuntimeException {
     }
 
     public int getLineNumber() {
-        return line;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getColumnNumber() {
-        return charPositionInLine + 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getErrorMessage() {
-        return super.getMessage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getMessage() {
-        return format("line %s:%s: %s", getLineNumber(), getColumnNumber(), getErrorMessage());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

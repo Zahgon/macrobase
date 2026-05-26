@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -22,40 +21,30 @@ public class AggregateExpression extends Node {
     private AggregateExpression(Optional<NodeLocation> location, Aggregate agg) {
         super(location);
         requireNonNull(agg, "agg is null");
-
         this.agg = agg;
     }
 
     public Aggregate getAgg() {
-        return agg;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(agg);
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if ((obj == null) || (getClass() != obj.getClass())) {
-            return false;
-        }
-        AggregateExpression o = (AggregateExpression) obj;
-        return Objects.equals(agg, o.agg);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return agg.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return agg.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

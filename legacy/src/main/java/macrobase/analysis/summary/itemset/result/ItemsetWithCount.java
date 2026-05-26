@@ -3,7 +3,9 @@ package macrobase.analysis.summary.itemset.result;
 import java.util.Set;
 
 public class ItemsetWithCount {
+
     private Set<Integer> items;
+
     private double count;
 
     public ItemsetWithCount(Set<Integer> items, double count) {
@@ -12,10 +14,10 @@ public class ItemsetWithCount {
     }
 
     public Set<Integer> getItems() {
-        return items;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getCount() {
-        return count;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

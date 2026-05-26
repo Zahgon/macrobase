@@ -1,7 +1,6 @@
 package edu.stanford.futuredata.macrobase.sql.tree;
 
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Optional;
@@ -27,31 +26,21 @@ public class DelimiterClause extends Node {
 
     @Override
     public List<? extends Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(new StringLiteral(delimiter.toString()));
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return delimiter.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-
-        DelimiterClause o = (DelimiterClause) obj;
-        return o.delimiter.equals(delimiter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return delimiter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

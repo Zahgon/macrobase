@@ -3,23 +3,25 @@ package macrobase.analysis.contextualoutlier;
 import macrobase.ingest.DatumEncoder;
 
 public abstract class Interval {
+
     protected int dimension;
+
     protected String columnName;
 
     public String getColumnName() {
-        return columnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setColumnName(String columnName) {
-        this.columnName = columnName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getDimension() {
-        return dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setDimension(int dimension) {
-        this.dimension = dimension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public abstract boolean contains(Object d);

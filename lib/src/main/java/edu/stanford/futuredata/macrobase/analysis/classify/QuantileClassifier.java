@@ -3,7 +3,6 @@ package edu.stanford.futuredata.macrobase.analysis.classify;
 import edu.stanford.futuredata.macrobase.analysis.classify.stats.LinearInterpolator;
 import edu.stanford.futuredata.macrobase.analysis.classify.stats.WeightedPercentile;
 import edu.stanford.futuredata.macrobase.datamodel.DataFrame;
-
 import java.util.*;
 
 /**
@@ -12,22 +11,26 @@ import java.util.*;
  * for each group, which can be non-integer.
  */
 public class QuantileClassifier extends CubeClassifier implements ThresholdClassifier {
+
     // Parameters
     private List<String> quantileColumnNames;
+
     private double[] quantiles;
+
     private double percentile = 1.0;
+
     private boolean includeHigh = true;
+
     private boolean includeLow = true;
 
     // Calculated values
     private double lowCutoff;
+
     private double highCutoff;
+
     private DataFrame output;
 
-    public QuantileClassifier(
-            String countColumnName,
-            LinkedHashMap<String, Double> quantileColumns
-    ) {
+    public QuantileClassifier(String countColumnName, LinkedHashMap<String, Double> quantileColumns) {
         super(countColumnName);
         this.quantileColumnNames = new ArrayList<String>();
         this.quantiles = new double[quantileColumns.size()];
@@ -40,63 +43,17 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
 
     @Override
     public void process(DataFrame input) {
-        double[] counts = input.getDoubleColumnByName(countColumnName);
-        List<double[]> quantileColumns = input.getDoubleColsByName(quantileColumnNames);
-        int len = counts.length;
-        int numQuantiles = quantiles.length;
-
-        double[] modifiedCounts = new double[len * (numQuantiles-1)];
-        double[] modifiedMeans = new double[len * (numQuantiles-1)];
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < quantiles.length - 1; j++) {
-                modifiedCounts[i * (numQuantiles-1) + j] = (quantiles[j+1] - quantiles[j]) * counts[i];
-                modifiedMeans[i * (numQuantiles-1) + j] =
-                        (quantileColumns.get(j)[i] + quantileColumns.get(j+1)[i]) / 2.0;
-            }
-        }
-        WeightedPercentile wp = new WeightedPercentile(modifiedCounts, modifiedMeans);
-        lowCutoff = wp.evaluate(percentile);
-        highCutoff = wp.evaluate(100.0 - percentile);
-
-        output = input.copy();
-        double[] resultColumn = new double[len];
-        for (int i = 0; i < len; i++) {
-            double count = counts[i];
-            double[] quantileValues = new double[numQuantiles];
-            for (int j = 0; j < numQuantiles; j++) {
-                quantileValues[j] = quantileColumns.get(j)[i];
-            }
-            LinearInterpolator interpolator = new LinearInterpolator(quantileValues, quantiles);
-            double numOutliers = 0.0;
-            if (includeHigh) {
-                if (highCutoff < quantileValues[0]) {
-                    numOutliers += count;
-                } else if (highCutoff < quantileValues[numQuantiles-1]) {
-                    double highCutoffQuantile = interpolator.evaluate(highCutoff);
-                    numOutliers += (1.0 - highCutoffQuantile) * count;
-                }
-            }
-            if (includeLow) {
-                if (lowCutoff > quantileValues[numQuantiles-1]) {
-                    numOutliers += count;
-                } else if (lowCutoff > quantileValues[0]) {
-                    double lowCutoffQuantile = interpolator.evaluate(lowCutoff);
-                    numOutliers += lowCutoffQuantile * count;
-                }
-            }
-            resultColumn[i] = numOutliers;
-        }
-        output.addColumn(outputColumnName, resultColumn);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public DataFrame getResults() {
-        return output;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // Parameter Getters and Setters
     public double getPercentile() {
-        return percentile;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -104,12 +61,11 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
      * @return this
      */
     public QuantileClassifier setPercentile(double percentile) {
-        this.percentile = percentile;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<String> getQuantileColumnNames() {
-        return quantileColumnNames;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,12 +73,11 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
      * @return this
      */
     public QuantileClassifier setQuantileColumnNames(List<String> quantileColumnNames) {
-        this.quantileColumnNames = quantileColumnNames;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double[] getQuantiles() {
-        return quantiles;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -133,12 +88,11 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
      * @return this
      */
     public QuantileClassifier setQuantiles(double[] quantiles) {
-        this.quantiles = quantiles;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isIncludeHigh() {
-        return includeHigh;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -146,11 +100,11 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
      * @return this
      */
     public QuantileClassifier setIncludeHigh(boolean includeHigh) {
-        this.includeHigh = includeHigh;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public boolean isIncludeLow() {
-        return includeLow;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -158,14 +112,14 @@ public class QuantileClassifier extends CubeClassifier implements ThresholdClass
      * @return this
      */
     public QuantileClassifier setIncludeLow(boolean includeLow) {
-        this.includeLow = includeLow;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getLowCutoff() {
-        return lowCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public double getHighCutoff() {
-        return highCutoff;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

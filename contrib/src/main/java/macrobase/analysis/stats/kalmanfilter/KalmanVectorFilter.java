@@ -10,11 +10,18 @@ import org.slf4j.LoggerFactory;
  * Currently user has to specify measurement and noise estimates using qScale (process noise) and rScale (measurement noise)
  */
 public class KalmanVectorFilter {
+
     private static final Logger log = LoggerFactory.getLogger(KalmanVectorFilter.class);
+
     protected double qScale;
+
     protected double rScale;
-    private final RealMatrix H; // measurement operator
+
+    // measurement operator
+    private final RealMatrix H;
+
     protected RealMatrix state;
+
     protected RealMatrix cov;
 
     public KalmanVectorFilter(RealVector startLoc, double qScale) {
@@ -29,20 +36,17 @@ public class KalmanVectorFilter {
     public KalmanVectorFilter(RealVector startLoc, double qScale, double rScale) {
         this.qScale = qScale;
         this.rScale = rScale;
-        double[][] tmp = {{1, 0}};
+        double[][] tmp = { { 1, 0 } };
         H = new BlockRealMatrix(tmp);
         reset(startLoc);
     }
 
     public void reset(RealVector startLoc) {
-        int D = startLoc.getDimension();
-        state = new BlockRealMatrix(2, D);
-        state.setRowVector(0, startLoc);
-        cov = MatrixUtils.createRealIdentityMatrix(2);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected RealVector measure(RealMatrix state) {
-        return state.getRowVector(0);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -53,27 +57,6 @@ public class KalmanVectorFilter {
      * @return filtered vector
      */
     public RealVector step(RealVector observation, int time) {
-        // Create g = [t^2 / 2, t]^T matrix
-        RealVector g = new ArrayRealVector(2);
-        g.setEntry(0, 0.5 * time * time);
-        g.setEntry(1, time);
-        RealMatrix Q = g.outerProduct(g).scalarMultiply(qScale);
-        RealMatrix R = MatrixUtils.createRealIdentityMatrix(1).scalarMultiply(rScale);
-        R = R.scalarMultiply(time * time);
-
-        RealMatrix F = MatrixUtils.createRealIdentityMatrix(2);
-        F.setEntry(0, 1, time);
-
-        RealMatrix priorNextState = F.multiply(state);
-        RealMatrix priorNextCov = F.multiply(cov).multiply(F.transpose()).add(Q); // F * cov * F^T + Q
-
-        RealVector measurementResidual = observation.subtract(measure(priorNextState)); // row vector
-        RealMatrix residualCovariance = H.multiply(priorNextCov).multiply(H.transpose()).add(R);
-        RealMatrix kalmanGain = priorNextCov.multiply(H.transpose()).multiply(AlgebraUtils.invertMatrix(residualCovariance));
-        // kalmanGain should be a 1x2 matrix
-        state = priorNextState.add(kalmanGain.getColumnVector(0).outerProduct(measurementResidual));
-        cov = MatrixUtils.createRealIdentityMatrix(2).subtract(kalmanGain.multiply(H)).multiply(priorNextCov);
-
-        return measure(state);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

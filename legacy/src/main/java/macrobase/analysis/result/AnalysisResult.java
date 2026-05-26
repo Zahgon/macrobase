@@ -1,24 +1,24 @@
 package macrobase.analysis.result;
 
 import macrobase.analysis.summary.itemset.result.ItemsetResult;
-
 import java.util.List;
 import java.util.StringJoiner;
 
 public class AnalysisResult {
+
     private double numOutliers;
+
     private double numInliers;
+
     private long executionTime;
+
     private long loadTime;
+
     private long summarizationTime;
+
     private List<ItemsetResult> itemSets;
 
-    public AnalysisResult(double numOutliers,
-                          double numInliers,
-                          long loadTime,
-                          long executionTime,
-                          long summarizationTime,
-                          List<ItemsetResult> itemSets) {
+    public AnalysisResult(double numOutliers, double numInliers, long loadTime, long executionTime, long summarizationTime, List<ItemsetResult> itemSets) {
         this.numOutliers = numOutliers;
         this.numInliers = numInliers;
         this.executionTime = executionTime;
@@ -29,52 +29,35 @@ public class AnalysisResult {
 
     @Override
     public String toString() {
-        String ret = String.format("outliers: %f\n" +
-                                   "inliers: %f\n" +
-                                   "load time %dms\n" +
-                                   "execution time: %dms\n" +
-                                   "summarization time: %dms\n\n",
-                                   numOutliers,
-                                   numInliers,
-                                   loadTime,
-                                   executionTime,
-                                   summarizationTime);
-
-        final String sep = "-----\n\n";
-        StringJoiner joiner = new StringJoiner(sep);
-        for (ItemsetResult result : itemSets) {
-            joiner.add(result.prettyPrint());
-        }
-
-        return ret + sep + joiner.toString() + sep;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumOutliers() {
-        return numOutliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public double getNumInliers() {
-        return numInliers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getExecutionTime() {
-        return executionTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getSummarizationTime() {
-        return summarizationTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getLoadTime() {
-        return loadTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setItemSets(List<ItemsetResult> itemsets) {
-        this.itemSets = itemsets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<ItemsetResult> getItemSets() {
-        return itemSets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public AnalysisResult() {

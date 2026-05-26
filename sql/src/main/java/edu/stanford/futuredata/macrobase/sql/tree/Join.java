@@ -16,7 +16,6 @@ package edu.stanford.futuredata.macrobase.sql.tree;
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Objects;
@@ -28,13 +27,11 @@ public class Join extends Relation {
         this(Optional.empty(), type, left, right, criteria);
     }
 
-    public Join(NodeLocation location, Type type, Relation left, Relation right,
-        Optional<JoinCriteria> criteria) {
+    public Join(NodeLocation location, Type type, Relation left, Relation right, Optional<JoinCriteria> criteria) {
         this(Optional.of(location), type, left, right, criteria);
     }
 
-    private Join(Optional<NodeLocation> location, Type type, Relation left, Relation right,
-        Optional<JoinCriteria> criteria) {
+    private Join(Optional<NodeLocation> location, Type type, Relation left, Relation right, Optional<JoinCriteria> criteria) {
         super(location);
         requireNonNull(left, "left is null");
         requireNonNull(right, "right is null");
@@ -43,7 +40,6 @@ public class Join extends Relation {
         } else {
             checkArgument(criteria.isPresent(), "No join criteria specified");
         }
-
         this.type = type;
         this.left = left;
         this.right = right;
@@ -51,73 +47,61 @@ public class Join extends Relation {
     }
 
     public enum Type {
-        CROSS, INNER, LEFT, RIGHT, FULL, IMPLICIT
+
+        CROSS,
+        INNER,
+        LEFT,
+        RIGHT,
+        FULL,
+        IMPLICIT
     }
 
     private final Type type;
+
     private final Relation left;
+
     private final Relation right;
+
     private final Optional<JoinCriteria> criteria;
 
     public Type getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Relation getLeft() {
-        return left;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Relation getRight() {
-        return right;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Optional<JoinCriteria> getCriteria() {
-        return criteria;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <R, C> R accept(AstVisitor<R, C> visitor, C context) {
-        return visitor.visitJoin(this, context);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public List<Node> getChildren() {
-        ImmutableList.Builder<Node> nodes = ImmutableList.builder();
-        nodes.add(left);
-        nodes.add(right);
-        criteria.map(JoinCriteria::getNodes)
-            .ifPresent(nodes::addAll);
-        return nodes.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return toStringHelper(this)
-            .add("type", type)
-            .add("left", left)
-            .add("right", right)
-            .add("criteria", criteria)
-            .omitNullValues()
-            .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if ((o == null) || (getClass() != o.getClass())) {
-            return false;
-        }
-        Join join = (Join) o;
-        return (type == join.type) &&
-            Objects.equals(left, join.left) &&
-            Objects.equals(right, join.right) &&
-            Objects.equals(criteria, join.criteria);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, left, right, criteria);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

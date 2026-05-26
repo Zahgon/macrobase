@@ -39,8 +39,7 @@ public interface BiDoublePredicate {
      * @throws NullPointerException if other is null
      */
     default BiDoublePredicate and(BiDoublePredicate other) {
-        Objects.requireNonNull(other);
-        return (x, y) -> test(x, y) && other.test(x, y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -49,7 +48,7 @@ public interface BiDoublePredicate {
      * @return a predicate that represents the logical negation of this predicate
      */
     default BiDoublePredicate negate() {
-        return (x, y) -> !test(x, y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,7 +66,6 @@ public interface BiDoublePredicate {
      * @throws NullPointerException if other is null
      */
     default BiDoublePredicate or(BiDoublePredicate other) {
-        Objects.requireNonNull(other);
-        return (x, y) -> test(x, y) || other.test(x, y);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

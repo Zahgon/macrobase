@@ -1,14 +1,16 @@
 package macrobase.analysis.stats;
 
 import java.util.List;
-
 import macrobase.conf.MacroBaseConf;
 import macrobase.conf.MacroBaseDefaults;
 import macrobase.datamodel.Datum;
 
 public abstract class TimeSeriesScore extends BatchTrainScore {
+
     protected final int tupleWindowSize;
+
     protected final Integer timeColumn;
+
     private int currentTupleWindowSize;
 
     public TimeSeriesScore(MacroBaseConf conf) {
@@ -29,25 +31,11 @@ public abstract class TimeSeriesScore extends BatchTrainScore {
 
     @Override
     public void train(List<Datum> data) {
-        // Just sanity checks - we don't actually compute anything in train,
-        // since we train as we go while scoring.
-        assert data.size() >= tupleWindowSize;
-        assert timeColumn != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double score(Datum datum) {
-        /*
-         * Note: we assume score is called with data in order - this is true for
-         * batch analysis. Somewhat hacky but allows us to maintain
-         * compatibility with BatchTrainScore.
-         */
-        if (currentTupleWindowSize == tupleWindowSize) {
-            currentTupleWindowSize--;
-            removeLastFromWindow();
-        }
-        currentTupleWindowSize++;
-        addToWindow(datum);
-        return scoreWindow();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

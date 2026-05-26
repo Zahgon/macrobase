@@ -27,54 +27,46 @@ public class CaseInsensitiveStream implements CharStream {
 
     @Override
     public String getText(Interval interval) {
-        return stream.getText(interval);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void consume() {
-        stream.consume();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int LA(int i) {
-        int result = stream.LA(i);
-
-        switch (result) {
-            case 0:
-            case IntStream.EOF:
-                return result;
-            default:
-                return Character.toUpperCase(result);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int mark() {
-        return stream.mark();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void release(int marker) {
-        stream.release(marker);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int index() {
-        return stream.index();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void seek(int index) {
-        stream.seek(index);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int size() {
-        return stream.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getSourceName() {
-        return stream.getSourceName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

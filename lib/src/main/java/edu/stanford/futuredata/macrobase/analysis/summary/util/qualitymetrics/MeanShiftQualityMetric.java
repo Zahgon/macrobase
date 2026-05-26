@@ -5,14 +5,10 @@ package edu.stanford.futuredata.macrobase.analysis.summary.util.qualitymetrics;
  * the outlier population.
  */
 public class MeanShiftQualityMetric implements QualityMetric {
+
     private int oCountIdx, iCountIdx, oMeanCountIdx, iMeanCountIdx;
 
-    public MeanShiftQualityMetric(
-            int oCountIdx,
-            int iCountIdx,
-            int oMeanCountIdx,
-            int iMeanCountIdx
-    ) {
+    public MeanShiftQualityMetric(int oCountIdx, int iCountIdx, int oMeanCountIdx, int iMeanCountIdx) {
         this.oCountIdx = oCountIdx;
         this.iCountIdx = iCountIdx;
         this.oMeanCountIdx = oMeanCountIdx;
@@ -21,21 +17,21 @@ public class MeanShiftQualityMetric implements QualityMetric {
 
     @Override
     public String name() {
-        return "mean_shift";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public QualityMetric initialize(double[] globalAggregates) {
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public double value(double[] aggregates) {
-        return (aggregates[oMeanCountIdx]/aggregates[oCountIdx]) / (aggregates[iMeanCountIdx]/aggregates[iCountIdx]);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isMonotonic() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

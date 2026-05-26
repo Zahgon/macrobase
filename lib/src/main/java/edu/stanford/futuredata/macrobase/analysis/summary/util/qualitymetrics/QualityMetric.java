@@ -5,15 +5,18 @@ package edu.stanford.futuredata.macrobase.analysis.summary.util.qualitymetrics;
  * Risk ratio, support, and deviation from mean are examples.
  */
 public interface QualityMetric {
+
     String name();
+
     QualityMetric initialize(double[] globalAggregates);
+
     double value(double[] aggregates);
+
     boolean isMonotonic();
 
     enum Action {
-        KEEP(2),
-        NEXT(1),
-        PRUNE(0);
+
+        KEEP(2), NEXT(1), PRUNE(0);
 
         private int val;
 
@@ -22,38 +25,24 @@ public interface QualityMetric {
         }
 
         public static Action combine(Action a, Action b) {
-            if (a.val <= b.val) {
-                return a;
-            } else {
-                return b;
-            }
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
     // can override for more fancy tight quality metric bounds
     default double maxSubgroupValue(double[] aggregates) {
-        if (isMonotonic()) {
-            return value(aggregates);
-        } else {
-            return Double.POSITIVE_INFINITY;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     default Action getAction(double[] aggregates, double threshold) {
-        if (isPastThreshold(aggregates, threshold)) {
-            return Action.KEEP;
-        } else if (canPassThreshold(aggregates, threshold)) {
-            return Action.NEXT;
-        } else {
-            return Action.PRUNE;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     default boolean isPastThreshold(double[] aggregates, double threshold) {
-        return value(aggregates) >= threshold;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     default boolean canPassThreshold(double[] aggregates, double threshold) {
-        return maxSubgroupValue(aggregates) >= threshold;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
